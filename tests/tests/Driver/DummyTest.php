@@ -174,6 +174,14 @@ class Driver_DummyTest extends PHPUnit_TestCase_Spiderling {
 	/**
 	 * @expectedException Openbuildings\Spiderling\Exception_Notimplemented
 	 */
+	public function test_alert_text()
+	{
+		$this->driver->alert_text();
+	}
+
+	/**
+	 * @expectedException Openbuildings\Spiderling\Exception_Notimplemented
+	 */
 	public function test_is_page_active()
 	{
 		$this->driver->is_page_active();

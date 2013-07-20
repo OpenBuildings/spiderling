@@ -9,8 +9,11 @@ script:
 
 before_script:
   - mkdir -p build/logs
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
   - composer require --dev satooshi/php-coveralls:dev-master
   - composer install
+  - java -jar vendor/claylo/selenium-server-standalone/selenium-server-standalone-2.32.0.jar
 
 after_script:
   - php vendor/bin/coveralls -v

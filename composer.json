@@ -13,7 +13,8 @@
         "symfony/css-selector": "v2.2.2"
     },
     "require-dev": {
-        "openbuildings/kohana-test-bootsrap": "dev-master"
+        "openbuildings/kohana-test-bootsrap": "dev-master",
+        "claylo/selenium-server-standalone": "dev-master"
     },
     "autoload": {
         "psr-0": {"Openbuildings\\Spiderling\\": "src/"}

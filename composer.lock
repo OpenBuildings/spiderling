@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "4eec199327c2f5e6d8d91e2b9cb52f51",
+    "hash": "78aa18757e9be969a7bb70b391f47c6e",
     "packages": [
         {
             "name": "symfony/css-selector",
@@ -55,6 +55,38 @@
     ],
     "packages-dev": [
         {
+            "name": "claylo/selenium-server-standalone",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/claylo/selenium-server-standalone.git",
+                "reference": "2.32.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/claylo/selenium-server-standalone/zipball/2.32.0",
+                "reference": "2.32.0",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "OpenQA",
+                    "homepage": "http://seleniumhq.org/"
+                }
+            ],
+            "description": "Composer distribution of Selenium Server Standalone, the browser automation framework.",
+            "keywords": [
+                "selenium",
+                "testing"
+            ],
+            "time": "2013-04-17 02:08:23"
+        },
+        {
             "name": "openbuildings/kohana-test-bootsrap",
             "version": "dev-master",
             "source": {
@@ -95,7 +127,8 @@
     ],
     "minimum-stability": "stable",
     "stability-flags": {
-        "openbuildings/kohana-test-bootsrap": 20
+        "openbuildings/kohana-test-bootsrap": 20,
+        "claylo/selenium-server-standalone": 20
     },
     "platform": [
 

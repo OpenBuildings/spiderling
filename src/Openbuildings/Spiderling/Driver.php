@@ -231,6 +231,15 @@ abstract class Driver {
 	}
 
 	/**
+	 * Get the text of the currently displayed alert / confirm /prompt dialog
+	 * @param  bool $confirm 
+	 */
+	public function alert_text()
+	{
+		throw new Exception_Notimplemented(__FUNCTION__, $this);
+	}
+
+	/**
 	 * Return The root node
 	 * @return Node 
 	 */

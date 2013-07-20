@@ -1,23 +1,24 @@
 <?php
 
 use Openbuildings\Spiderling\Attempt;
-use Openbuildings\Spiderling\Driver_Phantomjs;
-use Openbuildings\Spiderling\Driver_Phantomjs_Connection;
+use Openbuildings\Spiderling\Driver_Selenium;
+use Openbuildings\Spiderling\Exception_Selenium;
+use Openbuildings\Spiderling\Driver_Selenium_Connection;
 use Openbuildings\Spiderling\PHPUnit_TestCase_Spiderling;
 
 /**
  * @package spiderling
  * @group   driver
- * @group   driver.phantomjs
+ * @group   driver.selenium
  */
-class Driver_PhantomjsTest extends PHPUnit_TestCase_Spiderling {
+class Driver_SeleniumTest extends PHPUnit_TestCase_Spiderling {
 
 	public static $driver;
 
 	public static function setUpBeforeClass()
 	{
 		parent::setUpBeforeClass();
-		self::$driver = new Driver_Phantomjs();
+		self::$driver = new Driver_Selenium();
 		self::$driver->base_url('http://6ca1671dbfe9477b14ce-fabb5009fe9cc97c5f42aa7fac8fcd02.r26.cf3.rackcdn.com');
 
 		self::$driver->visit('/remote-form.html');
@@ -26,7 +27,7 @@ class Driver_PhantomjsTest extends PHPUnit_TestCase_Spiderling {
 	public function find($xpath)
 	{
 		$ids = Attempt::make(function() use ($xpath) {
-			return Driver_PhantomjsTest::$driver->all($xpath);
+			return Driver_SeleniumTest::$driver->all($xpath);
 		});
 		
 		return $ids[0];
@@ -83,27 +84,54 @@ class Driver_PhantomjsTest extends PHPUnit_TestCase_Spiderling {
 		$this->assertTrue($value);
 	}
 
+	public function test_confirm_and_alert_text()
+	{
+		self::$driver->execute(NULL, 'if (confirm("Test Confirm?"))alert("Test Alert");');
+
+		$this->assertEquals('Test Confirm?', self::$driver->alert_text());
+		self::$driver->confirm(FALSE);
+		try 
+		{
+			self::$driver->alert_text();
+			$this->fail('Should not have a dialog open');
+		} 
+		catch (Exception_Selenium $exception) 
+		{
+			// Normal flow
+		}
+
+		self::$driver->execute(NULL, 'if (confirm("Test Confirm?"))alert("Test Alert");');
+		self::$driver->confirm(TRUE);
+		$this->assertEquals('Test Alert', self::$driver->alert_text());
+		self::$driver->confirm(TRUE);
+
+		try 
+		{
+			self::$driver->alert_text();
+			$this->fail('Should not have a dialog open');
+		} 
+		catch (Exception_Selenium $exception) 
+		{
+			// Normal flow
+		}
+	}
+
+	public function test_move_to()
+	{
+		$id = $this->find("//button[@id='submit-btn']");
+		self::$driver->execute($id, "arguments[0].onmouseover = function(){ alert('test'); }");
+		self::$driver->move_to($id, 5, 5);
+
+		$this->assertEquals('test', self::$driver->alert_text());
+		self::$driver->confirm(FALSE);
+		self::$driver->visit('/remote-form.html');
+	}
+
 	public function test_all()
 	{
 		$this->assertCount(1, self::$driver->all('//textarea'));
 
 		$this->assertCount(0, self::$driver->all('//nonexistant-tag'));
-	}
-
-	public function test_connection()
-	{
-		$connection = new Driver_Phantomjs_Connection();
-		$driver = new Driver_Phantomjs();
-
-		$driver->connection($connection);
-		
-		$this->assertSame($connection, $driver->connection());
-
-		$driver = new Driver_Phantomjs();
-		$connection = $driver->connection();
-		$this->assertInstanceOf('OpenBuildings\Spiderling\Driver_Phantomjs_Connection', $connection);
-		$this->assertTrue($connection->is_started());
-		unset($driver);
 	}
 
 	public function test_next_query()
@@ -145,15 +173,31 @@ class Driver_PhantomjsTest extends PHPUnit_TestCase_Spiderling {
 		self::$driver->base_url($old);
 	}
 
+	public function test_connection()
+	{
+		$connection = new Driver_Selenium_Connection();
+		$driver = new Driver_Selenium();
+
+		$driver->connection($connection);
+		
+		$this->assertSame($connection, $driver->connection());
+
+		$driver = new Driver_Selenium();
+		$connection = $driver->connection();
+		$this->assertInstanceOf('OpenBuildings\Spiderling\Driver_Selenium_Connection', $connection);
+		$this->assertTrue($connection->is_started());
+		unset($driver);
+	}
+
 	public function test_cookie()
 	{
-		self::$driver->cookie('test', 'value', array('path' => '/test/'));
+		self::$driver->cookie('test', 'value', array('path' => '/'));
 
 		$cookies = self::$driver->cookies();
 
 		$this->assertEquals('test', $cookies[0]['name']);
 		$this->assertEquals('value', $cookies[0]['value']);
-		$this->assertEquals('/test/', $cookies[0]['path']);
+		$this->assertEquals('/', $cookies[0]['path']);
 
 		self::$driver->clear();
 
@@ -204,7 +248,7 @@ class Driver_PhantomjsTest extends PHPUnit_TestCase_Spiderling {
 
 		$value = self::$driver->value($this->find("//input[@type='file']"));
 		
-		$this->assertEquals('C:\fakepath\form.html', $value);
+		$this->assertEquals(TESTVIEWS.'form.html', $value);
 	}
 
 	public function test_clicks()
@@ -233,40 +277,13 @@ class Driver_PhantomjsTest extends PHPUnit_TestCase_Spiderling {
 		self::$driver->visit('/remote-form.html');
 	}
 
-	public function test_user_agent()
-	{
-		$this->assertContains('PhantomJS', self::$driver->user_agent());
-	}
-
 	public function test_is_page_active()
 	{
 		$this->assertTrue(self::$driver->is_page_active());
 
-		$driver = new Driver_Phantomjs();
+		$driver = new Driver_Selenium();
 
 		$this->assertFalse($driver->is_page_active());		
-	}
-
-	public function test_javascript_messages()
-	{
-		self::$driver->execute($this->find("//select[@id='post_category']"), "console.debug('new test message');");
-
-		$this->assertEquals(array('new test message'), self::$driver->javascript_messages());
-	}
-
-	public function test_javascript_errors()
-	{
-		self::$driver->execute($this->find("//select[@id='post_category']"), "nonexistant_function()");
-
-		$expected_errors = array(
-			array(
-				'errorMessage' => "ReferenceError: Can't find variable: nonexistant_function",
-				'sourceName' => '',
-				'lineNumber' => 1,
-			)
-		);
-
-		$this->assertEquals($expected_errors, self::$driver->javascript_errors());
 	}
 }
 

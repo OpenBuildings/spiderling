@@ -11,10 +11,8 @@ namespace Openbuildings\Spiderling;
  */
 class Driver_Selenium_Connection
 {
-	protected $_url;
 	protected $_session_id;
 	protected $_curl;
-
 	protected $_server = 'http://localhost:4444/wd/hub/';
 	
 	public function server($server = NULL)
@@ -37,7 +35,7 @@ class Driver_Selenium_Connection
 
 	public function start(array $desiredCapabilities = NULL)
 	{
-		if ( ! ($this->_session_id = $this->reuse_session())
+		if ( ! ($this->_session_id = $this->reuse_session()))
 		{
 			$this->_session_id = $this->new_session($desiredCapabilities);
 		}
@@ -45,21 +43,29 @@ class Driver_Selenium_Connection
 		$this->_server .= "session/{$this->_session_id}/";
 	}
 
+	public function is_started()
+	{
+		return (bool) $this->_session_id;
+	}
+
 	public function reuse_session()
 	{
 		$sessions = $this->get('sessions');
 		foreach ($sessions as $session) 
 		{
-			$id = Arr::get($session, 'id');
+			$id = $session['id'];
 			try
 			{
 				$this->get("session/$id/window_handle");
 				return $id;
 			}
-			catch (Exception_Driver $exception)
+			// @codeCoverageIgnoreStart
+			// This cannot be tested because of selenium bug (can't close main window)
+			catch (Exception_Selenium $exception)
 			{
-				$this->delete("session/$id");
+				$this->delete("session/$id"); 
 			}
+			// @codeCoverageIgnoreEnd
 		}
 	}
 
@@ -72,11 +78,6 @@ class Driver_Selenium_Connection
 
 		$session = $this->post('session', array('desiredCapabilities' => $desiredCapabilities));
 		return $session['webdriver.remote.sessionid'];
-	}
-
-	public function session_id()
-	{
-		return (bool) $this->_session_id;
 	}
 
 	public function get($command)
@@ -96,7 +97,7 @@ class Driver_Selenium_Connection
 	public function delete($command)
 	{
 		$options = array();
-		$options[CURLOPT_CUSTOMREQUEST] = Request::DELETE;
+		$options[CURLOPT_CUSTOMREQUEST] = 'DELETE';
 		
 		return $this->call($command, $options);	
 	}
@@ -104,7 +105,7 @@ class Driver_Selenium_Connection
 	public function call($command, array $options = array())
 	{
 		$curl = curl_init();
-		$options[CURLOPT_URL] = $this->_url.$command;
+		$options[CURLOPT_URL] = $this->server().$command;
 		$options[CURLOPT_RETURNTRANSFER] = TRUE;
 		$options[CURLOPT_FOLLOWLOCATION] = TRUE;
 		$options[CURLOPT_HTTPHEADER] = array(
@@ -122,7 +123,7 @@ class Driver_Selenium_Connection
 			throw new Exception_Driver('Curl ":command" throws exception :error', array(':command' => $command, ':error' => $error));
 
 		if ($result['status'] != 0)
-			throw new Exception_Driver($result['status']);
+			throw new Exception_Selenium($result['status']);
 		
 		return $result['value'];
 	}

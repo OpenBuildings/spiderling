@@ -13,18 +13,23 @@ namespace Openbuildings\Spiderling;
 class Driver_Selenium extends Driver {
 
 	public $name = 'selenium';
-	public $_next_query = array();
-
+	protected $_next_query = array();
 	protected $_connection;
+	protected $_base_url = '';
+	
+	public function base_url($base_url = NULL)
+	{
+		if ($base_url !== NULL)
+		{
+			$this->_base_url = $base_url;
+			return $this;
+		}
+		return $this->_base_url;
+	}
 
 	public function clear()
 	{
 		$this->connection()->delete('cookie');
-	}
-
-	public function session_id()
-	{
-		return $this->connection()->session_id();
 	}
 
 	public function content($content = NULL)
@@ -43,15 +48,10 @@ class Driver_Selenium extends Driver {
 		if ( ! $this->_connection) 
 		{
 			$this->_connection = new Driver_Selenium_Connection();
-			$this->_connection->start();
+			$this->_connection->start(array('browserName' => 'firefox', 'acceptSslCerts' => FALSE));
 		}
 
 		return $this->_connection;
-	}
-
-	public function javascript_errors()
-	{
-		return $this->connection()->post('execute', array('script' => "return window.JSErrorCollector_errors ? window.JSErrorCollector_errors.pump() : [];", 'args' => array()));
 	}
 	
 	/**
@@ -93,7 +93,23 @@ class Driver_Selenium extends Driver {
 
 	public function value($id)
 	{
-		return $this->connection()->get("element/$id/value");	
+		if ($this->tag_name($id) == 'select' AND $this->attribute($id, 'multiple')) 
+		{
+			$self = $this;
+			$values = array();
+			foreach ($this->all('//option', $id) as $option_id) 
+			{
+				if ($this->is_selected($option_id)) 
+				{
+					$values []= $this->value($option_id);
+				}
+			}
+			return $values;
+		}
+		else
+		{
+			return $this->connection()->get("element/$id/value");	
+		}
 	}
 
 	public function is_visible($id)
@@ -125,14 +141,7 @@ class Driver_Selenium extends Driver {
 			$type = $this->attribute($id, 'type');
 			if ($type == 'checkbox' OR $type == 'radio')
 			{
-				if ($this->is_visible($id))
-				{
-					$this->connection()->post("element/$id/click", array());
-				}
-				else
-				{
-					$this->execute($id, 'arguments[0].checked = true;');
-				}
+				$this->connection()->post("element/$id/click", array());
 			}
 			else
 			{
@@ -147,11 +156,6 @@ class Driver_Selenium extends Driver {
 		{
 			$this->connection()->post("element/$id/click", array());
 		}
-	}
-
-	public function append($id, $value)
-	{
-		$this->connection()->post("element/$id/value", array('value' => str_split($value)));	
 	}
 
 	public function select_option($id, $value)
@@ -171,6 +175,11 @@ class Driver_Selenium extends Driver {
 		}
 	}
 
+	public function alert_text()
+	{
+		return $this->connection()->get("alert_text");
+	}
+
 	public function click($id)
 	{
 		$this->connection()->post("element/$id/click", array());
@@ -178,10 +187,10 @@ class Driver_Selenium extends Driver {
 
 	public function visit($uri, array $query = NULL)
 	{
-		$query = Arr::merge((array) $this->_next_query, (array) $query);
+		$query = array_merge((array) $this->_next_query, (array) $query);
 
 		$this->_next_query = NULL;
-		$url = URL::site($uri, 'http').URL::query($query, FALSE);
+		$url = $this->base_url().$uri.($query ? '?'.http_build_query($query) : '');
 
 		$this->connection()->post('url', array('url' => $url));
 	}
@@ -200,23 +209,9 @@ class Driver_Selenium extends Driver {
 
 	public function all($xpath, $parent = NULL)
 	{
-		try 
-		{
-			$elements = $this->connection()->post(($parent === NULL ? '' : 'element/'.$parent.'/').'elements', array('using' => 'xpath', 'value' => '.'.$xpath));
-		} 
-		catch (Exception_Selenium $exception) 
-		{
-			if ($exception->error() == 'NoSuchElement')
-			{
-				return array();
-			}
-			else
-			{
-				throw $exception;
-			}
-		}
+		$elements = $this->connection()->post(($parent === NULL ? '' : 'element/'.$parent.'/').'elements', array('using' => 'xpath', 'value' => '.'.$xpath));
 
-		return Arr::pluck($elements, 'ELEMENT');
+		return array_map(function($item){ return $item['ELEMENT'];}, $elements);
 	}
 
 	public function next_query(array $query)
@@ -227,7 +222,7 @@ class Driver_Selenium extends Driver {
 
 	public function is_page_active()
 	{
-		return (bool) $this->connection()->session_id();
+		return (bool) $this->_connection;
 	}
 
 	public function move_to($id = NULL, $x = NULL, $y = NULL)
@@ -238,7 +233,7 @@ class Driver_Selenium extends Driver {
 			'yoffset' => $y
 		), function($param)
 		{
-			return $param OR $param === 0;
+			return ($param OR $param === 0);
 		}));
 		return $this;
 	}
@@ -250,15 +245,19 @@ class Driver_Selenium extends Driver {
 		file_put_contents($file, base64_decode($data));
 	}
 
+	public function cookies()
+	{
+		return $this->connection()->get('cookie');		
+	}
+
 	public function cookie($name, $value, array $parameters = array())
 	{
-		return $this->connection()->post('cookie', array(
+		$parameters = array_merge(array(
 			'name' => $name,
-			'value' => $value, 
-			'expires' => isset($parameters['expires']) ? $parameters['expires'] : time() + 86400,
-			'path' => isset($parameters['path']) ? $parameters['path'] : '/', 
-			'domain' => isset($parameters['domain']) ? $parameters['domain'] : NULL, 
-			'secure' => isset($parameters['secure']) ? $parameters['secure'] : FALSE,
-			'httponly' => isset($parameters['httponly']) ? $parameters['httponly'] : FALSE,
-		));
+			'value' => $value,
+			'expiry' => time() + 86400,
+		), $parameters);
+
+		return $this->connection()->post('cookie', array('cookie' => $parameters));
 	}
+}
