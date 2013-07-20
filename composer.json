@@ -1,0 +1,21 @@
+{
+    "name": "openbuildings/spiderling",
+    "description": "Crawl the web with kohana, phantomjs or selenium",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Ivan Kerin",
+            "email": "ivan@openbuildings.com",
+            "role": "Author"
+        }
+    ],
+    "require": {
+        "symfony/css-selector": "v2.2.2"
+    },
+    "require-dev": {
+        "openbuildings/kohana-test-bootsrap": "dev-master"
+    },
+    "autoload": {
+        "psr-0": {"Openbuildings\\Spiderling\\": "src/"}
+    }
+}
