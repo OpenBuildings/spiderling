@@ -13,7 +13,7 @@ before_script:
   - "sh -e /etc/init.d/xvfb start"
   - composer require --dev satooshi/php-coveralls:dev-master
   - composer install
-  - java -jar vendor/claylo/selenium-server-standalone/selenium-server-standalone-2.32.0.jar
+  - "nohup java -jar vendor/claylo/selenium-server-standalone/selenium-server-standalone-2.32.0.jar > /dev/null 2> /dev/null &"
 
 after_script:
   - php vendor/bin/coveralls -v
