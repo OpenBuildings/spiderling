@@ -26,7 +26,7 @@ class Driver_Phantomjs_ConnectionTest extends PHPUnit_TestCase_Spiderling {
 			->server('http://example.com');
 
 		$this->connection
-			->port(5000);
+			->port(6000);
 
 		$expected_url = 'http://example.com:5000/test';
 
@@ -44,7 +44,7 @@ class Driver_Phantomjs_ConnectionTest extends PHPUnit_TestCase_Spiderling {
 		});
 
 		$start_result = $this->connection
-			->port(5000)
+			->port(6000)
 			->start(TESTVIEWS.'test.pid');
 
 		$this->assertTrue(Attempt::make(function() {
