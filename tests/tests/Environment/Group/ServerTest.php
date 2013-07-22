@@ -1,13 +1,12 @@
 <?php
 
-
 use Openbuildings\Spiderling\Environment_Group_Server;
 use Openbuildings\Spiderling\Environment_Notset;
 
 /**
  * @package spiderling
- * @group   spiderling.environment
- * @group   spiderling.environment.server
+ * @group   environment
+ * @group   environment.server
  */
 class Environment_Group_ServerTest extends PHPUnit_Framework_TestCase {
 

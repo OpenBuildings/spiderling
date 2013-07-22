@@ -5,9 +5,8 @@ use Openbuildings\Spiderling\PHPUnit_TestCase_Spiderling;
 
 /**
  * @package spiderling
- * @group   spiderling
- * @group   spiderling.driver
- * @group   spiderling.driver.kohana
+ * @group   driver
+ * @group   driver.kohana
  */
 class Driver_KohanaTest extends PHPUnit_TestCase_Spiderling {
 

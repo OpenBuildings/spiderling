@@ -1,12 +1,11 @@
 <?php
 
-
 use Openbuildings\Spiderling\Environment_Group_Dummy;
 use Openbuildings\Spiderling\Environment;
 
 /**
  * @package spiderling
- * @group   spiderling.environment
+ * @group   environment
  */
 class EnvironmentTest extends PHPUnit_Framework_TestCase {
 

@@ -5,9 +5,8 @@ use Openbuildings\Spiderling\PHPUnit_TestCase_Spiderling;
 
 /**
  * @package spiderling
- * @group   driver
- * @group   driver.selenium
- * @group   driver.selenium.connection
+ * @group   selenium
+ * @group   selenium.connection
  */
 class Driver_Selenium_ConnectionTest extends PHPUnit_TestCase_Spiderling {
 

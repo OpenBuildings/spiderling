@@ -5,9 +5,8 @@ use Openbuildings\Spiderling\PHPUnit_TestCase_Spiderling;
 
 /**
  * @package spiderling
- * @group   spiderling
- * @group   spiderling.driver
- * @group   spiderling.driver.simple
+ * @group   driver
+ * @group   driver.simple
  */
 class Driver_SimpleTest extends PHPUnit_TestCase_Spiderling {
 

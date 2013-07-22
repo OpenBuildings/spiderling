@@ -1,12 +1,11 @@
 <?php
 
-
 use Openbuildings\Spiderling\Environment_Group_Globals;
 
 /**
  * @package spiderling
- * @group   spiderling.environment
- * @group   spiderling.environment.globals
+ * @group   environment
+ * @group   environment.globals
  */
 class Environment_Group_GlobalsTest extends PHPUnit_Framework_TestCase {
 

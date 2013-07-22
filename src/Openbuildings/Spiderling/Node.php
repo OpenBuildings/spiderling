@@ -16,17 +16,33 @@ class Node {
 	protected $_parent;
 	protected $_id = NULL;
 	protected $_next_wait_time = 2000;
-
+	protected $_extension;
+	
 	function __construct(Driver $driver, Node $parent = NULL, $id = NULL)
 	{
 		$this->_driver = $driver;
 		$this->_parent = $parent;
 		$this->_id = $id;
+
+		if ($parent AND $parent->_extension) 
+		{
+			$this->_extension = $parent->_extension;
+		}
 	}
 
 	public function driver()
 	{
 		return $this->_driver;
+	}
+
+	public function extension($extension = NULL)
+	{
+		if ($extension !== NULL)
+		{
+			$this->_extension = $extension;
+			return $this;
+		}
+		return $this->_extension;
 	}
 
 	public function parent()
@@ -638,4 +654,15 @@ class Node {
 		return new Nodelist($this->driver(), $locator, $this);
 	}
 
+	public function __call($method, $arguments)
+	{
+		if ( ! $this->extension() OR ! method_exists($this->extension(), $method))
+			throw new Exception_Methodmissing('Method :method does not exist on this node or node extension', array(':method' => $method));
+
+		array_unshift($arguments, $this);
+		
+		call_user_func_array(array($this->extension(), $method), $arguments);
+
+		return $this;
+	}
 }

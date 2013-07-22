@@ -1,6 +1,5 @@
 <?php
 
-
 use Openbuildings\Spiderling\Environment_Group_Static;
 
 class Environment_Group_StaticDummy {
@@ -22,8 +21,8 @@ class Environment_Group_StaticDummy {
 
 /**
  * @package spiderling
- * @group   spiderling.environment
- * @group   spiderling.environment.static
+ * @group   environment
+ * @group   environment.static
  */
 class Environment_Group_StaticTest extends PHPUnit_Framework_TestCase {
 

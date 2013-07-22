@@ -7,8 +7,7 @@ use Openbuildings\Spiderling\PHPUnit_TestCase_Spiderling;
 
 /**
  * @package spiderling
- * @group   spiderling
- * @group   spiderling.node
+ * @group   node
  */
 class NodeTest extends PHPUnit_TestCase_Spiderling {
 
@@ -274,6 +273,19 @@ class NodeTest extends PHPUnit_TestCase_Spiderling {
 			->with($this->equalTo("(//descendant-or-self::*[@id = 'navlink-1'])[1]"), $this->equalTo(array('file1', 'file2')));
 
 		$this->page->find('#navlink-1')->drop_files(array('file1', 'file2'));
+	}
+
+	public function test_extensions()
+	{
+		$extension = $this->getMock('Node_Test_Extension', array('test_mock'));
+
+		$extension->expects($this->once())
+			->method('test_mock')
+			->with($this->identicalTo($this->page), $this->equalTo('argument1'));
+
+		$this->page->extension($extension);
+
+		$this->page->test_mock('argument1');
 	}
 
 	public function test_traverse()

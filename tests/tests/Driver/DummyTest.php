@@ -6,9 +6,8 @@ use Openbuildings\Spiderling\PHPUnit_TestCase_Spiderling;
 
 /**
  * @package spiderling
- * @group   spiderling
- * @group   spiderling.driver
- * @group   spiderling.driver.dummy
+ * @group   driver
+ * @group   driver.dummy
  */
 class Driver_DummyTest extends PHPUnit_TestCase_Spiderling {
 

@@ -8,9 +8,8 @@ use Openbuildings\Spiderling\PHPUnit_TestCase_Spiderling;
 
 /**
  * @package spiderling
- * @group   spiderling
- * @group   spiderling.driver
- * @group   spiderling.driver.phantomjs
+ * @group   driver
+ * @group   driver.phantomjs
  */
 class Driver_Phantomjs_ConnectionTest extends PHPUnit_TestCase_Spiderling {
 

@@ -1,12 +1,11 @@
 <?php
 
-
 use Openbuildings\Spiderling\Environment_Group_Config;
 
 /**
  * @package spiderling
- * @group   spiderling.environment
- * @group   spiderling.environment.config
+ * @group   environment
+ * @group   environment.config
  */
 class Environment_Group_ConfigTest extends PHPUnit_Framework_TestCase {
 

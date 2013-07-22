@@ -1,4 +1,4 @@
-<?php defined('SYSPATH') OR die('No direct script access.');
+<?php
 
 use Openbuildings\Spiderling\Node;
 use Openbuildings\Spiderling\Nodelist;
@@ -7,8 +7,7 @@ use Openbuildings\Spiderling\PHPUnit_TestCase_Spiderling;
 
 /**
  * @package spiderling
- * @group   spiderling
- * @group   spiderling.nodelist
+ * @group   nodelist
  */
 class NodelistTest extends PHPUnit_TestCase_Spiderling {
 
