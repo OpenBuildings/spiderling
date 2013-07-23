@@ -28,7 +28,7 @@ class Driver_Phantomjs_ConnectionTest extends PHPUnit_TestCase_Spiderling {
 		$this->connection
 			->port(6000);
 
-		$expected_url = 'http://example.com:5000/test';
+		$expected_url = 'http://example.com:6000/test';
 
 		$this->assertEquals($expected_url, $this->connection->command_url('test'));
 	}
