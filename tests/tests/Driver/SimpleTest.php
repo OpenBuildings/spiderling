@@ -59,7 +59,7 @@ class Driver_SimpleTest extends PHPUnit_TestCase_Spiderling {
 		$driver = new Driver_Simple();
 		$environment = $driver->environment();
 
-		$this->assertInstanceOf('Openbuildings\Spiderling\Environment', $environment);
+		$this->assertInstanceOf('Openbuildings\EnvironmentBackup\Environment', $environment);
 	}
 
 	public function test_serialize_form()

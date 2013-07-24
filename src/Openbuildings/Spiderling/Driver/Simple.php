@@ -2,6 +2,11 @@
 
 namespace Openbuildings\Spiderling;
 
+use Openbuildings\EnvironmentBackup\Environment;
+use Openbuildings\EnvironmentBackup\Environment_Group_Globals;
+use Openbuildings\EnvironmentBackup\Environment_Group_Server;
+use Openbuildings\EnvironmentBackup\Environment_Group_Static;
+
 /**
  * Spiderling Simple driver. 
  * In memory. 

@@ -10,7 +10,8 @@
         }
     ],
     "require": {
-        "symfony/css-selector": "v2.2.2"
+        "symfony/css-selector": "v2.2.2",
+        "openbuildings/environment-backup": "0.1.*"
     },
     "require-dev": {
         "openbuildings/kohana-test-bootsrap": "dev-master",
