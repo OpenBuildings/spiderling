@@ -27,7 +27,7 @@ class Driver_KohanaTest extends PHPUnit_TestCase_Spiderling {
 		$this->assertEquals('Index View', $driver->content());
 
 		$this->assertEquals('http://example.com/test/index', $driver->current_url());
-		$this->assertEquals('test/index', $driver->current_path());
+		$this->assertEquals('/test/index', $driver->current_path());
 		$this->assertEquals('Test User Agent', $driver->user_agent());
 
 		$this->assertSame(Request::$initial, $driver->request_factory()->request());
