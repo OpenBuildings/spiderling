@@ -60,7 +60,8 @@ class Driver_Kohana_RequestFactory_Kohana implements Driver_Simple_RequestFactor
 
 		$this->_request = \Request::factory($url)
 			->method($method)
-			->post($post);
+			->post($post)
+			->body(http_build_query($post));
 
 		\Request::$initial = $this->_request;
 
