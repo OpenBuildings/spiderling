@@ -44,6 +44,11 @@ class Driver_Kohana_RequestFactory_Kohana implements Driver_Simple_RequestFactor
 		return $this->_request->uri();
 	}
 
+	public function request()
+	{
+		return $this->_request;
+	}
+
 	public function response()
 	{
 		return $this->_response;
@@ -56,6 +61,8 @@ class Driver_Kohana_RequestFactory_Kohana implements Driver_Simple_RequestFactor
 		$this->_request = \Request::factory($url)
 			->method($method)
 			->post($post);
+
+		\Request::$initial = $this->_request;
 
 		$this->_response = $this->_request->execute();
 
@@ -70,7 +77,11 @@ class Driver_Kohana_RequestFactory_Kohana implements Driver_Simple_RequestFactor
 
 			$url = $url_parts['path'].(isset($url_parts['query']) ? '?'.$url_parts['query'] : '');
 
+
 			$this->_request = \Request::factory($url);
+			
+			\Request::$initial = $this->_request;
+
 			$this->_response = $this->_request->execute();
 		}
 

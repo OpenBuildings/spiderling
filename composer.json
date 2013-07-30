@@ -15,7 +15,7 @@
     },
     "require-dev": {
         "openbuildings/kohana-test-bootsrap": "dev-master",
-        "claylo/selenium-server-standalone": "dev-master"
+        "claylo/selenium-server-standalone": "2.*"
     },
     "autoload": {
         "psr-0": {"Openbuildings\\Spiderling\\": "src/"}

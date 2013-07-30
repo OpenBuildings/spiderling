@@ -29,6 +29,8 @@ class Driver_KohanaTest extends PHPUnit_TestCase_Spiderling {
 		$this->assertEquals('http://example.com/test/index', $driver->current_url());
 		$this->assertEquals('test/index', $driver->current_path());
 		$this->assertEquals('Test User Agent', $driver->user_agent());
+
+		$this->assertSame(Request::$initial, $driver->request_factory()->request());
 	}
 
 	public function test_redirect()
@@ -43,6 +45,8 @@ class Driver_KohanaTest extends PHPUnit_TestCase_Spiderling {
 		$driver->request_factory()->max_redirects(1);
 		$this->setExpectedException('Openbuildings\Spiderling\Exception_Toomanyredirects');
 		$driver->get('/test/redirected');
+
+		$this->assertSame(Request::$initial, $driver->request_factory()->request());
 	}
 
 	public function test_too_many_redirects()

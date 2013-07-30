@@ -3,20 +3,20 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "310e0a297cf1df08bcc1c67cf4e92a3f",
+    "hash": "bd22ea2d3eb07af85284427979d984fc",
     "packages": [
         {
             "name": "openbuildings/environment-backup",
-            "version": "0.1.0",
+            "version": "0.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenBuildings/environment-backup.git",
-                "reference": "0.1.0"
+                "reference": "0.1.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OpenBuildings/environment-backup/zipball/0.1.0",
-                "reference": "0.1.0",
+                "url": "https://api.github.com/repos/OpenBuildings/environment-backup/zipball/0.1.1",
+                "reference": "0.1.1",
                 "shasum": ""
             },
             "require-dev": {
@@ -41,7 +41,7 @@
                 }
             ],
             "description": "Backup/restore environment variables: globals, static vars, configs",
-            "time": "2013-07-23 16:39:47"
+            "time": "2013-07-24 07:26:52"
         },
         {
             "name": "symfony/css-selector",
@@ -94,7 +94,7 @@
     "packages-dev": [
         {
             "name": "claylo/selenium-server-standalone",
-            "version": "dev-master",
+            "version": "2.32.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/claylo/selenium-server-standalone.git",
@@ -165,8 +165,7 @@
     ],
     "minimum-stability": "stable",
     "stability-flags": {
-        "openbuildings/kohana-test-bootsrap": 20,
-        "claylo/selenium-server-standalone": 20
+        "openbuildings/kohana-test-bootsrap": 20
     },
     "platform": [
 
