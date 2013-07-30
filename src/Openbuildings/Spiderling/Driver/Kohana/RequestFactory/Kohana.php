@@ -41,7 +41,7 @@ class Driver_Kohana_RequestFactory_Kohana implements Driver_Simple_RequestFactor
 		if ( ! $this->_request)
 			return NULL;
 
-		return $this->_request->uri();
+		return '/'.ltrim($this->_request->uri(), '/');
 	}
 
 	public function request()

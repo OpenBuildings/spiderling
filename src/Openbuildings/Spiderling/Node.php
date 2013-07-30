@@ -12,10 +12,12 @@ namespace Openbuildings\Spiderling;
  */
 class Node {
 
+	const DEFAULT_WAIT_TIME = 2000;
+
 	protected $_driver;
 	protected $_parent;
 	protected $_id = NULL;
-	protected $_next_wait_time = 2000;
+	protected $_next_wait_time;
 	protected $_extension;
 	
 	function __construct(Driver $driver, Node $parent = NULL, $id = NULL)
@@ -67,6 +69,11 @@ class Node {
 		{
 			$this->_next_wait_time = $next_wait_time;
 			return $this;
+		}
+
+		if ($this->_next_wait_time === NULL)
+		{
+			$this->_next_wait_time = self::DEFAULT_WAIT_TIME;
 		}
 		return $this->_next_wait_time;
 	}
