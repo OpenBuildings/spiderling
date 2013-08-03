@@ -3,12 +3,12 @@
 namespace Openbuildings\Spiderling;
 
 /**
- * Xpath extension for native driver
+ * Xpath extension for simple driver
  *
  * @package    Openbuildings\Spiderling
  * @author     Ivan Kerin
- * @copyright  (c) 2012-2013 OpenBuildings Ltd.
- * @license    http://www.opensource.org/licenses/isc-license.txt
+ * @copyright  (c) 2013 OpenBuildings Ltd.
+ * @license    http://spdx.org/licenses/BSD-3-Clause
  */
 class Driver_Simple_Xpath extends \DOMXpath
 {

@@ -3,12 +3,12 @@
 namespace Openbuildings\Spiderling;
 
 /**
- * Node - represents HTML node
+ * Node - represents HTML Dom node
  *
- * @package    Node
+ * @package    Openbuildings\Spiderling
  * @author     Ivan Kerin
- * @copyright  (c) 2012 OpenBuildings Ltd.
- * @license    http://www.opensource.org/licenses/isc-license.txt
+ * @copyright  (c) 2013 OpenBuildings Ltd.
+ * @license    http://spdx.org/licenses/BSD-3-Clause
  */
 class Node {
 

@@ -7,10 +7,10 @@ use Symfony\Component\CssSelector\CssSelector;
 /**
  * Locator - converts varios locator formats into xpath
  *
- * @package    Func_Test
+ * @package    Openbuildings\Spiderling
  * @author     Ivan Kerin
- * @copyright  (c) 2012 OpenBuildings Ltd.
- * @license    http://www.opensource.org/licenses/isc-license.txt
+ * @copyright  (c) 2013 OpenBuildings Ltd.
+ * @license    http://spdx.org/licenses/BSD-3-Clause
  */
 class Locator {
 

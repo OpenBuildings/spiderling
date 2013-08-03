@@ -2,6 +2,15 @@
 
 namespace Openbuildings\Spiderling;
 
+/**
+ * Connect to phantomjs service, optionally start one if not present on a new port.
+ * Send requests to phantomjs
+ * 
+ * @package    Openbuildings\Spiderling
+ * @author     Ivan Kerin
+ * @copyright  (c) 2013 OpenBuildings Ltd.
+ * @license    http://spdx.org/licenses/BSD-3-Clause
+ */
 class Driver_Phantomjs_Connection {
 	
 	protected $_pid_file;

@@ -3,11 +3,12 @@
 namespace Openbuildings\Spiderling;
 
 /**
- * Testcase_Functest_Internal definition
+ * Spiderling Testcase, extend this in your tests instead of PHPUnit_Framework_TestCase
  *
- * @package Functest
- * @author Ivan Kerin
- * @copyright  (c) 2011-2013 Despark Ltd.
+ * @package    Openbuildings\Spiderling
+ * @author     Ivan Kerin
+ * @copyright  (c) 2013 OpenBuildings Ltd.
+ * @license    http://spdx.org/licenses/BSD-3-Clause
  */
 abstract class PHPUnit_TestCase_Spiderling extends \PHPUnit_Framework_TestCase {
 

@@ -3,9 +3,10 @@
 namespace Openbuildings\Spiderling;
 
 /**
+ * @package    Openbuildings\Spiderling
  * @author     Ivan Kerin
- * @copyright  (c) 2011-2013 Despark Ltd.
- * @license    http://www.opensource.org/licenses/isc-license.txt
+ * @copyright  (c) 2013 OpenBuildings Ltd.
+ * @license    http://spdx.org/licenses/BSD-3-Clause
  */
 class Exception_Toomanyredirects extends Exception {
 	

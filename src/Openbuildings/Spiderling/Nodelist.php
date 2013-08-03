@@ -3,12 +3,12 @@
 namespace Openbuildings\Spiderling;
 
 /**
- * Func_Test Node List represinting a list of nodes. Features lazy loading 
+ * NodeList represents a list of dom nodes. Has lazy loading 
  *
- * @package    Func_Test
+ * @package    Openbuildings\Spiderling
  * @author     Ivan Kerin
- * @copyright  (c) 2012 OpenBuildings Ltd.
- * @license    http://www.opensource.org/licenses/isc-license.txt
+ * @copyright  (c) 2013 OpenBuildings Ltd.
+ * @license    http://spdx.org/licenses/BSD-3-Clause
  */
 class Nodelist implements \Iterator, \Countable, \SeekableIterator, \ArrayAccess {
 

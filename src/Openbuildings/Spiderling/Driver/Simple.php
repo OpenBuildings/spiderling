@@ -8,14 +8,14 @@ use Openbuildings\EnvironmentBackup\Environment_Group_Server;
 use Openbuildings\EnvironmentBackup\Environment_Group_Static;
 
 /**
- * Spiderling Simple driver. 
+ * Use Curl to load urls. 
  * In memory. 
  * No Javascript
  *
- * @package    Spiderling
+ * @package    Openbuildings\Spiderling
  * @author     Ivan Kerin
- * @copyright  (c) 2012 OpenBuildings Ltd.
- * @license    http://www.opensource.org/licenses/isc-license.txt
+ * @copyright  (c) 2013 OpenBuildings Ltd.
+ * @license    http://spdx.org/licenses/BSD-3-Clause
  */
 class Driver_Simple extends Driver {
 

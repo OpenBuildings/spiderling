@@ -3,11 +3,13 @@
 namespace Openbuildings\Spiderling;
 
 /**
- *
- * @package    Functest
+ * Connect to selenium service.
+ * Send requests to selenium
+ * 
+ * @package    Openbuildings\Spiderling
  * @author     Ivan Kerin
- * @copyright  (c) 2012 OpenBuildings Ltd.
- * @license    http://www.opensource.org/licenses/isc-license.txt
+ * @copyright  (c) 2013 OpenBuildings Ltd.
+ * @license    http://spdx.org/licenses/BSD-3-Clause
  */
 class Driver_Selenium_Connection
 {

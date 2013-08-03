@@ -3,12 +3,12 @@
 namespace Openbuildings\Spiderling;
 
 /**
- * Func_Test Basic driver you have to extend this class and implement its functions
+ * Base class for Spiderling driver.
  *
- * @package    Func_Test
+ * @package    Openbuildings\Spiderling
  * @author     Ivan Kerin
- * @copyright  (c) 2012 OpenBuildings Ltd.
- * @license    http://www.opensource.org/licenses/isc-license.txt
+ * @copyright  (c) 2013 OpenBuildings Ltd.
+ * @license    http://spdx.org/licenses/BSD-3-Clause
  */
 abstract class Driver {
 

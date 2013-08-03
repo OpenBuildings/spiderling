@@ -3,12 +3,12 @@
 namespace Openbuildings\Spiderling;
 
 /**
- * Func_Test Native Driver request. Uses Native Kohana Requests with a little patching to make them work with tests
+ * Use kohana requests to load urls, handle redirects
  *
- * @package    Func_Test
+ * @package    Openbuildings\Spiderling
  * @author     Ivan Kerin
- * @copyright  (c) 2012 OpenBuildings Ltd.
- * @license    http://www.opensource.org/licenses/isc-license.txt
+ * @copyright  (c) 2013 OpenBuildings Ltd.
+ * @license    http://spdx.org/licenses/BSD-3-Clause
  */
 class Driver_Kohana_RequestFactory_Kohana implements Driver_Simple_RequestFactory {
 

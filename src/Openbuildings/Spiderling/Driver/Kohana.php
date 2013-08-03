@@ -3,14 +3,14 @@
 namespace Openbuildings\Spiderling;
 
 /**
- * Func_Test Native driver. 
- * In memory kohana request response classes. 
+ * Kohana driver, tries to use Kohana's internal Request methods to load urls.
+ * Use this to very efficiently load kohana actions.
  * No Javascript
  *
- * @package    Func_Test
+ * @package    Openbuildings\Spiderling
  * @author     Ivan Kerin
- * @copyright  (c) 2012 OpenBuildings Ltd.
- * @license    http://www.opensource.org/licenses/isc-license.txt
+ * @copyright  (c) 2013 OpenBuildings Ltd.
+ * @license    http://spdx.org/licenses/BSD-3-Clause
  */
 class Driver_Kohana extends Driver_Simple {
 
