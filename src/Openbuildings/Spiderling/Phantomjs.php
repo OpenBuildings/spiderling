@@ -12,6 +12,15 @@ namespace Openbuildings\Spiderling;
  */
 class Phantomjs {
 
+	/**
+	 * Start a phantomjs server in the background. Set port, server js file, additional files and log file. 
+	 * 
+	 * @param  string $file       the server js file
+	 * @param  integer $port      the port to start the server on
+	 * @param  string $additional additional file, passed to the js server
+	 * @param  string $log_file   
+	 * @return string             the pid of the newly started process
+	 */
 	public static function start($file, $port, $additional = NULL, $log_file = '/dev/null')
 	{
 		if ( ! Network::is_port_open('localhost', $port))
@@ -23,11 +32,23 @@ class Phantomjs {
 		)));
 	}
 
+	/**
+	 * kill a server on a given pid 
+	 * @param  string $pid 
+	 */
 	public static function kill($pid)
 	{
 		shell_exec('kill '.$pid);
 	}
 
+	/**
+	 * Return the command to start the phantomjs server
+	 * 
+	 * @param  string $file       the server js file
+	 * @param  integer $port       
+	 * @param  string $additional additional js file
+	 * @return string            
+	 */
 	public static function command($file, $port, $additional = NULL)
 	{
 		$dir = realpath(__DIR__.'/../../../assets').'/';

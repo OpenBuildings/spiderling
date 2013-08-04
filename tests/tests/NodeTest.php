@@ -312,4 +312,59 @@ class NodeTest extends PHPUnit_TestCase_Spiderling {
 		$this->assertNode(array('form', 'class' => 'contact'), $form);
 	}
 
+	public function provider_get_locator()
+	{
+		return array(
+			array('.nav', array(), 'css'),
+			array('.field a', array(), 'css'),
+			array(array('field', 'Maraba'), array(), 'field'),
+			array(array('link', 'Maraba'), array(), 'link'),
+			array(array('button', 'Maraba'), array(), 'button'),
+			array(array('xpath', '//Maraba'), array(), 'xpath'),
+			array(array('field', 'Maraba'), array('value' => '1'), 'field'),
+			array('fieldren', 'Maraba', array(), NULL),
+		);
+	}
+
+	/**
+	 * @dataProvider provider_get_locator
+	 */
+	public function test_get_locator($selector, $filters, $expected_type)
+	{
+		if ($expected_type)
+		{
+			$locator = Node::get_locator($selector, $filters);
+
+			$this->assertEquals($expected_type, $locator->type(), 'Should load appropriate type');	
+		}
+		else
+		{
+			$this->setExpectedException('Exception');
+			$locator = Node::get_locator($selector, $filters);
+		}
+	}
+
+
+	public function test_get_locator_parameters()
+	{
+		$locator = Node::get_locator('.body', array('at' => 1));
+
+		$this->assertEquals('css', $locator->type());
+		$this->assertEquals('.body', $locator->selector());
+		$this->assertEquals(array('at' => 1), $locator->filters());
+
+		$locator = Node::get_locator(array('field', 'username', array('value' => 2)));
+
+		$this->assertEquals('field', $locator->type());
+		$this->assertEquals('username', $locator->selector());
+		$this->assertEquals(array('value' => 2), $locator->filters());
+
+		$locator = Node::get_locator(array('field', array('label', 'username', array('value' => 2))));
+
+		$this->assertEquals('label', $locator->type());
+		$this->assertEquals('username', $locator->selector());
+		$this->assertEquals(array('value' => 2), $locator->filters());
+
+	}
+
 }

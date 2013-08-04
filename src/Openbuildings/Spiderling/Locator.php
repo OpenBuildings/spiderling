@@ -14,32 +14,50 @@ use Symfony\Component\CssSelector\CssSelector;
  */
 class Locator {
 
+	const DEFAULT_TYPE = 'css';
+
+	/**
+	 * Converted xpath cache
+	 * @var string
+	 */
 	protected $_xpath;
+
+	/**
+	 * The type of the locator, can be css, field, xpath, label, link or button
+	 * @var string
+	 */
 	protected $_type;
+
+	/**
+	 * The selector used to generate the xpath
+	 * @var string
+	 */
 	protected $_selector;
+
+	/**
+	 * Additional filters to apply after the xpath is found
+	 * @var array
+	 */
 	protected $_filters;
 
-	function __construct($selector, array $filters = array())
+	/**
+	 * @param string $type 
+	 * @param string $selector 
+	 * @param array $filters  
+	 */
+	function __construct($type, $selector, array $filters = array())
 	{
-		if ( ! is_array($selector))
-		{
-			$selector = array(
-				'css',
-				$selector,
-				$filters
-			);
-		}
-		// Manage nested selectors
-		elseif (is_array($selector[1]))
-		{
-			$selector = $selector[1];
-		}
-
-		$this->_type = $selector[0];
-		$this->_selector = $selector[1];
-		$this->_filters = isset($selector[2]) ? $selector[2] : array();
+		$this->_type = $type === NULL ? self::DEFAULT_TYPE : $type;
+		$this->_selector = $selector;
+		$this->_filters = $filters;
 	}
 
+	/**
+	 * Check if a Node item matches the current filters
+	 * @param  Node    $item  
+	 * @param  integer  $index 
+	 * @return boolean        
+	 */
 	public function is_filtered(Node $item, $index)
 	{
 		foreach ($this->filters() as $filter => $value) 
@@ -77,16 +95,40 @@ class Locator {
 		return TRUE;
 	}
 
+	/**
+	 * Try matching "at" filter
+	 * 
+	 * @param  Node   $item  
+	 * @param  integer $index 
+	 * @param  string $value 
+	 * @return boolean        
+	 */
 	public function filter_by_at(Node $item, $index, $value)
 	{
 		return $index == $value;
 	}
 
+	/**
+	 * Try matching "value" filter
+	 * 
+	 * @param  Node   $item  
+	 * @param  integer $index 
+	 * @param  string $value 
+	 * @return boolean        
+	 */
 	public function filter_by_value(Node $item, $index, $value)
 	{
 		return $item->value() == $value;
 	}
 
+	/**
+	 * Try matching "text" filter
+	 * 
+	 * @param  Node   $item  
+	 * @param  integer $index 
+	 * @param  string $value 
+	 * @return boolean        
+	 */
 	public function filter_by_text(Node $item, $index, $value)
 	{
 		$text = $item->text();
@@ -94,11 +136,27 @@ class Locator {
 		return ($text AND $value AND mb_stripos($text, $value) !== FALSE);
 	}
 
+	/**
+	 * Try matching "visible" filter
+	 * 
+	 * @param  Node   $item  
+	 * @param  integer $index 
+	 * @param  boolean $value 
+	 * @return boolean        
+	 */
 	public function filter_by_visible(Node $item, $index, $value)
 	{
 		return $item->is_visible() === $value;
 	}
 
+	/**
+	 * Try matching "attributes" filter
+	 * 
+	 * @param  Node   $item  
+	 * @param  integer $index 
+	 * @param  array $value 
+	 * @return boolean        
+	 */
 	public function filter_by_attributes(Node $item, $index, array $value)
 	{
 		foreach ($value as $attribute_name => $attribute_val) 
@@ -110,6 +168,10 @@ class Locator {
 		return TRUE;
 	}
 
+	/**
+	 * Return the xpath representaiton of the selector, using the appropriate method
+	 * @return string 
+	 */
 	public function xpath()
 	{
 		if ( ! $this->_xpath)
@@ -117,15 +179,15 @@ class Locator {
 			switch ($this->type()) 
 			{
 				case 'css':
-					$this->_xpath = $this->css_to_xpath($this->selector());
+					$this->_xpath = '//'.CssSelector::toXPath($this->selector());
+				break;
+
+				case 'xpath':
+					$this->_xpath = $this->selector();
 				break;
 
 				case 'field':
 					$this->_xpath = $this->field_to_xpath($this->selector());
-				break;
-
-				case 'xpath':
-					$this->_xpath = $this->xpath_to_xpath($this->selector());
 				break;
 
 				case 'label':
@@ -148,80 +210,107 @@ class Locator {
 		return $this->_xpath;
 	}
 
+	/**
+	 * Getter. Current type, one of css, field, xpath, label, link or button
+	 * @return string 
+	 */
 	public function type()
 	{
 		return $this->_type;
 	}
 
+	/**
+	 * Getter. Current selector
+	 * @return string 
+	 */
 	public function selector()
 	{
 		return $this->_selector;
 	}
 
+	/**
+	 * Getter. Current filters
+	 * @return array 
+	 */
 	public function filters()
 	{
 		return $this->_filters;
 	}
 
-	public function css_to_xpath($locator)
-	{
-		return '//'.CssSelector::toXPath($locator);
-	}
-
-	public function xpath_to_xpath($locator)
-	{
-		return $locator;
-	}
-
-	public function field_to_xpath($locator)
+	/**
+	 * Convert field selector into xpath
+	 * 
+	 * @param  string $selector 
+	 * @return string
+	 */
+	public function field_to_xpath($selector)
 	{
 		$type = "(self::input and (not(@type) or @type != 'submit')) or self::textarea or self::select";
 			
-		$matchers['by name']        = "@name = '$locator'";
-		$matchers['by id']          = "@id = '$locator'";
-		$matchers['by placeholder'] = "@placeholder = '$locator'";
-		$matchers['by label for']   = "@id = //label[normalize-space() = '$locator']/@for";
-		$matchers['by option']      = "(self::select and ./option[(@value = \"\" or not(@value)) and contains(normalize-space(), \"$locator\")])";
+		$matchers['by name']        = "@name = '$selector'";
+		$matchers['by id']          = "@id = '$selector'";
+		$matchers['by placeholder'] = "@placeholder = '$selector'";
+		$matchers['by label for']   = "@id = //label[normalize-space() = '$selector']/@for";
+		$matchers['by option']      = "(self::select and ./option[(@value = \"\" or not(@value)) and contains(normalize-space(), \"$selector\")])";
 
 		return "//*[($type) and (".join(' or ', $matchers).")]";
 	}
 
-	public function label_to_xpath($locator)
+	/**
+	 * Convert label selector to xpath
+	 * @param  string $selector 
+	 * @return string           
+	 */
+	public function label_to_xpath($selector)
 	{
 		$type = "self::label";
 			
-		$matchers['by id']           = "@id = '$locator'";
-		$matchers['by title']        = "contains(@title, '$locator')";
-		$matchers['by content text'] = "contains(normalize-space(), '$locator')";
-		$matchers['by img alt']      = "descendant::img[contains(@alt, '$locator')]";
+		$matchers['by id']           = "@id = '$selector'";
+		$matchers['by title']        = "contains(@title, '$selector')";
+		$matchers['by content text'] = "contains(normalize-space(), '$selector')";
+		$matchers['by img alt']      = "descendant::img[contains(@alt, '$selector')]";
 
 		return "//*[($type) and (".join(' or ', $matchers).")]";
 	}
 
-	public function link_to_xpath($locator)
+	/**
+	 * Convert link selector to xpath
+	 * @param  string $selector 
+	 * @return string           
+	 */
+	public function link_to_xpath($selector)
 	{
-		$matchers['by title']        = "contains(@title, '$locator')";
-		$matchers['by id']           = "@id = '$locator'";
-		$matchers['by content text'] = "contains(normalize-space(), '$locator')";
-		$matchers['by img alt']      = "descendant::img[contains(@alt, '$locator')]";
+		$matchers['by title']        = "contains(@title, '$selector')";
+		$matchers['by id']           = "@id = '$selector'";
+		$matchers['by content text'] = "contains(normalize-space(), '$selector')";
+		$matchers['by img alt']      = "descendant::img[contains(@alt, '$selector')]";
 
 		return "//a[".join(' or ', $matchers)."]";	
 	}
 
-	public function button_to_xpath($locator)
+	/**
+	 * Convert button selector to xpath
+	 * @param  string $selector 
+	 * @return string           
+	 */
+	public function button_to_xpath($selector)
 	{
 		$type = "(self::input and @type = 'submit') or self::button";
 
-		$matchers['by title']        = "contains(@title, '$locator')";
-		$matchers['by id']           = "@id = '$locator'";
-		$matchers['by content text'] = "contains(normalize-space(), '$locator')";
-		$matchers['by img alt']      = "descendant::img[contains(@alt, '$locator')]";
-		$matchers['by value']        = "contains(@value, '$locator')";
-		$matchers['by name']         = "@name = '$locator'";
+		$matchers['by title']        = "contains(@title, '$selector')";
+		$matchers['by id']           = "@id = '$selector'";
+		$matchers['by content text'] = "contains(normalize-space(), '$selector')";
+		$matchers['by img alt']      = "descendant::img[contains(@alt, '$selector')]";
+		$matchers['by value']        = "contains(@value, '$selector')";
+		$matchers['by name']         = "@name = '$selector'";
 
 		return "//*[($type) and (".join(' or ', $matchers).")]";
 	}
 
+	/**
+	 * Return a pretty printed representation of the locator
+	 * @return string 
+	 */
 	public function __toString()
 	{
 		if ($this->filters())
@@ -232,6 +321,7 @@ class Locator {
 		{
 			$filters = '';
 		}
+
 		return "Locator: ({$this->type()}) {$this->selector()}".$filters;
 	}
 }

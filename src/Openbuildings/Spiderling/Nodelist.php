@@ -12,11 +12,34 @@ namespace Openbuildings\Spiderling;
  */
 class Nodelist implements \Iterator, \Countable, \SeekableIterator, \ArrayAccess {
 
+	/**
+	 * The driver for traversing this node and its children
+	 * @var Driver
+	 */
 	protected $_driver;
+
+	/**
+	 * The parent node, NULL if root
+	 * @var Node
+	 */
 	protected $_parent;
 
+	/**
+	 * Cache for the ids of this node list
+	 * @var array
+	 */
 	protected $_list_ids;
+
+	/**
+	 * Single node object to be used during iteration
+	 * @var Node
+	 */
 	protected $_node;
+
+	/**
+	 * Implementing Iterator 
+	 * @var integer
+	 */
 	protected $_current = 0;
 
 	function __construct(Driver $driver, Locator $locator, Node $parent)
@@ -44,7 +67,7 @@ class Nodelist implements \Iterator, \Countable, \SeekableIterator, \ArrayAccess
 
 	/**
 	 * Implementation of the Iterator interface
-	 * @return  Functest_Nodelist
+	 * @return  Nodelist
 	 */
 	public function rewind()
 	{
@@ -55,7 +78,7 @@ class Nodelist implements \Iterator, \Countable, \SeekableIterator, \ArrayAccess
 	/**
 	 * Implementation of the Iterator interface
 	 *
-	 * @return  Functest_Node
+	 * @return  Node
 	 */
 	public function current()
 	{
@@ -74,7 +97,7 @@ class Nodelist implements \Iterator, \Countable, \SeekableIterator, \ArrayAccess
 
 	/**
 	 * Implementation of the Iterator interface
-	 * @return  Functest_Nodelist
+	 * @return  Nodelist
 	 */
 	public function next()
 	{
@@ -133,7 +156,7 @@ class Nodelist implements \Iterator, \Countable, \SeekableIterator, \ArrayAccess
 	 * ArrayAccess: offsetGet
 	 *
 	 * @param   mixed  $offset
-	 * @return  Functest_Node
+	 * @return  Node
 	 */
 	public function offsetGet($offset)
 	{
@@ -170,7 +193,7 @@ class Nodelist implements \Iterator, \Countable, \SeekableIterator, \ArrayAccess
 
 	protected function _load($id)
 	{
-		return $this->_node->load_vars($id);
+		return $this->_node->load_new_id($id);
 	}
 
 	protected function list_ids()

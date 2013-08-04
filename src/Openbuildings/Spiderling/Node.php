@@ -14,10 +14,34 @@ class Node {
 
 	const DEFAULT_WAIT_TIME = 2000;
 
+	/**
+	 * The driver for traversing this node and its children
+	 * @var Driver
+	 */
 	protected $_driver;
+
+	/**
+	 * The parent node, NULL if root
+	 * @var Node
+	 */
 	protected $_parent;
+
+	/**
+	 * The id for the current node, NULL if root
+	 * @var string
+	 */
 	protected $_id = NULL;
+
+	/**
+	 * The time find operation will wait for the node to appear, in milliseconds
+	 * @var integer
+	 */
 	protected $_next_wait_time;
+
+	/**
+	 * All methods not for this node will be proxied through this
+	 * @var object
+	 */
 	protected $_extension;
 	
 	function __construct(Driver $driver, Node $parent = NULL, $id = NULL)
@@ -32,11 +56,20 @@ class Node {
 		}
 	}
 
+	/**
+	 * Getter, get the current driver object
+	 * @return Driver 
+	 */
 	public function driver()
 	{
 		return $this->_driver;
 	}
 
+	/**
+	 * Getter / Setter for the extension object
+	 * @param  mixed $extension 
+	 * @return mixed|$this            
+	 */
 	public function extension($extension = NULL)
 	{
 		if ($extension !== NULL)
@@ -47,21 +80,30 @@ class Node {
 		return $this->_extension;
 	}
 
+	/**
+	 * Getter - get the parent node
+	 * @return Node 
+	 */
 	public function parent()
 	{
 		return $this->_parent;
 	}
 
-	public function load_vars($id)
+	/**
+	 * Setter this method is used to populate a node with a new id
+	 * @param  string $id 
+	 * @return Node     $this
+	 */
+	public function load_new_id($id)
 	{
 		$this->_id = $id;
 		return $this;
 	}
 
 	/**
-	 * Set the next wait time
+	 * Setter / Getter of the next wait time
 	 * @param  integer $next_wait_time milliseconds
-	 * @return integer|Functest_Node
+	 * @return integer|Node
 	 */
 	public function next_wait_time($next_wait_time = NULL)
 	{
@@ -75,23 +117,20 @@ class Node {
 		{
 			$this->_next_wait_time = self::DEFAULT_WAIT_TIME;
 		}
+		
 		return $this->_next_wait_time;
 	}
 
+	/**
+	 * Wait milliseconds
+	 * @param  integer $milliseconds 
+	 * @return Node                $this
+	 */
 	public function wait($milliseconds = 1000)
 	{
 		usleep($milliseconds * 1000);
 		
 		return $this;
-	}
-
-	/**
-	 * Get The wait time for finding a node, use next_wait_time if available
-	 * @return integer milliseconds
-	 */
-	public function wait_time()
-	{
-		return $this->next_wait_time();
 	}
 
 	/**
@@ -135,6 +174,11 @@ class Node {
 		return $this->driver()->html($this->id());
 	}
 
+	/**
+	 * Perform a screenshot of the current into the given file
+	 * @param  string $file 
+	 * @return Node       $this
+	 */
 	public function screenshot($file)
 	{
 		$this->driver()->screenshot($file);
@@ -223,7 +267,7 @@ class Node {
 	/**
 	 * Set the value for the current form field
 	 * @param mixed $value 
-	 * @return Functest_Node $this
+	 * @return Node $this
 	 */
 	public function set($value)
 	{
@@ -234,7 +278,7 @@ class Node {
 	/**
 	 * Append to the current value - useful for textarea / input fields
 	 * @param  string $value 
-	 * @return Functest_Node $this
+	 * @return Node $this
 	 */
 	public function append($value)
 	{
@@ -247,7 +291,7 @@ class Node {
 
 	/**
 	 * Click on the current html tag, either a button or a link
-	 * @return Functest_Node $this
+	 * @return Node $this
 	 */
 	public function click()
 	{
@@ -257,7 +301,7 @@ class Node {
 
 	/**
 	 * Select an option for the current select tag
-	 * @return Functest_Node $this
+	 * @return Node $this
 	 */
 	public function select_option()
 	{
@@ -267,7 +311,7 @@ class Node {
 
 	/**
 	 * Unselect an option for the current select tag
-	 * @return Functest_Node $this
+	 * @return Node $this
 	 */
 	public function unselect_option()
 	{
@@ -279,7 +323,7 @@ class Node {
 	 * Hover over the current tag with the mouse
 	 * @param  integer       $x offset inside the tag
 	 * @param  integer       $y offset inside the tag
-	 * @return Functest_Node $this
+	 * @return Node $this
 	 */
 	public function hover($x = NULL, $y = NULL)
 	{
@@ -290,7 +334,7 @@ class Node {
 	/**
 	 * Simulate drop file events on the current element
 	 * @param  array|string $files local file filename or an array of filenames
-	 * @return Functest_Node        $this
+	 * @return Node        $this
 	 */
 	public function drop_files($files)
 	{
@@ -308,7 +352,7 @@ class Node {
 	 * Hover the mouse over a specific tag child of the current tag
 	 * @param  string|array  $selector 
 	 * @param  array         $filters
-	 * @return Functest_Node $this
+	 * @return Node $this
 	 */
 	public function hover_on($selector, array $filters = array())
 	{
@@ -320,7 +364,7 @@ class Node {
 	 * Hover the mouse over a specific link child of the current tag
 	 * @param  string|array  $selector 
 	 * @param  array         $filters 
-	 * @return Functest_Node $this
+	 * @return Node $this
 	 */
 	public function hover_link($selector, array $filters = array())
 	{
@@ -332,7 +376,7 @@ class Node {
 	 * Hover the mouse over a specific field child of the current tag
 	 * @param  string|array  $selector 
 	 * @param  array         $filters 
-	 * @return Functest_Node $this
+	 * @return Node $this
 	 */
 	public function hover_field($selector, array $filters = array())
 	{
@@ -344,7 +388,7 @@ class Node {
 	 * Hover the mouse over a specific button child of the current tag
 	 * @param  string|array  $selector 
 	 * @param  array         $filters 
-	 * @return Functest_Node $this
+	 * @return Node $this
 	 */
 	public function hover_button($selector, array $filters = array())
 	{
@@ -356,7 +400,7 @@ class Node {
 	 * Click on a specifc tag child of the current tag
 	 * @param  string|array $selector 
 	 * @param  array         $filters 
-	 * @return Functest_Node $this
+	 * @return Node $this
 	 */
 	public function click_on($selector, array $filters = array())
 	{
@@ -368,7 +412,7 @@ class Node {
 	 * Click on a specifc link child of the current tag
 	 * @param  string|array  $selector 
 	 * @param  array         $filters 
-	 * @return Functest_Node $this
+	 * @return Node $this
 	 */
 	public function click_link($selector, array $filters = array())
 	{
@@ -380,7 +424,7 @@ class Node {
 	 * Click on a specifc button child of the current tag
 	 * @param  string|array  $selector 
 	 * @param  array         $filters 
-	 * @return Functest_Node $this
+	 * @return Node $this
 	 */
 	public function click_button($selector, array $filters = array())
 	{
@@ -393,7 +437,7 @@ class Node {
 	 * @param  string|array  $selector 
 	 * @param  mixed         $with     the value to be set
 	 * @param  array         $filters  
-	 * @return Functest_Node this
+	 * @return Node this
 	 */
 	public function fill_in($selector, $with, array $filters = array())
 	{
@@ -411,7 +455,7 @@ class Node {
 	 * Choose a spesific radio tag inside the current tag
 	 * @param  string|array   $selector 
 	 * @param  array          $filters  
-	 * @return Functest_Node  $this
+	 * @return Node  $this
 	 */
 	public function choose($selector, array $filters = array())
 	{
@@ -423,7 +467,7 @@ class Node {
 	 * Check a spesific checkbox input tag inside the current tag
 	 * @param  string|array   $selector 
 	 * @param  array          $filters  
-	 * @return Functest_Node  $this
+	 * @return Node  $this
 	 */
 	public function check($selector, array $filters = array())
 	{
@@ -435,7 +479,7 @@ class Node {
 	 * Uncheck a spesific checkbox input tag inside the current tag
 	 * @param  string|array   $selector 
 	 * @param  array          $filters  
-	 * @return Functest_Node  $this
+	 * @return Node  $this
 	 */
 	public function uncheck($selector, array $filters = array())
 	{
@@ -448,7 +492,7 @@ class Node {
 	 * @param  string|array   $selector 
 	 * @param  string         $file      the filename for the file
 	 * @param  array          $filters  
-	 * @return Functest_Node  $this
+	 * @return Node  $this
 	 */
 	public function attach_file($selector, $file, array $filters = array())
 	{
@@ -465,7 +509,7 @@ class Node {
 	 * @param  string|array   $selector 
 	 * @param  array          $filters  
 	 * @param  array|string   $option_filters  
-	 * @return Functest_Node  $this
+	 * @return Node  $this
 	 */
 	public function select($selector, $option_filters, array $filters = array())
 	{
@@ -491,7 +535,7 @@ class Node {
 	 * @param  string|array   $selector 
 	 * @param  array          $filters  
 	 * @param  array|string   $option_filters  
-	 * @return Functest_Node  $this
+	 * @return Node  $this
 	 */
 	public function unselect($selector, $option_filters, array $filters = array())
 	{
@@ -511,7 +555,7 @@ class Node {
 	 * Confirm a javascript alert/confirm dialog box
 	 * 
 	 * @param  boolean|string $confirm alert/confirm - use boolean for inputs use string
-	 * @return Functest_Node  $this
+	 * @return Node  $this
 	 */
 	public function confirm($confirm)
 	{
@@ -548,7 +592,7 @@ class Node {
 	 * Find an html form field child of the current tag
 	 * @param  string|array   $selector 
 	 * @param  array          $filters  
-	 * @return Functest_Node  $this
+	 * @return Node  $this
 	 */
 	public function find_field($selector, array $filters = array())
 	{
@@ -559,7 +603,7 @@ class Node {
 	 * Find an html form field child of the current tag
 	 * @param  string|array   $selector 
 	 * @param  array          $filters  
-	 * @return Functest_Node  $this
+	 * @return Node  $this
 	 */
 	public function find_link($selector, array $filters = array())
 	{
@@ -570,7 +614,7 @@ class Node {
 	 * Find an html button tag child of the current tag
 	 * @param  string|array   $selector 
 	 * @param  array          $filters  
-	 * @return Functest_Node  $this
+	 * @return Node  $this
 	 */
 	public function find_button($selector, array $filters = array())
 	{
@@ -586,16 +630,16 @@ class Node {
 	 * @param  string|array   $selector 
 	 * @param  array          $filters  
 	 * @throws Functest_Exception_Notfound If element not found
-	 * @return Functest_Node  $this
+	 * @return Node  $this
 	 */
 	public function find($selector, array $filters = array())
 	{
-		$locator = new Locator($selector, $filters);
+		$locator = self::get_locator($selector, $filters);
 		$self = $this;
 
 		$node = Attempt::make(function() use ($self, $locator){
 			return $self->all($locator)->first();
-		}, $this->wait_time());
+		}, $this->next_wait_time());
 		
 		$this->_next_wait_time = NULL;
 
@@ -611,16 +655,16 @@ class Node {
 	 * @param  string|array  $selector 
 	 * @param  array         $filters  
 	 * @throws Functest_Exception_Found If element is found on the page
-	 * @return Functest_Node $this
+	 * @return Node $this
 	 */
 	public function not_present($selector, array $filters = array())
 	{
-		$locator = new Locator($selector, $filters);
+		$locator = self::get_locator($selector, $filters);
 		$self = $this;
 
 		$not_found = Attempt::make(function() use ($self, $locator){
 			return ! $self->all($locator)->first();
-		}, $this->wait_time());
+		}, $this->next_wait_time());
 
 		$this->_next_wait_time = NULL;
 
@@ -633,7 +677,7 @@ class Node {
 	/**
 	 * Returns the parent element
 	 * 
-	 * @return Functest_Node parent
+	 * @return Node parent
 	 */
 	public function end()
 	{
@@ -645,22 +689,50 @@ class Node {
 	 * 
 	 * @param  string|array $selector 
 	 * @param  array        $filters  
-	 * @return Functest_Nodelist
+	 * @return Nodelist
 	 */
 	public function all($selector, array $filters = array())
 	{
-		if ($selector instanceof Locator)
-		{
-			$locator = $selector;
-		}
-		else
-		{
-			$locator = new Locator($selector, $filters);
-		}
+		$locator = self::get_locator($selector, $filters);
 
 		return new Nodelist($this->driver(), $locator, $this);
 	}
 
+	/**
+	 * Shortcuts for creating locators (from arrays or nested arrays)
+	 * @param  string|Locator|array $selector 
+	 * @param  array  $filters  
+	 * @return Locator           
+	 */
+	public static function get_locator($selector, array $filters = array())
+	{
+		if ($selector instanceof Locator)
+			return $selector;
+
+		$type = NULL;
+
+		if (is_array($selector)) 
+		{
+			// Manage nested selectors
+			if (is_array($selector[1])) 
+			{
+				$selector = $selector[1];
+			}
+
+			$type = $selector[0];
+			$filters = isset($selector[2]) ? $selector[2] : array();
+			$selector = $selector[1];
+		}
+
+		return new Locator($type, $selector, $filters);
+	}
+
+	/**
+	 * Pass all other methods to the extension if it is set. That way you can add additional methods
+	 * @param  string $method    
+	 * @param  array $arguments 
+	 * @return Node $this            
+	 */
 	public function __call($method, $arguments)
 	{
 		if ( ! $this->extension() OR ! method_exists($this->extension(), $method))

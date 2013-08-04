@@ -19,14 +19,47 @@ use Openbuildings\EnvironmentBackup\Environment_Group_Static;
  */
 class Driver_Simple extends Driver {
 
+	/**
+	 * The name of the driver
+	 * @var string
+	 */
 	public $name = 'simple';
 
+	/**
+	 * The raw html content of the page
+	 * @var string
+	 */
 	protected $_content;
+
+	/**
+	 * The DOMDocument of the current page
+	 * @var DOMDocument
+	 */
 	protected $_dom;
+
+	/**
+	 * The DOMXpath object for finding elements on the page
+	 * @var DOMXpath
+	 */
 	protected $_xpath;
+
+	/**
+	 * Object for handling forms on the page
+	 * @var Driver_Simple_Forms
+	 */
 	protected $_forms;
+
+	/**
+	 * Environment object for handling backups of environment state
+	 * @var Environment
+	 */
 	protected $_environment;
-	protected $_request;
+
+	/**
+	 * Driver_Simple_RequestFactory object for opening new pages
+	 * @var Driver_Simple_RequestFactory
+	 */
+	protected $_request_factory;
 
 	function __construct()
 	{
@@ -40,6 +73,11 @@ class Driver_Simple extends Driver {
 		$this->_request_factory = new Driver_Simple_RequestFactory_HTTP();
 	}
 	
+	/**
+	 * Getter / Setter for the request factory object for the driver
+	 * @param  Driver_Simple_RequestFactory $request_factory 
+	 * @return Driver_Simple_RequestFactory|Driver_Simple                  
+	 */
 	public function request_factory(Driver_Simple_RequestFactory $request_factory = NULL)
 	{
 		if ($request_factory !== NULL)
@@ -51,21 +89,36 @@ class Driver_Simple extends Driver {
 		return $this->_request_factory;
 	}
 
+	/**
+	 * Getter for the current environment
+	 * @return Environment 
+	 */
 	public function environment()
 	{
 		return $this->_environment;
 	}
 
+	/**
+	 * Restore the environment
+	 * @return Driver_Simple $this
+	 */
 	public function clear()
 	{
 		$this->environment()->restore();
+
+		return $this;
 	}
 
+	/**
+	 * Getter / Setter of the raw content html
+	 * @param  string $content 
+	 * @return string|Driver_Simple          
+	 */
 	public function content($content = NULL)
 	{
 		if ($content !== NULL)
 		{
-			$this->_content = $content;
+			$this->_content = (string) $content;
 			$this->initialize();
 
 			return $this;
@@ -73,6 +126,9 @@ class Driver_Simple extends Driver {
 		return $this->_content;
 	}
 
+	/**
+	 * Initialze the dom, xpath and forms objects, based on the content string
+	 */
 	public function initialize()
 	{
 		@ $this->_dom->loadHTML($this->content());
@@ -81,21 +137,40 @@ class Driver_Simple extends Driver {
 		$this->_forms = new Driver_Simple_Forms($this->_dom, $this->_xpath);
 	}
 
+	/**
+	 * Getter the current forms object
+	 * @return Driver_Simple_Forms 
+	 */
 	public function forms()
 	{
 		return $this->_forms;
 	}
 
+	/**
+	 * Getter for the current xpath object for the page
+	 * @return DOMXpath 
+	 */
 	public function xpath()
 	{
 		return $this->_xpath;
 	}
 
+	/**
+	 * Get the DOMElement for the current id, or root if no id is given
+	 * @param  string $id 
+	 * @return DOMElement     
+	 */
 	public function dom($id = NULL)
 	{
 		return $id ? $this->xpath()->find($id) : $this->_dom;
 	}
 
+	/**
+	 * Initiate a get request to a current uri
+	 * @param  string $uri   
+	 * @param  array  $query an array for the http query
+	 * @return Driver_Simple        $this
+	 */
 	public function get($uri, array $query = array())
 	{
 		return $this->request('GET', $uri, $query);
