@@ -30,7 +30,7 @@ class Driver_SeleniumTest extends PHPUnit_TestCase_Spiderling {
 			return Driver_SeleniumTest::$driver->all($xpath);
 		});
 		
-		return $ids[0];
+		return isset($ids[0]) ? $ids[0] : NULL;
 	}
 
 	public function test_accessors()

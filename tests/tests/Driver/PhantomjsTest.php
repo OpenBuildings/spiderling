@@ -29,7 +29,7 @@ class Driver_PhantomjsTest extends PHPUnit_TestCase_Spiderling {
 			return Driver_PhantomjsTest::$driver->all($xpath);
 		});
 		
-		return $ids[0];
+		return isset($ids[0]) ? $ids[0] : NULL;
 	}
 
 	public function test_accessors()
