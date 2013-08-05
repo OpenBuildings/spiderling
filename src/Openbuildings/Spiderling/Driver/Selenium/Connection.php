@@ -13,8 +13,16 @@ namespace Openbuildings\Spiderling;
  */
 class Driver_Selenium_Connection
 {
+	/**
+	 * The current selenium session id
+	 * @var string
+	 */
 	protected $_session_id;
-	protected $_curl;
+
+	/**
+	 * The selenium server url
+	 * @var string
+	 */
 	protected $_server = 'http://localhost:4444/wd/hub/';
 	
 	public function server($server = NULL)
@@ -35,6 +43,12 @@ class Driver_Selenium_Connection
 		}
 	}
 
+	/**
+	 * Start a new selenium session, based on passed desired capabilities.
+	 * Reuses the session if possible
+	 * 
+	 * @param  array $desiredCapabilities 
+	 */
 	public function start(array $desiredCapabilities = NULL)
 	{
 		if ( ! ($this->_session_id = $this->reuse_session()))
@@ -45,11 +59,19 @@ class Driver_Selenium_Connection
 		$this->_server .= "session/{$this->_session_id}/";
 	}
 
+	/**
+	 * Check if a session has been started
+	 * @return boolean
+	 */
 	public function is_started()
 	{
 		return (bool) $this->_session_id;
 	}
 
+	/**
+	 * Try to reuse an existing selenium session, return the reused id
+	 * @return string 
+	 */
 	public function reuse_session()
 	{
 		$sessions = $this->get('sessions');
@@ -71,6 +93,11 @@ class Driver_Selenium_Connection
 		}
 	}
 
+	/**
+	 * Initiate a new session, based on the desired capabilities
+	 * @param  array $desiredCapabilities 
+	 * @return new session                      
+	 */
 	public function new_session(array $desiredCapabilities = NULL)
 	{
 		if ( ! $desiredCapabilities) 
@@ -82,11 +109,22 @@ class Driver_Selenium_Connection
 		return $session['webdriver.remote.sessionid'];
 	}
 
+	/**
+	 * Perform a get request to the selenium server
+	 * @param  string $command 
+	 * @return mixed          
+	 */
 	public function get($command)
 	{
 		return $this->call($command);
 	}
 
+	/**
+	 * Perform a post request to the selenium server
+	 * @param  string $command 
+	 * @param  array  $params  
+	 * @return mixed          
+	 */
 	public function post($command, array $params)
 	{
 		$options = array();
@@ -96,6 +134,11 @@ class Driver_Selenium_Connection
 		return $this->call($command, $options);	
 	}
 
+	/**
+	 * Perform a delete request to the selenium server
+	 * @param  string $command 
+	 * @return mixed          
+	 */
 	public function delete($command)
 	{
 		$options = array();
@@ -104,6 +147,12 @@ class Driver_Selenium_Connection
 		return $this->call($command, $options);	
 	}
 
+	/**
+	 * Perform a request to the selenium server, using curl
+	 * @param  string $command 
+	 * @param  array  $options curl options
+	 * @return mixed          
+	 */
 	public function call($command, array $options = array())
 	{
 		$curl = curl_init();

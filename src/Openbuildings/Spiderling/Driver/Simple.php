@@ -134,7 +134,7 @@ class Driver_Simple extends Driver {
 		@ $this->_dom->loadHTML($this->content());
 		$this->_dom->encoding = 'utf-8';
 		$this->_xpath = new Driver_Simple_Xpath($this->_dom);
-		$this->_forms = new Driver_Simple_Forms($this->_dom, $this->_xpath);
+		$this->_forms = new Driver_Simple_Forms($this->_xpath);
 	}
 
 	/**

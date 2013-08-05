@@ -12,9 +12,23 @@ namespace Openbuildings\Spiderling;
  */
 class Driver_Simple_RequestFactory_HTTP implements Driver_Simple_RequestFactory
 {
+	/**
+	 * The user agent to be used when performing the requests
+	 * @var string
+	 */
 	protected $_user_agent = 'Spiderling Simple Driver';
+
+	/**
+	 * The last visited url address
+	 * @var string
+	 */
 	protected $_current_url;
 	
+	/**
+	 * Getter / Setter for the user agent, used when performing the requests
+	 * @param  string $user_agent 
+	 * @return string|Driver_Simple_RequestFactory_HTTP
+	 */
 	public function user_agent($user_agent = NULL)
 	{
 		if ($user_agent !== NULL)
@@ -25,11 +39,19 @@ class Driver_Simple_RequestFactory_HTTP implements Driver_Simple_RequestFactory
 		return $this->_user_agent;
 	}
 
+	/**
+	 * Get the url of the last request
+	 * @return string 
+	 */
 	public function current_url()
 	{
 		return $this->_current_url;
 	}
 
+	/**
+	 * Get the path (no protocol or host) of the last request
+	 * @return [type] [description]
+	 */
 	public function current_path()
 	{
 		$url = parse_url($this->current_url());
@@ -37,6 +59,13 @@ class Driver_Simple_RequestFactory_HTTP implements Driver_Simple_RequestFactory
 		return $url['path'].(isset($url['query']) ? '?'.$url['query'] : '');
 	}
 
+	/**
+	 * Perform the request, follow redirects, return the response
+	 * @param  string $method 
+	 * @param  string $url    
+	 * @param  array $post   
+	 * @return string         
+	 */
 	public function execute($method, $url, array $post = NULL)
 	{
 		$curl = curl_init($url);
@@ -46,7 +75,7 @@ class Driver_Simple_RequestFactory_HTTP implements Driver_Simple_RequestFactory
 		curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $method);
 		curl_setopt($curl, CURLOPT_USERAGENT, $this->user_agent()); 
 
-		if ($post) 
+		if ($post)
 		{
 			curl_setopt($curl, CURLOPT_POSTFIELDS, $post);
 		}

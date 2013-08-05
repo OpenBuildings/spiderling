@@ -12,15 +12,22 @@ namespace Openbuildings\Spiderling;
  */
 class Driver_Simple_Forms
 {
-	protected $dom;
-	protected $xpath;
+	/**
+	 * DOMXPath object to perform queries with
+	 * @var DOMXPath
+	 */
+	protected $_xpath;
 
-	function __construct($dom, $xpath) 
+	function __construct($xpath) 
 	{
-		$this->dom = $dom;
 		$this->xpath = $xpath;
 	}
 
+	/**
+	 * Get the value of a DOMElement with a given xpath
+	 * @param  string $xpath 
+	 * @return mixed        
+	 */
 	public function get_value($xpath)
 	{
 		$node = $this->xpath->find($xpath);
@@ -44,6 +51,11 @@ class Driver_Simple_Forms
 		}
 	}
 
+	/**
+	 * Set the value of a DOMElement, identified by an xpath, calls one of the stter methods
+	 * @param string $xpath 
+	 * @param mixed $value 
+	 */
 	public function set_value($xpath, $value)
 	{
 		$node = $this->xpath->find($xpath);
@@ -74,6 +86,11 @@ class Driver_Simple_Forms
 		$this->{$setter}($node, $value);
 	}
 
+	/**
+	 * Set the value of a checkbos DOMNode
+	 * @param DOMNode $checkbox 
+	 * @param boolean   $value    
+	 */
 	public function set_value_checkbox(\DOMNode $checkbox, $value)
 	{
 		if ($value)
@@ -86,6 +103,11 @@ class Driver_Simple_Forms
 		}
 	}
 
+	/**
+	 * Set the value of a radio DOMNode, uncheck any other radio input in the same group
+	 * @param DOMNode $radio 
+	 * @param boolean   $value 
+	 */
 	public function set_value_radio(\DOMNode $radio, $value)
 	{
 		$name = $radio->getAttribute('name');
@@ -99,30 +121,45 @@ class Driver_Simple_Forms
 		}
 	}
 
+	/**
+	 * Set the value of a normal input
+	 * @param DOMNode $input 
+	 * @param string   $value 
+	 */
 	public function set_value_input(\DOMNode $input, $value)
 	{
 		$input->setAttribute('value', $value);
 	}
 
+	/**
+	 * Set the value of a normal textarea
+	 * @param DOMNode $textarea 
+	 * @param string   $value    
+	 */
 	public function set_value_textarea(\DOMNode $textarea, $value)
 	{
 		$textarea->nodeValue = $value;
 	}
 
+	/**
+	 * Set the value of an option DOMNode, unselect other options in this select, if it is not multiple
+	 * @param DOMNode $option 
+	 * @param boolean   $value 
+	 */
 	public function set_value_option(\DOMNode $option, $value)
 	{
-		$select = $this->xpath->find("./ancestor::select", $option);
-
-		if ( ! $select->hasAttribute('multiple'))
-		{
-			foreach ($this->xpath->query(".//option[@selected]", $select) as $old_option) 
-			{
-				$old_option->removeAttribute('selected');
-			}
-		}
-
 		if ($value)
 		{
+			$select = $this->xpath->find("./ancestor::select", $option);
+
+			if ( ! $select->hasAttribute('multiple'))
+			{
+				foreach ($this->xpath->query(".//option[@selected]", $select) as $old_option) 
+				{
+					$old_option->removeAttribute('selected');
+				}
+			}
+
 			$option->setAttribute('selected', 'selected');
 		}
 		else
@@ -131,6 +168,11 @@ class Driver_Simple_Forms
 		}
 	}
 
+	/**
+	 * Return all the contents of file inputs in a form, identified by an xpath
+	 * @param  string $xpath 
+	 * @return string        
+	 */
 	public function serialize_files($xpath)
 	{
 		$form = $this->xpath->find($xpath);
@@ -145,6 +187,12 @@ class Driver_Simple_Forms
 		return join('&', $data);
 	}
 
+	/**
+	 * Return the contents of all the inputs from a form, identified by an xpath.
+	 * Don't include file inputs or disabled inputs
+	 * @param  string $xpath 
+	 * @return string        
+	 */
 	public function serialize_form($xpath)
 	{
 		$form = $this->xpath->find($xpath);
