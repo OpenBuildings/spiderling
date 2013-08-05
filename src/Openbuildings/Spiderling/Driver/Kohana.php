@@ -22,6 +22,10 @@ class Driver_Kohana extends Driver_Simple {
 		$this->_request_factory = new Driver_Kohana_RequestFactory_Kohana();
 	}
 	
+	/**
+	 * Return a Response object of the last request operation
+	 * @return Response 
+	 */
 	public function response()
 	{
 		return $this->request_factory()->response();

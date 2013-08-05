@@ -180,7 +180,7 @@ abstract class Driver {
 	}
 
 	/**
-	 * INitiate a click on a give XPath element.
+	 * Initiate a click on a given element.
 	 * If multiple tags match - use the first one.
 	 * You can click on anchor and submit buttons.
 	 * 

@@ -166,7 +166,7 @@ class Driver_Simple extends Driver {
 	}
 
 	/**
-	 * Initiate a get request to a current uri
+	 * Initiate a get request to a given uri
 	 * @param  string $uri   
 	 * @param  array  $query an array for the http query
 	 * @return Driver_Simple        $this
@@ -176,11 +176,28 @@ class Driver_Simple extends Driver {
 		return $this->request('GET', $uri, $query);
 	}
 
+	/**
+	 * Initiate a post request to a given uri
+	 * @param  string $uri   
+	 * @param  array  $query 
+	 * @param  array  $post  
+	 * @param  array  $files set the $_FILES array appropriately
+	 * @return Driver_Simple        $this
+	 */
 	public function post($uri, array $query = array(), array $post = array(), array $files = array())
 	{
 		return $this->request('POST', $uri, $query, $post, $files);
 	}
 
+	/**
+	 * Initiate a request with a custom method
+	 * @param  string $method 
+	 * @param  string $uri    
+	 * @param  array  $query  
+	 * @param  array  $post   
+	 * @param  array  $files  set the $_FILES array
+	 * @return Driver_Simple         $this
+	 */
 	public function request($method, $uri, array $query = array(), array $post = array(), array $files = array())
 	{
 		$url = $uri.($query ? '?'.http_build_query($query) : '');
@@ -200,14 +217,26 @@ class Driver_Simple extends Driver {
 	}
 	
 	/**
-	 * GETTERS
+	 * NODE GETTERS
+	 * =====================================
 	 */
 
+	/**
+	 * Get the tag name of a Node with id. e.g. DIV, SPAN ...
+	 * @param  string $id 
+	 * @return string     
+	 */
 	public function tag_name($id)
 	{
 		return $this->dom($id)->tagName;
 	}
 
+	/**
+	 * Get the attribute of a Node with id. If the attribute does not exist, returns NULL
+	 * @param  string $id   
+	 * @param  string $name 
+	 * @return string       
+	 */
 	public function attribute($id, $name)
 	{
 		$node = $this->dom($id);
@@ -215,9 +244,14 @@ class Driver_Simple extends Driver {
 		return $node->hasAttribute($name) ? $node->getAttribute($name) : NULL;
 	}
 
+	/**
+	 * Return the raw html of a Node with id, along with all of its children.
+	 * @param  string $id 
+	 * @return string     
+	 */
 	public function html($id)
 	{
-		if ( ! $id)
+		if ($id === NULL)
 			return $this->dom()->saveHTML();
 		
 		$node = $this->dom($id);
@@ -225,6 +259,11 @@ class Driver_Simple extends Driver {
 		return $node->ownerDocument->saveXml($node);
 	}
 
+	/**
+	 * Return the text of a Node with id, with all the spaces collapsed, similar to browser rendering.
+	 * @param  string $id 
+	 * @return string     
+	 */
 	public function text($id)
 	{
 		$text = $this->dom($id)->textContent;
@@ -233,11 +272,22 @@ class Driver_Simple extends Driver {
 		return trim($text);
 	}
 
+	/**
+	 * Return the value of a Node of a form element, e.g. INPUT, TEXTAREA or SELECT
+	 * @param  string $id 
+	 * @return string     
+	 */
 	public function value($id)
 	{
 		return $this->forms()->get_value($id);
 	}
 
+	/**
+	 * Check if a Node with id is visible. 
+	 * A Node is considered hidden if it has a "display:none" inline style or its a script or head tag.
+	 * @param  string  $id 
+	 * @return boolean    
+	 */
 	public function is_visible($id)
 	{
 		$node = $this->dom($id);
@@ -246,31 +296,62 @@ class Driver_Simple extends Driver {
 		return $hidden_nodes->length == 0;
 	}
 
+	/**
+	 * Check if a Node with id of an option element is selected
+	 * @param  string  $id 
+	 * @return boolean     
+	 */
 	public function is_selected($id)
 	{
 		return (bool) $this->dom($id)->getAttribute('selected');
 	}
 
+	/**
+	 * Check if a Node with id of an input element (radio or checkbox) is checked
+	 * @param  string  $id 
+	 * @return boolean     
+	 */
 	public function is_checked($id)
 	{
 		return (bool) $this->dom($id)->getAttribute('checked');
 	}
 
+	/**
+	 * Set the value of a Node with id of a form element
+	 * @param string $id    
+	 * @param string $value 
+	 */
 	public function set($id, $value)
 	{
 		$this->forms()->set_value($id, $value);
 	}
 
+	/**
+	 * Set the option value that is selected of a Node of a select element
+	 * @param  string $id    
+	 * @param  string $value 
+	 */
 	public function select_option($id, $value)
 	{
-		$node = $this->forms()->set_value($id, $value);
+		$this->forms()->set_value($id, $value);
 	}
 
+	/**
+	 * Return the serialized representation of the input values of a form. 
+	 * Do not include files or disabled inputs, as well as submit inputs and buttons
+	 * @param  string $id 
+	 * @return string     
+	 */
 	public function serialize_form($id)
 	{
 		return $this->forms()->serialize_form($id);
 	}
 
+	/**
+	 * Click on a Node with id, triggering a link or form submit
+	 * @param  string $id 
+	 * @throws Exception_Driver If not a clickable element
+	 */
 	public function click($id)
 	{
 		$node = $this->dom($id);
@@ -304,21 +385,41 @@ class Driver_Simple extends Driver {
 		}
 	}
 
+	/**
+	 * Go to a given url address
+	 * @param  string $uri   
+	 * @param  array  $query 
+	 * @return Driver_Simple        $this
+	 */
 	public function visit($uri, array $query = array())
 	{
 		return $this->get($uri, $query);
 	}
 
+	/**
+	 * Get the current path (without host and protocol)
+	 * @return string
+	 */
 	public function current_path()
 	{
 		return $this->request_factory()->current_path();
 	}
 
+	/**
+	 * Get the current url
+	 * @return string 
+	 */
 	public function current_url()
 	{
 		return $this->request_factory()->current_url();
 	}
 
+	/**
+	 * Find all ids of a given XPath
+	 * @param  string $xpath  
+	 * @param  string $parent id of the parent node
+	 * @return array         
+	 */
 	public function all($xpath, $parent = NULL)
 	{
 		$xpath = $parent.$xpath;
@@ -330,16 +431,30 @@ class Driver_Simple extends Driver {
 		return $ids;
 	}
 
+	/**
+	 * Check if anything has been loaded
+	 * @return boolean 
+	 */
 	public function is_page_active()
 	{
 		return (bool) $this->content();
 	}
 
+	/**
+	 * Return the current user agent
+	 * @return string 
+	 */
 	public function user_agent()
 	{
 		return $this->request_factory()->user_agent();
 	}
 
+	/**
+	 * Set the cookie (by setting the $_COOKIE array directly)
+	 * @param  string $name       
+	 * @param  mixed $value      
+	 * @param  array  $parameters - not utalized by this driver
+	 */
 	public function cookie($name, $value, array $parameters = array())
 	{
 		$_COOKIE[$name] = $value;
