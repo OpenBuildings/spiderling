@@ -2,14 +2,13 @@
 
 use Openbuildings\Spiderling\Driver_Dummy;
 use Openbuildings\Spiderling\Exception_Notimplemented;
-use Openbuildings\Spiderling\PHPUnit_TestCase_Spiderling;
 
 /**
  * @package spiderling
  * @group   driver
  * @group   driver.dummy
  */
-class Driver_DummyTest extends PHPUnit_TestCase_Spiderling {
+class Driver_DummyTest extends Spiderling_TestCase {
 
 	public $driver;
 

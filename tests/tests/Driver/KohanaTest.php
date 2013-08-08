@@ -1,14 +1,13 @@
 <?php
 
 use Openbuildings\Spiderling\Driver_Kohana;
-use Openbuildings\Spiderling\PHPUnit_TestCase_Spiderling;
 
 /**
  * @package spiderling
  * @group   driver
  * @group   driver.kohana
  */
-class Driver_KohanaTest extends PHPUnit_TestCase_Spiderling {
+class Driver_KohanaTest extends Spiderling_TestCase {
 
 	public function setUp()
 	{

@@ -1,14 +1,13 @@
 <?php
 
 use Openbuildings\Spiderling\Driver_Simple_RequestFactory_HTTP;
-use Openbuildings\Spiderling\PHPUnit_TestCase_Spiderling;
 
 /**
  * @package spiderling
  * @group   driver
  * @group   driver.simple
  */
-class Driver_Simple_RequestFactory_HTTPTest extends PHPUnit_TestCase_Spiderling {
+class Driver_Simple_RequestFactory_HTTPTest extends Spiderling_TestCase {
 
 	public $factory;
 

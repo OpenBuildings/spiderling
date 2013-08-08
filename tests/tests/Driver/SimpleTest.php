@@ -1,14 +1,13 @@
 <?php
 
 use Openbuildings\Spiderling\Driver_Simple;
-use Openbuildings\Spiderling\PHPUnit_TestCase_Spiderling;
 
 /**
  * @package spiderling
  * @group   driver
  * @group   driver.simple
  */
-class Driver_SimpleTest extends PHPUnit_TestCase_Spiderling {
+class Driver_SimpleTest extends Spiderling_TestCase {
 
 	public $driver;
 

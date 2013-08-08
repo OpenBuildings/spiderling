@@ -1,5 +1,5 @@
 
-var server, webtest, page, page_evaluate, system, errors, messages, server_port;
+var server, page, system, errors, messages, server_port;
 
 page = require('webpage').create();
 
@@ -57,7 +57,7 @@ server = require('webserver').create();
 /**
  * Start the webserver on port 
  */
-webtest = server.listen(server_port, function (request, response)
+server.listen(server_port, function (request, response)
 {
 	var value;
 

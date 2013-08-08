@@ -1,14 +1,13 @@
 <?php
 
 use Openbuildings\Spiderling\Driver_Selenium_Connection;
-use Openbuildings\Spiderling\PHPUnit_TestCase_Spiderling;
 
 /**
  * @package spiderling
  * @group   selenium
  * @group   selenium.connection
  */
-class Driver_Selenium_ConnectionTest extends PHPUnit_TestCase_Spiderling {
+class Driver_Selenium_ConnectionTest extends Spiderling_TestCase {
 
 	public function test_command_url_and_accessors()
 	{

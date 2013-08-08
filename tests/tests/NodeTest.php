@@ -3,15 +3,14 @@
 use Openbuildings\Spiderling\Node;
 use Openbuildings\Spiderling\Nodelist;
 use Openbuildings\Spiderling\Driver_Simple;
-use Openbuildings\Spiderling\PHPUnit_TestCase_Spiderling;
 
 /**
  * @package spiderling
  * @group   node
  */
-class NodeTest extends PHPUnit_TestCase_Spiderling {
+class NodeTest extends Spiderling_TestCase {
 
-	public $page;
+	public $node;
 	public $driver;
 
 	public function setUp()
@@ -24,50 +23,50 @@ class NodeTest extends PHPUnit_TestCase_Spiderling {
 
 		$this->driver->content($html_content);
 
-		$this->page = $this->driver->page();
+		$this->node = new Node($this->driver);
 	}
 
 	public function test_finders()
 	{
-		$node = $this->page->find_field('Enter Name');
+		$node = $this->node->find_field('Enter Name');
 		$this->assertInstanceOf('Openbuildings\Spiderling\Node', $node);
 		$this->assertNode(array('input', 'name' => 'name'), $node);
 
-		$node = $this->page->find_link('Subpage Title 3');
+		$node = $this->node->find_link('Subpage Title 3');
 		$this->assertInstanceOf('Openbuildings\Spiderling\Node', $node);
 		$this->assertNode(array('a', 'id' => 'navlink-3'), $node);
 
-		$node = $this->page->find_button('Submit Button');
+		$node = $this->node->find_button('Submit Button');
 		$this->assertInstanceOf('Openbuildings\Spiderling\Node', $node);
 		$this->assertNode(array('button', 'id' => 'submit-btn'), $node);
 
-		$node = $this->page->find('form.contact');
+		$node = $this->node->find('form.contact');
 		$this->assertInstanceOf('Openbuildings\Spiderling\Node', $node);
 		$this->assertNode(array('form', 'action' => '/test_functest/contact'), $node);
 
-		$node = $this->page->find(array('field', 'Enter Name'));
+		$node = $this->node->find(array('field', 'Enter Name'));
 		$this->assertInstanceOf('Openbuildings\Spiderling\Node', $node);
 		$this->assertNode(array('input', 'name' => 'name'), $node);
 
-		$nodes = $this->page->all('.content ul.subnav li > a');
+		$nodes = $this->node->all('.content ul.subnav li > a');
 		$this->assertInstanceOf('Openbuildings\Spiderling\Nodelist', $nodes);
 
 		$this->setExpectedException('Openbuildings\Spiderling\Exception_Notfound');
-		$node = $this->page->find('form.contact-not-present');
+		$node = $this->node->find('form.contact-not-present');
 	}
 
 	public function test_not_present()
 	{
-		$present = $this->page->not_present('form.contact-not-present');
+		$present = $this->node->not_present('form.contact-not-present');
 		$this->assertTrue($present);
 
 		$this->setExpectedException('Openbuildings\Spiderling\Exception_Found');
-		$node = $this->page->not_present('form.contact');
+		$node = $this->node->not_present('form.contact');
 	}
 
 	public function test_getters()
 	{
-		$form = $this->page->find('form');
+		$form = $this->node->find('form');
 		$input = $form->find_field('Enter Name');
 		$textarea = $form->find_field('Enter Message');
 
@@ -85,18 +84,18 @@ class NodeTest extends PHPUnit_TestCase_Spiderling {
 		$this->assertTrue($textarea->is_visible());
 		$this->assertEquals('Tomas', $input->value());
 
-		$option = $this->page->find_field('country')->find('option');
+		$option = $this->node->find_field('country')->find('option');
 		$this->assertFalse($option->is_selected(), 'Should not be a selected option');
 		$option->select_option();
 		$this->assertTrue($option->is_selected(), 'Should be a selected option');
 
-		$checkbox = $this->page->find_field('Enter Notify Me');
+		$checkbox = $this->node->find_field('Enter Notify Me');
 		$this->assertFalse($checkbox->is_checked(), 'Should not be checked by default');
 
 		$checkbox->set(TRUE);
 		$this->assertTrue($checkbox->is_checked(), 'Should be checked after action');
 
-		$radio = $this->page->find_field('Gender Female');
+		$radio = $this->node->find_field('Gender Female');
 		$this->assertTrue($radio->is_checked(), 'Should be checked by default');
 
 		$radio->set(FALSE);
@@ -105,11 +104,11 @@ class NodeTest extends PHPUnit_TestCase_Spiderling {
 
 	public function test_setters()
 	{
-		$input = $this->page->find_field('Enter Name');
+		$input = $this->node->find_field('Enter Name');
 		$input->set('New Name');
 		$this->assertNode(array('input', 'value' => 'New Name'), $input);
 
-		$link = $this->page->find_link('Subpage Title 3');
+		$link = $this->node->find_link('Subpage Title 3');
 		$this->driver
 			->expects($this->at(0))
 			->method('get')
@@ -117,7 +116,7 @@ class NodeTest extends PHPUnit_TestCase_Spiderling {
 
 		$link->click();
 
-		$option = $this->page->find_field('country')->find('option', array('at' => 1));
+		$option = $this->node->find_field('country')->find('option', array('at' => 1));
 		$option->select_option();
 
 		$this->assertNode(array('option', 'selected' => 'selected'), $option);
@@ -125,14 +124,14 @@ class NodeTest extends PHPUnit_TestCase_Spiderling {
 
 		$this->assertNull($option->attribute('selected'));
 
-		$textarea = $this->page->find_field('message');
+		$textarea = $this->node->find_field('message');
 		$text = $textarea->value();
 
 		$textarea->append('new text');
 		$this->assertNode(array('textarea', $text.'new text'), $textarea);
 
-		$this->page->attach_file('file', 'new file');
-		$input = $this->page->find_field('file');
+		$this->node->attach_file('file', 'new file');
+		$input = $this->node->find_field('file');
 
 		$this->assertNode(array('input', 'value' => 'new file'), $input);
 	}
@@ -144,7 +143,7 @@ class NodeTest extends PHPUnit_TestCase_Spiderling {
 			->method('confirm')
 			->with($this->equalTo(TRUE));
 
-		$this->page->confirm(TRUE);
+		$this->node->confirm(TRUE);
 	}
 
 	public function test_execute()
@@ -163,14 +162,14 @@ class NodeTest extends PHPUnit_TestCase_Spiderling {
 
 		$executed = FALSE;
 			
-		$this->page->find('#navlink-1')->execute('test script', function($result) use ( & $executed) {
+		$this->node->find('#navlink-1')->execute('test script', function($result) use ( & $executed) {
 			$executed = TRUE;
 			PHPUnit_Framework_Assert::assertEquals('result', $result);
 		});
 
 		$this->assertTrue($executed);
 
-		$result = $this->page->find('#navlink-1')->execute('test script 2');
+		$result = $this->node->find('#navlink-1')->execute('test script 2');
 
 		$this->assertEquals('result 2', $result);
 	}
@@ -181,30 +180,30 @@ class NodeTest extends PHPUnit_TestCase_Spiderling {
 		$this->driver->expects($this->at(1))->method('get')->with($this->equalTo('/test_functest/subpage2'));
 		$this->driver->expects($this->at(2))->method('post')->with($this->equalTo('/test_functest/contact'));
 
-		$this->page->click_on('#navlink-1');
-		$this->page->click_link('icon 2');
-		$this->page->click_button('Submit Item');
+		$this->node->click_on('#navlink-1');
+		$this->node->click_link('icon 2');
+		$this->node->click_button('Submit Item');
 
-		$this->page->fill_in('Enter Message', 'New Text');
-		$this->assertNode(array('textarea', 'New Text', 'id' => 'message'), $this->page->find('#message'));
+		$this->node->fill_in('Enter Message', 'New Text');
+		$this->assertNode(array('textarea', 'New Text', 'id' => 'message'), $this->node->find('#message'));
 
-		$this->page->choose('Gender Male');
-		$this->assertNode(array('input', 'id' => 'gender-1', 'checked' => 'checked'), $this->page->find('#gender-1'));		
+		$this->node->choose('Gender Male');
+		$this->assertNode(array('input', 'id' => 'gender-1', 'checked' => 'checked'), $this->node->find('#gender-1'));		
 
-		$this->page->check('Enter Notify Me');
-		$this->assertNode(array('input', 'id' => 'notifyme', 'checked' => 'checked'), $this->page->find('#notifyme'));		
+		$this->node->check('Enter Notify Me');
+		$this->assertNode(array('input', 'id' => 'notifyme', 'checked' => 'checked'), $this->node->find('#notifyme'));		
 
-		$this->page->uncheck('Enter Notify Me');
-		$this->assertNull($this->page->find('#notifyme')->attribute('checked'));
+		$this->node->uncheck('Enter Notify Me');
+		$this->assertNull($this->node->find('#notifyme')->attribute('checked'));
 
-		$this->page->select('Enter Country', 'United States');
-		$this->assertEquals('us', $this->page->find_field('Enter Country')->value());
+		$this->node->select('Enter Country', 'United States');
+		$this->assertEquals('us', $this->node->find_field('Enter Country')->value());
 
-		$this->page->select('Enter Country', array('value' => 'uk'));
-		$this->assertEquals('uk', $this->page->find_field('Enter Country')->value());
+		$this->node->select('Enter Country', array('value' => 'uk'));
+		$this->assertEquals('uk', $this->node->find_field('Enter Country')->value());
 
-		$this->page->unselect('Enter Country', 'uk');
-		$this->assertNull($this->page->find_field('Enter Country')->value());
+		$this->node->unselect('Enter Country', 'uk');
+		$this->assertNull($this->node->find_field('Enter Country')->value());
 	}
 
 	public function test_screenshot()
@@ -214,16 +213,16 @@ class NodeTest extends PHPUnit_TestCase_Spiderling {
 			->method('screenshot')
 			->with($this->equalTo('file.png'));
 
-		$this->page->screenshot('file.png');
+		$this->node->screenshot('file.png');
 	}
 
 	public function test_next_wait_time()
 	{
-		$this->assertEquals(2000, $this->page->next_wait_time());
+		$this->assertEquals(2000, $this->node->next_wait_time());
 		
-		$this->page->next_wait_time(1000);
+		$this->node->next_wait_time(1000);
 
-		$this->assertEquals(1000, $this->page->next_wait_time());
+		$this->assertEquals(1000, $this->node->next_wait_time());
 	}
 
 	public function test_hover()
@@ -232,21 +231,21 @@ class NodeTest extends PHPUnit_TestCase_Spiderling {
 			->expects($this->exactly(5))
 			->method('move_to');
 
-		$this->page->hover_field('Enter Name');
-		$this->page->hover_link('Subpage Title 3');
-		$this->page->hover_button('Submit Button');
-		$this->page->hover_on('.content ul.subnav li > a');
-		$this->page->find('#navlink-1')->hover();
+		$this->node->hover_field('Enter Name');
+		$this->node->hover_link('Subpage Title 3');
+		$this->node->hover_button('Submit Button');
+		$this->node->hover_on('.content ul.subnav li > a');
+		$this->node->find('#navlink-1')->hover();
 
 		$this->setExpectedException('Openbuildings\Spiderling\Exception_Notfound');
-		$node = $this->page->hover_on('form.contact-not-present');
+		$node = $this->node->hover_on('form.contact-not-present');
 	}
 
 	public function test_wait()
 	{
 		$start = microtime(TRUE);
 
-		$this->page->wait(100);
+		$this->node->wait(100);
 
 		$end = microtime(TRUE);
 
@@ -255,8 +254,8 @@ class NodeTest extends PHPUnit_TestCase_Spiderling {
 
 	public function test_is_root_and_parent()
 	{
-		$page = $this->page;
-		$link = $this->page->find('#navlink-1');
+		$page = $this->node;
+		$link = $this->node->find('#navlink-1');
 
 		$this->assertTrue($page->is_root());
 		$this->assertNull($page->parent());
@@ -272,25 +271,34 @@ class NodeTest extends PHPUnit_TestCase_Spiderling {
 			->method('drop_files')
 			->with($this->equalTo("(//descendant-or-self::*[@id = 'navlink-1'])[1]"), $this->equalTo(array('file1', 'file2')));
 
-		$this->page->find('#navlink-1')->drop_files(array('file1', 'file2'));
+		$this->node->find('#navlink-1')->drop_files(array('file1', 'file2'));
 	}
 
-	public function test_extensions()
+	public function test_extension()
 	{
-		$extension = $this->getMock('Node_Test_Extension', array('test_mock'));
+		$extension = $this->getMock('Node_Test_Extension', array('test_mock', 'test_mock2'));
 
 		$extension->expects($this->once())
 			->method('test_mock')
-			->with($this->identicalTo($this->page), $this->equalTo('argument1'));
+			->with($this->identicalTo($this->node), $this->equalTo('argument1'));
 
-		$this->page->extension($extension);
+		$this->node->extension($extension);
 
-		$this->page->test_mock('argument1');
+		$this->node->test_mock('argument1');
+
+		$child_node = new Node($this->driver, $this->node);
+		$this->assertSame($extension, $child_node->extension());
+
+		$extension->expects($this->once())
+			->method('test_mock2')
+			->with($this->identicalTo($child_node), $this->equalTo('argument2'));
+
+		$child_node->test_mock2('argument2');
 	}
 
 	public function test_traverse()
 	{
-		$form = $this->page->find('form');
+		$form = $this->node->find('form');
 		$this->assertNode(array('form', 'class' => 'contact'), $form);
 
 		$fieldset = $form->find('fieldset');

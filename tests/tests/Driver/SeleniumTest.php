@@ -4,14 +4,13 @@ use Openbuildings\Spiderling\Attempt;
 use Openbuildings\Spiderling\Driver_Selenium;
 use Openbuildings\Spiderling\Exception_Selenium;
 use Openbuildings\Spiderling\Driver_Selenium_Connection;
-use Openbuildings\Spiderling\PHPUnit_TestCase_Spiderling;
 
 /**
  * @package spiderling
  * @group   driver
  * @group   driver.selenium
  */
-class Driver_SeleniumTest extends PHPUnit_TestCase_Spiderling {
+class Driver_SeleniumTest extends Spiderling_TestCase {
 
 	public static $driver;
 

@@ -44,7 +44,7 @@ class Node {
 	 */
 	protected $_extension;
 	
-	function __construct(Driver $driver, Node $parent = NULL, $id = NULL)
+	function __construct(Driver $driver = NULL, Node $parent = NULL, $id = NULL)
 	{
 		$this->_driver = $driver;
 		$this->_parent = $parent;
@@ -134,6 +134,15 @@ class Node {
 	}
 
 	/**
+	 * The DOMDocument or DOMElement representation of the current tag
+	 * @return DOMDocument|DOMElement
+	 */
+	public function dom()
+	{
+		return $this->driver()->dom($this->id());
+	}
+
+	/**
 	 * GETTERS
 	 * ===========================================
 	 */
@@ -145,15 +154,6 @@ class Node {
 	public function is_root()
 	{
 		return ! (bool) $this->_id;
-	}
-
-	/**
-	 * The DOMDocument or DOMElement representation of the current tag
-	 * @return DOMDocument|DOMElement
-	 */
-	public function dom()
-	{
-		return $this->driver()->dom($this->id());
 	}
 
 	/**
@@ -172,17 +172,6 @@ class Node {
 	public function html()
 	{
 		return $this->driver()->html($this->id());
-	}
-
-	/**
-	 * Perform a screenshot of the current into the given file
-	 * @param  string $file 
-	 * @return Node       $this
-	 */
-	public function screenshot($file)
-	{
-		$this->driver()->screenshot($file);
-		return $this;
 	}
 
 	/**
@@ -347,54 +336,6 @@ class Node {
 	 * ACTIONS
 	 * =======================================
 	 */
-
-	/**
-	 * Hover the mouse over a specific tag child of the current tag
-	 * @param  string|array  $selector 
-	 * @param  array         $filters
-	 * @return Node $this
-	 */
-	public function hover_on($selector, array $filters = array())
-	{
-		$this->find($selector, $filters)->hover();
-		return $this;
-	}
-
-	/**
-	 * Hover the mouse over a specific link child of the current tag
-	 * @param  string|array  $selector 
-	 * @param  array         $filters 
-	 * @return Node $this
-	 */
-	public function hover_link($selector, array $filters = array())
-	{
-		$this->find_link($selector, $filters)->hover();
-		return $this;
-	}
-
-	/**
-	 * Hover the mouse over a specific field child of the current tag
-	 * @param  string|array  $selector 
-	 * @param  array         $filters 
-	 * @return Node $this
-	 */
-	public function hover_field($selector, array $filters = array())
-	{
-		$this->find_field($selector, $filters)->hover();
-		return $this;
-	}
-
-	/**
-	 * Hover the mouse over a specific button child of the current tag
-	 * @param  string|array  $selector 
-	 * @param  array         $filters 
-	 * @return Node $this
-	 */
-	public function hover_button($selector, array $filters = array())
-	{
-		$this->find_button($selector, $filters)->hover();
-		return $this;
-	}
 
 	/**
 	 * Click on a specifc tag child of the current tag
@@ -581,6 +522,65 @@ class Node {
 		{
 			return $result;
 		}
+	}
+
+	/**
+	 * Perform a screenshot of the current into the given file
+	 * @param  string $file 
+	 * @return Node       $this
+	 */
+	public function screenshot($file)
+	{
+		$this->driver()->screenshot($file);
+		return $this;
+	}
+
+	/**
+	 * Hover the mouse over a specific tag child of the current tag
+	 * @param  string|array  $selector 
+	 * @param  array         $filters
+	 * @return Node $this
+	 */
+	public function hover_on($selector, array $filters = array())
+	{
+		$this->find($selector, $filters)->hover();
+		return $this;
+	}
+
+	/**
+	 * Hover the mouse over a specific link child of the current tag
+	 * @param  string|array  $selector 
+	 * @param  array         $filters 
+	 * @return Node $this
+	 */
+	public function hover_link($selector, array $filters = array())
+	{
+		$this->find_link($selector, $filters)->hover();
+		return $this;
+	}
+
+	/**
+	 * Hover the mouse over a specific field child of the current tag
+	 * @param  string|array  $selector 
+	 * @param  array         $filters 
+	 * @return Node $this
+	 */
+	public function hover_field($selector, array $filters = array())
+	{
+		$this->find_field($selector, $filters)->hover();
+		return $this;
+	}
+
+	/**
+	 * Hover the mouse over a specific button child of the current tag
+	 * @param  string|array  $selector 
+	 * @param  array         $filters 
+	 * @return Node $this
+	 */
+	public function hover_button($selector, array $filters = array())
+	{
+		$this->find_button($selector, $filters)->hover();
+		return $this;
 	}
 
 	/**

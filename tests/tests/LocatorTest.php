@@ -3,13 +3,12 @@
 use Openbuildings\Spiderling\Locator;
 use Openbuildings\Spiderling\Node;
 use Openbuildings\Spiderling\Driver_Simple;
-use Openbuildings\Spiderling\PHPUnit_TestCase_Spiderling;
 
 /**
  * @package spiderling
  * @group   locator
  */
-class LocatorTest extends PHPUnit_TestCase_Spiderling {
+class LocatorTest extends Spiderling_TestCase {
 
 	public function provider_finders()
 	{

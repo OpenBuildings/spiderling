@@ -3,13 +3,12 @@
 use Openbuildings\Spiderling\Node;
 use Openbuildings\Spiderling\Nodelist;
 use Openbuildings\Spiderling\Driver_Simple;
-use Openbuildings\Spiderling\PHPUnit_TestCase_Spiderling;
 
 /**
  * @package spiderling
  * @group   nodelist
  */
-class NodelistTest extends PHPUnit_TestCase_Spiderling {
+class NodelistTest extends Spiderling_TestCase {
 
 	public $page;
 

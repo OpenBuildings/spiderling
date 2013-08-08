@@ -3,14 +3,13 @@
 use Openbuildings\Spiderling\Attempt;
 use Openbuildings\Spiderling\Driver_Phantomjs;
 use Openbuildings\Spiderling\Driver_Phantomjs_Connection;
-use Openbuildings\Spiderling\PHPUnit_TestCase_Spiderling;
 
 /**
  * @package spiderling
  * @group   driver
  * @group   driver.phantomjs
  */
-class Driver_PhantomjsTest extends PHPUnit_TestCase_Spiderling {
+class Driver_PhantomjsTest extends Spiderling_TestCase {
 
 	public static $driver;
 

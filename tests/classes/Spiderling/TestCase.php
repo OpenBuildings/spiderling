@@ -1,16 +1,16 @@
 <?php
 
-namespace Openbuildings\Spiderling;
+use Openbuildings\Spiderling\Node;
 
 /**
- * Spiderling Testcase, extend this in your tests instead of PHPUnit_Framework_TestCase
+ * Used for testing Spiderling
  *
  * @package    Openbuildings\Spiderling
  * @author     Ivan Kerin
  * @copyright  (c) 2013 OpenBuildings Ltd.
  * @license    http://spdx.org/licenses/BSD-3-Clause
  */
-abstract class PHPUnit_TestCase_Spiderling extends \PHPUnit_Framework_TestCase {
+abstract class Spiderling_TestCase extends PHPUnit_Framework_TestCase {
 
 	public function assertValueSet($node, $value, $expected_value, $driver, $message = 'Should set value of field properly')
 	{
@@ -28,7 +28,7 @@ abstract class PHPUnit_TestCase_Spiderling extends \PHPUnit_Framework_TestCase {
 			$tag = $tag->dom();
 		}
 
-		$this->assertInstanceOf('\DOMNode', $tag, 'Should be of appropriate html tag type');
+		$this->assertInstanceOf('DOMNode', $tag, 'Should be of appropriate html tag type');
 
 		foreach ((array) $options as $name => $value) 
 		{
