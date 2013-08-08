@@ -1,4 +1,11 @@
-
+/**
+ * Start a phantomjs server for handling Spiderling Phantomjs Driver requests
+ * 
+ * @package    Openbuildings\Spiderling
+ * @author     Ivan Kerin
+ * @copyright  (c) 2013 OpenBuildings Ltd.
+ * @license    http://spdx.org/licenses/BSD-3-Clause
+ */
 var server, page, system, errors, messages, server_port;
 
 page = require('webpage').create();

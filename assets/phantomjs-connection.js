@@ -1,6 +1,13 @@
 var PhantomjsConnection = (function (document, undefined) {
 	"use strict";
-
+	
+	/**
+	 * @package    Openbuildings\Spiderling
+	 * @author     Ivan Kerin
+	 * @copyright  (c) 2013 OpenBuildings Ltd.
+	 * @license    http://spdx.org/licenses/BSD-3-Clause
+	 */
+	
 	var ids = [];
 	var current = 0;
 
