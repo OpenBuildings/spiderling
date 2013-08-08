@@ -319,7 +319,7 @@ abstract class Driver {
 	{
 		if ( ! $this->page)
 		{
-			$this->page = new Node($this);
+			$this->page = new Page($this);
 		}
 		return $this->page;
 	}
