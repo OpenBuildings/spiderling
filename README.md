@@ -1,4 +1,4 @@
-# Spiderling
+# Spiderling [![Build Status](https://travis-ci.org/OpenBuildings/spiderling.png?branch=master)](https://travis-ci.org/OpenBuildings/spiderling) [![Coverage Status](https://coveralls.io/repos/OpenBuildings/spiderling/badge.png?branch=master)](https://coveralls.io/r/OpenBuildings/spiderling?branch=master)
 
 This is a library for crawling web pages with curl, phantomjs and selenium. Heavily inspired by [capybara](https://github.com/jnicklas/capybara). It's a major component in [phpunit-spiderling](https://github.com/OpenBuildings/phpunit-spiderling) for integration level testing. It can handle ajax requests easily and allows switching from fast php-only drivers to javascript-enabled ones like phantomjs and selenium easily, without modifying the code.
 
