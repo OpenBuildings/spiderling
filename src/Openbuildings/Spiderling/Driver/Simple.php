@@ -267,7 +267,7 @@ class Driver_Simple extends Driver {
 	public function text($id)
 	{
 		$text = $this->dom($id)->textContent;
-		$text = preg_replace('/\s+/', ' ', $text);
+		$text = preg_replace('/[ \s\f\n\r\t\v ]+/', ' ', $text);
 		
 		return trim($text);
 	}
