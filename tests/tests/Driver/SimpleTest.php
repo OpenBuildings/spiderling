@@ -97,8 +97,8 @@ class Driver_SimpleTest extends Spiderling_TestCase {
 		$html = $this->driver->html("//textarea[@id='post_body']");
 		$this->assertEquals('<textarea name="post[body]" id="post_body" cols="30" rows="10">Lorem Ipsum</textarea>', $html);
 
-		$text = $this->driver->text("//textarea[@id='post_body']");
-		$this->assertEquals('Lorem Ipsum', $text);
+		$text = $this->driver->text("//div[@id='text']");
+		$this->assertEquals('Lorem Ipsum Dolor Sit Amet', $text);
 
 		$value = $this->driver->value("//input[@id='post_title']");
 		$this->assertEquals('Title 1', $value);
