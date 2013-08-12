@@ -188,10 +188,16 @@ class Driver_SimpleTest extends Spiderling_TestCase {
 			->method('execute')
 			->with($this->equalTo('GET'), $this->equalTo('http://example.com/test?test=value'));
 
+		$this->driver->request_factory()
+			->expects($this->at(4))
+			->method('execute')
+			->with($this->equalTo('GET'), $this->equalTo('/test_functest/search?q=search-text'), $this->equalTo(array()));
+
 		$this->driver->click("//a[@id='visible-link']");
 		$this->driver->click("//button[@id='submit-btn']");
 		$this->driver->click("//input[@id='submit']");
 		$this->driver->visit("http://example.com/test", array('test' => 'value'));
+		$this->driver->click("//button[@id='search-btn']");
 
 
 		$this->setExpectedException('Openbuildings\Spiderling\Exception_Driver');

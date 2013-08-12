@@ -366,6 +366,8 @@ class Driver_Simple extends Driver {
 
 			$action = $form->hasAttribute('action') ? $form->getAttribute('action') : $this->request->uri();
 
+			$method = $form->hasAttribute('method') ? strtoupper($form->getAttribute('method')) : 'GET';
+
 			$post = $this->forms()->serialize_form($form);
 
 			$files = $this->forms()->serialize_files($form);
@@ -377,7 +379,14 @@ class Driver_Simple extends Driver {
 			parse_str($post, $post);
 			parse_str($files, $files);
 
-			$this->post($action, array(), $post, $files);
+			if ($method == 'GET')
+			{
+				$this->get($action, $post);
+			}
+			else
+			{
+				$this->post($action, array(), $post, $files);
+			}
 		}
 		else
 		{

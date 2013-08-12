@@ -4,7 +4,7 @@
 </head>
 <body>
 	<div class="body">
-		<form action="/test_functest/form">
+		<form action="/test_functest/form" method="POST">
 
 			<div id="hidden" style="display:none">
 				Hidden
@@ -76,6 +76,12 @@
 				<input id="submit" type="submit" value="Submit Item" name="submit_input" />
 				<button id="submit-btn" type="submit">Submit Button</button>
 			</div>
+		</form>
+	</div>
+	<div class="search-form">
+		<form action="/test_functest/search" method="GET">
+			<input type="text" name="q" value="search-text">
+			<button id='search-btn' type="submit">Search</button>
 		</form>
 	</div>
 </body>
