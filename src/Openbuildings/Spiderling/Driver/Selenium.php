@@ -142,7 +142,7 @@ class Driver_Selenium extends Driver {
 	public function text($id)
 	{
 		$text = $this->connection()->get("element/$id/text");
-		$text = preg_replace('/[ \s\f\n\r\t\v ]+/', ' ', $text);
+		$text = preg_replace('/[ \s\f\n\r\t\v ]+/u', ' ', $text);
 		return trim($text);
 	}
 
