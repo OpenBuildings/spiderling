@@ -5,7 +5,7 @@ This is a library for crawling web pages with curl, phantomjs and selenium. Heav
 ## A quick example
 
 ```php
-use OpenBuildings\Spiderling\Page;
+use Openbuildings\Spiderling\Page;
 
 $page = new Page();
 
@@ -64,7 +64,7 @@ An example of using some of these getters, if we have this page:
 Then you could write the following php code:
 
 ```php
-use OpenBuildings\Spiderling\Page;
+use Openbuildings\Spiderling\Page;
 
 $page = new Page();
 
@@ -122,7 +122,7 @@ So having an example form like this:
 We could do this script:
 
 ```php
-use OpenBuildings\Spiderling\Page;
+use Openbuildings\Spiderling\Page;
 
 $page = new Page();
 
@@ -181,7 +181,7 @@ Here's an example using the previous html:
 The php code becomes clearer and less brittle - the underlying html can change but your code will still work as expected:
 
 ```php
-use OpenBuildings\Spiderling\Page;
+use Openbuildings\Spiderling\Page;
 
 $page = new Page();
 
@@ -235,7 +235,7 @@ Here is how you might use the filters with this html:
 
 ```php
 
-use OpenBuildings\Spiderling\Page;
+use Openbuildings\Spiderling\Page;
 
 $page = new Page();
 
@@ -265,7 +265,7 @@ Most locator types have a custom method for finding an element with that particu
 The previous form example can be rewritten like this: 
 
 ```php
-use OpenBuildings\Spiderling\Page;
+use Openbuildings\Spiderling\Page;
 
 $page = new Page();
 
@@ -312,7 +312,7 @@ Here are all these actions:
 Using these methods you can make your code very readable. Also all of these actions return ``$this``, allowing you to chain them easily. Consider the previous example in the __Finders__ section - you can rewrite it like this:
 
 ```php
-use OpenBuildings\Spiderling\Page;
+use Openbuildings\Spiderling\Page;
 
 $page = new Page();
 
@@ -390,7 +390,7 @@ A more complicated example is in order. We will be using the following html:
 ```
 
 ```php
-use OpenBuildings\Spiderling\Page;
+use Openbuildings\Spiderling\Page;
 
 $page = new Page();
 
@@ -417,7 +417,7 @@ When there are multiple elements on the page you might want to be more specific,
 For example:
 
 ```php
-use OpenBuildings\Spiderling\Page;
+use Openbuildings\Spiderling\Page;
 
 $page = new Page();
 
@@ -434,7 +434,7 @@ $page
 Notice the "end()" method - this allows you to return to the previous level and continue your work from there. Also you can nest multiple times without any problem (you will have to use "end()" multiple times too to "get out of" the nesting)
 
 ```php
-use OpenBuildings\Spiderling\Page;
+use Openbuildings\Spiderling\Page;
 
 $page = new Page();
 
@@ -465,7 +465,7 @@ Spiderling follows the same philosophy as capybara in that it does not explicitl
 For example: 
 
 ```php
-use OpenBuildings\Spiderling\Page;
+use Openbuildings\Spiderling\Page;
 
 $page = new Page();
 
@@ -492,7 +492,7 @@ $page
 A great strength of Spiderling is the ability to use different drivers for your code. This allows switching from phponly curl parsing of the page to a phantomjs or even selenium without modification of the code. For example if we wanted to use a Phantomjs driver instead of the default "Simple" one then we'd need to do this:
 
 ```php
-use OpenBuildings\Spiderling\Page;
+use Openbuildings\Spiderling\Page;
 
 $page = new Page(new Driver_Phantomjs);
 
@@ -528,7 +528,7 @@ Appart from loading the html through curl, you could set the content directly, i
 Here's how that looks:
 
 ```php
-use OpenBuildings\Spiderling\Page;
+use Openbuildings\Spiderling\Page;
 
 $page = new Page();
 
@@ -548,7 +548,7 @@ Generally performing post requests yourself is discouraged as they are not suppo
 This is accomplished directly through the driver like this:
 
 ```php
-use OpenBuildings\Spiderling\Page;
+use Openbuildings\Spiderling\Page;
 
 $page = new Page();
 
@@ -563,7 +563,7 @@ Also it handles redirects capping them to maximum 8 (configurable) and uses Requ
 
 Example Use
 ```php
-use OpenBuildings\Spiderling\Page;
+use Openbuildings\Spiderling\Page;
 
 $page = new Page(new Driver_Kohana);
 ```
@@ -579,7 +579,7 @@ By default it spawns a new server on a random port from 4445 and 5000.
 This should work if you have phantomjs installed.
 
 ```php
-use OpenBuildings\Spiderling\Page;
+use Openbuildings\Spiderling\Page;
 
 $page = new Page(new Driver_Phantomjs);
 ```
@@ -587,7 +587,7 @@ $page = new Page(new Driver_Phantomjs);
 If you want to start the server from independantly, you can modify the phantomjs connection, you can also set it up to output messages to a log file as well as have, tweek other parameters.
 
 ```php
-use OpenBuildings\Spiderling\Page;
+use Openbuildings\Spiderling\Page;
 
 $connection = new Driver_Phantomjs_Connection;
 $connection->port(5500);
@@ -619,7 +619,7 @@ java -jar selenium-server-standalone-2.*.jar
 After it's started you can access it like this
 
 ```php
-use OpenBuildings\Spiderling\Page;
+use Openbuildings\Spiderling\Page;
 
 $page = new Page(new Driver_Selenium);
 ```
@@ -627,7 +627,7 @@ $page = new Page(new Driver_Selenium);
 or if you have it running somewhere else (a cluster or on a different host altogether)
 
 ```php
-use OpenBuildings\Spiderling\Page;
+use Openbuildings\Spiderling\Page;
 
 $connection = new Driver_Selenium_Connection('http://server.example.com:4444/wc/hub');
 $page = new Page(new Driver_Selenium($connection));
