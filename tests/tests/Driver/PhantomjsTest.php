@@ -42,6 +42,9 @@ class Driver_PhantomjsTest extends Spiderling_TestCase {
 		$html = self::$driver->html($this->find("//textarea[@id='post_body']"));
 		$this->assertEquals('<textarea name="post[body]" id="post_body" cols="30" rows="10">Lorem Ipsum</textarea>', $html);
 
+		$text = self::$driver->text("//div[@id='text']");
+		$this->assertEquals('Lorem £Ipsum Dolor Sit Amet', $text);
+
 		$text = self::$driver->text($this->find("//textarea[@id='post_body']"));
 		$this->assertEquals('Lorem Ipsum', $text);
 

@@ -158,7 +158,9 @@ class Driver_Phantomjs extends Driver {
 	 */
 	public function text($id)
 	{
-		return $this->connection()->get("element/$id/text");	
+		$text = $this->connection()->get("element/$id/text");
+		$text = preg_replace('/[ \s\f\n\r\t\v ]+/u', ' ', $text);
+		return trim($text);
 	}
 
 	/**
