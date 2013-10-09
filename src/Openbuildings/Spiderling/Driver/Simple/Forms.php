@@ -213,12 +213,12 @@ class Driver_Simple_Forms
 			{
 				foreach ($value as $name => $value_item) 
 				{
-					$data[] = $field->getAttribute('name')."[$name]".'='.$value_item;
+					$data[] = $field->getAttribute('name')."[$name]".'='.urlencode($value_item);
 				}
 			}
 			else
 			{
-				$data[] = $field->getAttribute('name').'='.$value;
+				$data[] = $field->getAttribute('name').'='.urlencode($value);
 			}
 		}
 
