@@ -221,8 +221,8 @@ server.listen(server_port, function (request, response)
 			errors = [];
 			messages = [];
 
-			page.open(request.post.value, function(status){
-				console.log(page.url, status);
+			page.open(request.post.value, function(status) {
+				console.log(request.post.value, status);
 				response.send();
 			});
 		})
