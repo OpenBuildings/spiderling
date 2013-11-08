@@ -113,9 +113,9 @@ class Node {
 			return $this;
 		}
 
-		if ($this->_next_wait_time === NULL)
+		if ($this->_next_wait_time === NULL AND $this->_driver)
 		{
-			$this->_next_wait_time = self::DEFAULT_WAIT_TIME;
+			$this->_next_wait_time = $this->_driver->default_wait_time;
 		}
 		
 		return $this->_next_wait_time;

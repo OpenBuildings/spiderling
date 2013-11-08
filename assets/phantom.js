@@ -66,7 +66,7 @@ server = require('webserver').create();
  */
 server.listen(server_port, function (request, response)
 {
-	var value;
+	var connect;
 
 	/**
 	 * Send the response, finishing the request
@@ -86,13 +86,14 @@ server.listen(server_port, function (request, response)
 	 */
 	request.connect = function (method, url, callback) {
 		if (this.method == method && this.url.match(url)) {
-			console.log('  Executing command ', this.method, this.url, this.post ? this.post.value : null);
+			console.log('  Executing command ', this.method, this.url, this.post ? this.post.value : '');
 			callback.apply(page, this.url.match(url).slice(1));
+			this.connected = true;
 		}
 		return this;
 	};
 
-	console.log('Recieved command ', request.method, request.url, request.post ? request.post.value : null);
+	console.log('Recieved command ', request.method, request.url, request.post ? request.post.value : '');
 
 	response.statusCode = 200;
 
@@ -445,4 +446,9 @@ server.listen(server_port, function (request, response)
 			}, id, request.post.value));
 		});
 
+		if ( ! request.connected) {
+			console.log('  Request ' + request.method + ' ' + request.url + ' not recognized by server');
+			response.statusCode = 404;
+			response.send();
+		}
 });

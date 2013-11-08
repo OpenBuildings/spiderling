@@ -16,8 +16,9 @@ class Driver_PhantomjsTest extends Spiderling_TestCase {
 	public static function setUpBeforeClass()
 	{
 		parent::setUpBeforeClass();
+
 		self::$driver = new Driver_Phantomjs();
-		self::$driver->base_url('http://6ca1671dbfe9477b14ce-fabb5009fe9cc97c5f42aa7fac8fcd02.r26.cf3.rackcdn.com');
+		self::$driver->base_url('https://85b5d31b11244c8d6302-fabb5009fe9cc97c5f42aa7fac8fcd02.ssl.cf3.rackcdn.com');
 
 		self::$driver->visit('/remote-form.html');
 	}
@@ -42,7 +43,7 @@ class Driver_PhantomjsTest extends Spiderling_TestCase {
 		$html = self::$driver->html($this->find("//textarea[@id='post_body']"));
 		$this->assertEquals('<textarea name="post[body]" id="post_body" cols="30" rows="10">Lorem Ipsum</textarea>', $html);
 
-		$text = self::$driver->text("//div[@id='text']");
+		$text = self::$driver->text($this->find("//div[@id='text']"));
 		$this->assertEquals('Lorem £Ipsum Dolor Sit Amet', $text);
 
 		$text = self::$driver->text($this->find("//textarea[@id='post_body']"));

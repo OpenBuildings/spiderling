@@ -45,17 +45,17 @@
         },
         {
             "name": "symfony/css-selector",
-            "version": "v2.3.3",
+            "version": "v2.3.6",
             "target-dir": "Symfony/Component/CssSelector",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/CssSelector.git",
-                "reference": "v2.3.3"
+                "reference": "4e01c74f19ea049773fa3ee9fb2bb5bf5e14f7eb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/CssSelector/zipball/v2.3.3",
-                "reference": "v2.3.3",
+                "url": "https://api.github.com/repos/symfony/CssSelector/zipball/4e01c74f19ea049773fa3ee9fb2bb5bf5e14f7eb",
+                "reference": "4e01c74f19ea049773fa3ee9fb2bb5bf5e14f7eb",
                 "shasum": ""
             },
             "require": {
@@ -92,7 +92,7 @@
             ],
             "description": "Symfony CssSelector Component",
             "homepage": "http://symfony.com",
-            "time": "2013-07-21 12:12:18"
+            "time": "2013-09-19 09:45:20"
         }
     ],
     "packages-dev": [
@@ -130,16 +130,16 @@
         },
         {
             "name": "openbuildings/kohana-test-bootsrap",
-            "version": "0.1.0",
+            "version": "0.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenBuildings/kohana-test-bootstrap.git",
-                "reference": "0.1.0"
+                "reference": "57c9cae9bd97edbe58d1c41c35c499c7d54f4030"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OpenBuildings/kohana-test-bootstrap/zipball/0.1.0",
-                "reference": "0.1.0",
+                "url": "https://api.github.com/repos/OpenBuildings/kohana-test-bootstrap/zipball/57c9cae9bd97edbe58d1c41c35c499c7d54f4030",
+                "reference": "57c9cae9bd97edbe58d1c41c35c499c7d54f4030",
                 "shasum": ""
             },
             "type": "library",
@@ -161,7 +161,7 @@
                 }
             ],
             "description": "Kohana core classes repackaged with composer, used to test modules",
-            "time": "2013-08-12 09:28:25"
+            "time": "2013-10-01 08:57:54"
         }
     ],
     "aliases": [

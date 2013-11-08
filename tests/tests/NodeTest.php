@@ -19,6 +19,8 @@ class NodeTest extends Spiderling_TestCase {
 
 		$this->driver = $this->getMock('Openbuildings\Spiderling\Driver_Simple', array('get', 'post', 'confirm', 'execute', 'screenshot', 'move_to', 'drop_files'));
 
+		$this->driver->default_wait_time = 1;
+
 		$html_content = file_get_contents(TESTVIEWS.'index.html');
 
 		$this->driver->content($html_content);
@@ -218,7 +220,7 @@ class NodeTest extends Spiderling_TestCase {
 
 	public function test_next_wait_time()
 	{
-		$this->assertEquals(2000, $this->node->next_wait_time());
+		$this->assertEquals($this->driver->default_wait_time, $this->node->next_wait_time());
 		
 		$this->node->next_wait_time(1000);
 
