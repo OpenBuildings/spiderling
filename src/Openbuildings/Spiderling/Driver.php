@@ -16,7 +16,7 @@ abstract class Driver {
 
 	public $name = NULL;
 
-	public $default_wait_time = 2000;
+	public $default_wait_time = 3000;
 
 	/**
 	 * Clear session stuff / cookies created by the current page

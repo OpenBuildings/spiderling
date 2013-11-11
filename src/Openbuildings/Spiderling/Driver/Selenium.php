@@ -36,6 +36,12 @@ class Driver_Selenium extends Driver {
 	 * @var string
 	 */
 	protected $_base_url = '';
+
+	/**
+	 * As selenium might be a bit slow to respond, we increase the default wait time.
+	 * @var integer
+	 */
+	public $default_wait_time = 4000;
 	
 	/**
 	 * Getter / Setter of the base_url, that will be prefixed on each request

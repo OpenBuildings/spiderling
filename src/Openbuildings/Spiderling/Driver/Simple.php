@@ -26,6 +26,12 @@ class Driver_Simple extends Driver {
 	public $name = 'simple';
 
 	/**
+	 * Wait time is meaningless in simple driver as it does not support javascript
+	 * @var integer
+	 */
+	public $default_wait_time = 10;
+
+	/**
 	 * The raw html content of the page
 	 * @var string
 	 */
