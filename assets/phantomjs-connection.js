@@ -24,23 +24,28 @@ var PhantomjsConnection = (function (document, undefined) {
 					item,
 					xpath_result,
 					i;
+					
+			try {
+				xpath_result = document.evaluate(xpath, context, null, XPathResult.ORDERED_NODE_ITERATOR_TYPE, null);
 
-			xpath_result = document.evaluate(xpath, context, null, XPathResult.ORDERED_NODE_ITERATOR_TYPE, null);
-
-			while (item = xpath_result.iterateNext()) {
-				for (i = 0; i < ids.length; i++) {
-					if (ids[i] === item) {
+				while (item = xpath_result.iterateNext()) {
+					for (i = 0; i < ids.length; i++) {
+						if (ids[i] === item) {
+							result_ids.push(i);
+							break;
+						}
+					}
+					if (i === ids.length ) {
+						ids.push(item);
 						result_ids.push(i);
-						break;
 					}
 				}
-				if (i === ids.length ) {
-					ids.push(item);
-					result_ids.push(i);
-				}
+				return result_ids;
 			}
-
-			return result_ids;
+			catch (e)
+			{
+				return [];
+			}
 		},
 
 		/**
