@@ -26,6 +26,9 @@ class Phantomjs {
 		if ( ! Network::is_port_open('localhost', $port))
 			throw new Exception('Port :port is already taken', array(':port' => $port));
 
+		if ($log_file !== '/dev/null' AND ! is_file($log_file))
+			throw new Exception('Log file (:log_file) must be a file or /dev/null', array(':log_file' => $log_file));
+
 		return shell_exec(strtr('nohup :command > :log 2> :log & echo $!', array(
 			':command' => self::command($file, $port, $additional),
 			':log' => $log_file,
