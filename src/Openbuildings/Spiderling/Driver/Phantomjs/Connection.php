@@ -160,7 +160,7 @@ class Driver_Phantomjs_Connection {
 	{
 		if ($this->is_started()) 
 		{
-			$this->delete('session', array());
+			$this->delete('session');
 			$this->_pid = NULL;
 		}
 
