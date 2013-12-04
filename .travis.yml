@@ -1,8 +1,12 @@
---- 
 language: php
 
 php:
   - 5.4
+
+notifications:
+  campfire:
+    rooms:
+      secure: PYFq9cixuKAYsgyWBSCx3mbmR95V75GBAKLxISySl4IfOmiMGilrQDaacrfcteapE83zEprZ8OUw1WCrt4Pe0XB8lTAbx3n6aShwLELkHRwGvxC2GZfcoeq+p7QQaYjDKYYDsdMVKBTKFtUqBp9Hb5v6Z7T9CHlMfF9N3/XbMb0=
 
 script:
   - phpunit --coverage-clover build/logs/clover.xml
@@ -11,9 +15,9 @@ before_script:
   - mkdir -p build/logs
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
-  - composer require --dev satooshi/php-coveralls:dev-master
   - composer install
   - "nohup java -jar vendor/claylo/selenium-server-standalone/selenium-server-standalone-2.*.jar > /dev/null 2> /dev/null &"
 
 after_script:
-  - php vendor/bin/coveralls -v
+  - wget https://scrutinizer-ci.com/ocular.phar
+  - php ocular.phar code-coverage:upload --format=php-clover build/logs/clover.xml
