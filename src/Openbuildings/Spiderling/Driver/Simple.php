@@ -206,6 +206,14 @@ class Driver_Simple extends Driver {
 	 */
 	public function request($method, $uri, array $query = array(), array $post = array(), array $files = array())
 	{
+		$uri_params = parse_url($uri, PHP_URL_QUERY);
+
+		if ($uri_params)
+		{
+			parse_str($uri_params, $params);
+			$query = array_merge($params, $query);
+		}
+		
 		$url = $uri.($query ? '?'.http_build_query($query) : '');
 
 		$this->environment()->backup_and_set(array(
