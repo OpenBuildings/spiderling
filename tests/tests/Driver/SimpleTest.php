@@ -257,7 +257,7 @@ class Driver_SimpleTest extends Spiderling_TestCase {
 
 		$driver = new Driver_Simple();
 
-		$this->assertFalse($driver->is_page_active());		
+		$this->assertFalse($driver->is_page_active());
 	}
 }
 

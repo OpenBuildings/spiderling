@@ -15,7 +15,7 @@ class Driver_Selenium_ConnectionTest extends Spiderling_TestCase {
 		$this->assertEquals('test', $connection->server());
 		$connection->server('http://localhost:4444/wd/hub/');
 
-		foreach ($connection->get('sessions') as $session) 
+		foreach ($connection->get('sessions') as $session)
 		{
 			$connection->delete('session/'.$session['id']);
 		}
@@ -23,7 +23,7 @@ class Driver_Selenium_ConnectionTest extends Spiderling_TestCase {
 		$connection->start();
 
 		$this->assertTrue($connection->is_started());
-			
+
 		$connection = new Driver_Selenium_Connection();
 
 		$connection->start();

@@ -72,13 +72,13 @@ class NodelistTest extends Spiderling_TestCase {
 	{
 		$list = $this->page->all('.content ul.subnav li > a');
 
-		foreach ($list as $i => $item) 
+		foreach ($list as $i => $item)
 		{
-			if ($i == 0) 
+			if ($i == 0)
 			{
 				$this->assertNode(array('a', 'id' => 'navlink-1'), $item);
 			}
-			elseif ($i == 1) 
+			elseif ($i == 1)
 			{
 				$this->assertNode(array('a', 'id' => 'navlink-2'), $item);
 			}

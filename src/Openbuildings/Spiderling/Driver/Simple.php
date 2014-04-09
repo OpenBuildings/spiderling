@@ -8,8 +8,8 @@ use Openbuildings\EnvironmentBackup\Environment_Group_Server;
 use Openbuildings\EnvironmentBackup\Environment_Group_Static;
 
 /**
- * Use Curl to load urls. 
- * In memory. 
+ * Use Curl to load urls.
+ * In memory.
  * No Javascript
  *
  * @package    Openbuildings\Spiderling
@@ -78,11 +78,11 @@ class Driver_Simple extends Driver {
 
 		$this->_request_factory = new Driver_Simple_RequestFactory_HTTP();
 	}
-	
+
 	/**
 	 * Getter / Setter for the request factory object for the driver
-	 * @param  Driver_Simple_RequestFactory $request_factory 
-	 * @return Driver_Simple_RequestFactory|Driver_Simple                  
+	 * @param  Driver_Simple_RequestFactory $request_factory
+	 * @return Driver_Simple_RequestFactory|Driver_Simple
 	 */
 	public function request_factory(Driver_Simple_RequestFactory $request_factory = NULL)
 	{
@@ -97,7 +97,7 @@ class Driver_Simple extends Driver {
 
 	/**
 	 * Getter for the current environment
-	 * @return Environment 
+	 * @return Environment
 	 */
 	public function environment()
 	{
@@ -117,8 +117,8 @@ class Driver_Simple extends Driver {
 
 	/**
 	 * Getter / Setter of the raw content html
-	 * @param  string $content 
-	 * @return string|Driver_Simple          
+	 * @param  string $content
+	 * @return string|Driver_Simple
 	 */
 	public function content($content = NULL)
 	{
@@ -145,7 +145,7 @@ class Driver_Simple extends Driver {
 
 	/**
 	 * Getter the current forms object
-	 * @return Driver_Simple_Forms 
+	 * @return Driver_Simple_Forms
 	 */
 	public function forms()
 	{
@@ -154,7 +154,7 @@ class Driver_Simple extends Driver {
 
 	/**
 	 * Getter for the current xpath object for the page
-	 * @return DOMXpath 
+	 * @return DOMXpath
 	 */
 	public function xpath()
 	{
@@ -163,8 +163,8 @@ class Driver_Simple extends Driver {
 
 	/**
 	 * Get the DOMElement for the current id, or root if no id is given
-	 * @param  string $id 
-	 * @return DOMElement     
+	 * @param  string $id
+	 * @return DOMElement
 	 */
 	public function dom($id = NULL)
 	{
@@ -173,7 +173,7 @@ class Driver_Simple extends Driver {
 
 	/**
 	 * Initiate a get request to a given uri
-	 * @param  string $uri   
+	 * @param  string $uri
 	 * @param  array  $query an array for the http query
 	 * @return Driver_Simple        $this
 	 */
@@ -184,9 +184,9 @@ class Driver_Simple extends Driver {
 
 	/**
 	 * Initiate a post request to a given uri
-	 * @param  string $uri   
-	 * @param  array  $query 
-	 * @param  array  $post  
+	 * @param  string $uri
+	 * @param  array  $query
+	 * @param  array  $post
 	 * @param  array  $files set the $_FILES array appropriately
 	 * @return Driver_Simple        $this
 	 */
@@ -197,10 +197,10 @@ class Driver_Simple extends Driver {
 
 	/**
 	 * Initiate a request with a custom method
-	 * @param  string $method 
-	 * @param  string $uri    
-	 * @param  array  $query  
-	 * @param  array  $post   
+	 * @param  string $method
+	 * @param  string $uri
+	 * @param  array  $query
+	 * @param  array  $post
 	 * @param  array  $files  set the $_FILES array
 	 * @return Driver_Simple         $this
 	 */
@@ -214,23 +214,23 @@ class Driver_Simple extends Driver {
 			$query = array_merge($params, $query);
 			$uri = str_replace('?'.$uri_params, '', $uri);
 		}
-		
+
 		$url = $uri.($query ? '?'.http_build_query($query) : '');
 
 		$this->environment()->backup_and_set(array(
-			'_GET' => $query, 
-			'_POST' => $post, 
-			'_FILES' => $files, 
+			'_GET' => $query,
+			'_POST' => $post,
+			'_FILES' => $files,
 			'_SESSION' => isset($_SESSION) ? $_SESSION : array(),
 		));
 
 		$response = $this->request_factory()->execute($method, $url, $post);
 
 		$this->content($response);
-		
+
 		return $this;
 	}
-	
+
 	/**
 	 * NODE GETTERS
 	 * =====================================
@@ -238,8 +238,8 @@ class Driver_Simple extends Driver {
 
 	/**
 	 * Get the tag name of a Node with id. e.g. DIV, SPAN ...
-	 * @param  string $id 
-	 * @return string     
+	 * @param  string $id
+	 * @return string
 	 */
 	public function tag_name($id)
 	{
@@ -248,9 +248,9 @@ class Driver_Simple extends Driver {
 
 	/**
 	 * Get the attribute of a Node with id. If the attribute does not exist, returns NULL
-	 * @param  string $id   
-	 * @param  string $name 
-	 * @return string       
+	 * @param  string $id
+	 * @param  string $name
+	 * @return string
 	 */
 	public function attribute($id, $name)
 	{
@@ -261,14 +261,14 @@ class Driver_Simple extends Driver {
 
 	/**
 	 * Return the raw html of a Node with id, along with all of its children.
-	 * @param  string $id 
-	 * @return string     
+	 * @param  string $id
+	 * @return string
 	 */
 	public function html($id)
 	{
 		if ($id === NULL)
 			return $this->dom()->saveHTML();
-		
+
 		$node = $this->dom($id);
 
 		return $node->ownerDocument->saveXml($node);
@@ -276,21 +276,21 @@ class Driver_Simple extends Driver {
 
 	/**
 	 * Return the text of a Node with id, with all the spaces collapsed, similar to browser rendering.
-	 * @param  string $id 
-	 * @return string     
+	 * @param  string $id
+	 * @return string
 	 */
 	public function text($id)
 	{
 		$text = $this->dom($id)->textContent;
 		$text = preg_replace('/[ \s\f\n\r\t\v ]+/u', ' ', $text);
-		
+
 		return trim($text);
 	}
 
 	/**
 	 * Return the value of a Node of a form element, e.g. INPUT, TEXTAREA or SELECT
-	 * @param  string $id 
-	 * @return string     
+	 * @param  string $id
+	 * @return string
 	 */
 	public function value($id)
 	{
@@ -298,10 +298,10 @@ class Driver_Simple extends Driver {
 	}
 
 	/**
-	 * Check if a Node with id is visible. 
+	 * Check if a Node with id is visible.
 	 * A Node is considered hidden if it has a "display:none" inline style or its a script or head tag.
-	 * @param  string  $id 
-	 * @return boolean    
+	 * @param  string  $id
+	 * @return boolean
 	 */
 	public function is_visible($id)
 	{
@@ -313,8 +313,8 @@ class Driver_Simple extends Driver {
 
 	/**
 	 * Check if a Node with id of an option element is selected
-	 * @param  string  $id 
-	 * @return boolean     
+	 * @param  string  $id
+	 * @return boolean
 	 */
 	public function is_selected($id)
 	{
@@ -323,8 +323,8 @@ class Driver_Simple extends Driver {
 
 	/**
 	 * Check if a Node with id of an input element (radio or checkbox) is checked
-	 * @param  string  $id 
-	 * @return boolean     
+	 * @param  string  $id
+	 * @return boolean
 	 */
 	public function is_checked($id)
 	{
@@ -333,8 +333,8 @@ class Driver_Simple extends Driver {
 
 	/**
 	 * Set the value of a Node with id of a form element
-	 * @param string $id    
-	 * @param string $value 
+	 * @param string $id
+	 * @param string $value
 	 */
 	public function set($id, $value)
 	{
@@ -343,8 +343,8 @@ class Driver_Simple extends Driver {
 
 	/**
 	 * Set the option value that is selected of a Node of a select element
-	 * @param  string $id    
-	 * @param  string $value 
+	 * @param  string $id
+	 * @param  string $value
 	 */
 	public function select_option($id, $value)
 	{
@@ -352,10 +352,10 @@ class Driver_Simple extends Driver {
 	}
 
 	/**
-	 * Return the serialized representation of the input values of a form. 
+	 * Return the serialized representation of the input values of a form.
 	 * Do not include files or disabled inputs, as well as submit inputs and buttons
-	 * @param  string $id 
-	 * @return string     
+	 * @param  string $id
+	 * @return string
 	 */
 	public function serialize_form($id)
 	{
@@ -364,7 +364,7 @@ class Driver_Simple extends Driver {
 
 	/**
 	 * Click on a Node with id, triggering a link or form submit
-	 * @param  string $id 
+	 * @param  string $id
 	 * @throws Exception_Driver If not a clickable element
 	 */
 	public function click($id)
@@ -375,7 +375,7 @@ class Driver_Simple extends Driver {
 		{
 			$this->get($node->getAttribute('href'));
 		}
-		elseif (($node->tagName == 'input' AND $node->getAttribute('type') == 'submit') OR $node->tagName == 'button') 
+		elseif (($node->tagName == 'input' AND $node->getAttribute('type') == 'submit') OR $node->tagName == 'button')
 		{
 			$form = $this->xpath()->find('./ancestor::form', $node);
 
@@ -411,8 +411,8 @@ class Driver_Simple extends Driver {
 
 	/**
 	 * Go to a given url address
-	 * @param  string $uri   
-	 * @param  array  $query 
+	 * @param  string $uri
+	 * @param  array  $query
 	 * @return Driver_Simple        $this
 	 */
 	public function visit($uri, array $query = array())
@@ -431,7 +431,7 @@ class Driver_Simple extends Driver {
 
 	/**
 	 * Get the current url
-	 * @return string 
+	 * @return string
 	 */
 	public function current_url()
 	{
@@ -440,15 +440,15 @@ class Driver_Simple extends Driver {
 
 	/**
 	 * Find all ids of a given XPath
-	 * @param  string $xpath  
+	 * @param  string $xpath
 	 * @param  string $parent id of the parent node
-	 * @return array         
+	 * @return array
 	 */
 	public function all($xpath, $parent = NULL)
 	{
 		$xpath = $parent.$xpath;
 		$ids = array();
-		foreach ($this->xpath()->query($xpath) as $index => $elmenets) 
+		foreach ($this->xpath()->query($xpath) as $index => $elmenets)
 		{
 			$ids[] = "($xpath)[".($index+1)."]";
 		}
@@ -457,7 +457,7 @@ class Driver_Simple extends Driver {
 
 	/**
 	 * Check if anything has been loaded
-	 * @return boolean 
+	 * @return boolean
 	 */
 	public function is_page_active()
 	{
@@ -466,7 +466,7 @@ class Driver_Simple extends Driver {
 
 	/**
 	 * Return the current user agent
-	 * @return string 
+	 * @return string
 	 */
 	public function user_agent()
 	{
@@ -475,8 +475,8 @@ class Driver_Simple extends Driver {
 
 	/**
 	 * Set the cookie (by setting the $_COOKIE array directly)
-	 * @param  string $name       
-	 * @param  mixed $value      
+	 * @param  string $name
+	 * @param  mixed $value
 	 * @param  array  $parameters - not utalized by this driver
 	 */
 	public function cookie($name, $value, array $parameters = array())

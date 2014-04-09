@@ -91,10 +91,10 @@ class LocatorTest extends Spiderling_TestCase {
 		$node = new Node(new Driver_Simple());
 
 		$locator = $this->getMock(
-			'Openbuildings\Spiderling\Locator', 
-			array('filter_by_at', 'filter_by_value', 'filter_by_visible', 'filter_by_attributes'), 
+			'Openbuildings\Spiderling\Locator',
+			array('filter_by_at', 'filter_by_value', 'filter_by_visible', 'filter_by_attributes'),
 			array('css', 'div', array(
-				'at' => 'test_at', 
+				'at' => 'test_at',
 				'value' => 'test_value',
 				'visible' => TRUE,
 				'attributes' => array('name' => 'test'),
@@ -129,8 +129,8 @@ class LocatorTest extends Spiderling_TestCase {
 		$this->assertTrue($locator->is_filtered($node, 1));
 
 		$locator = $this->getMock(
-			'Openbuildings\Spiderling\Locator', 
-			array('filter_by_at', 'filter_by_value'), 
+			'Openbuildings\Spiderling\Locator',
+			array('filter_by_at', 'filter_by_value'),
 			array('css', 'div', array('at' => 'test_at', 'value' => 'test_value'))
 		);
 
@@ -166,8 +166,8 @@ class LocatorTest extends Spiderling_TestCase {
 		$locator = new Locator('css', '.body');
 
 		$node = $this->getMock(
-			'Openbuildings\Spiderling\Node', 
-			array('value'), 
+			'Openbuildings\Spiderling\Node',
+			array('value'),
 			array(new Driver_Simple())
 		);
 
@@ -185,8 +185,8 @@ class LocatorTest extends Spiderling_TestCase {
 		$locator = new Locator('css', '.body');
 
 		$node = $this->getMock(
-			'Openbuildings\Spiderling\Node', 
-			array('text'), 
+			'Openbuildings\Spiderling\Node',
+			array('text'),
 			array(new Driver_Simple())
 		);
 
@@ -198,14 +198,14 @@ class LocatorTest extends Spiderling_TestCase {
 		$this->assertTrue($locator->filter_by_text($node, 1, 'test_text'));
 		$this->assertFalse($locator->filter_by_text($node, 1, 'test_text_no_matching'));
 	}
-	
+
 	public function test_filter_by_visible()
 	{
 		$locator = new Locator('css', '.body');
 
 		$node = $this->getMock(
-			'Openbuildings\Spiderling\Node', 
-			array('is_visible'), 
+			'Openbuildings\Spiderling\Node',
+			array('is_visible'),
 			array(new Driver_Simple())
 		);
 
@@ -216,15 +216,15 @@ class LocatorTest extends Spiderling_TestCase {
 
 		$this->assertTrue($locator->filter_by_visible($node, 1, TRUE));
 		$this->assertFalse($locator->filter_by_visible($node, 1, FALSE));
-	}	
+	}
 
 	public function test_filter_by_attributes()
 	{
 		$locator = new Locator('css', '.body');
 
 		$node = $this->getMock(
-			'Openbuildings\Spiderling\Node', 
-			array('attribute'), 
+			'Openbuildings\Spiderling\Node',
+			array('attribute'),
 			array(new Driver_Simple())
 		);
 

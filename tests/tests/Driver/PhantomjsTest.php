@@ -28,7 +28,7 @@ class Driver_PhantomjsTest extends Spiderling_TestCase {
 		$ids = Attempt::make(function() use ($xpath) {
 			return Driver_PhantomjsTest::$driver->all($xpath);
 		});
-		
+
 		return isset($ids[0]) ? $ids[0] : NULL;
 	}
 
@@ -99,7 +99,7 @@ class Driver_PhantomjsTest extends Spiderling_TestCase {
 		$driver = new Driver_Phantomjs();
 
 		$driver->connection($connection);
-		
+
 		$this->assertSame($connection, $driver->connection());
 
 		$driver = new Driver_Phantomjs();
@@ -199,21 +199,21 @@ class Driver_PhantomjsTest extends Spiderling_TestCase {
 		$this->assertEquals(array('banner', 'text', 'affiliate'), $value);
 
 		self::$driver->set($this->find("//select[@id='post_ads']//option[text()='Text']"), FALSE);
-		
+
 		$value = self::$driver->value($this->find("//select[@id='post_ads']"));
 		$this->assertEquals(array('banner', 'affiliate'), $value);
 
 		self::$driver->set($this->find("//input[@type='file']"), TESTVIEWS.'form.html');
 
 		$value = self::$driver->value($this->find("//input[@type='file']"));
-		
+
 		$this->assertEquals('C:\fakepath\form.html', $value);
 	}
 
 	public function test_clicks()
 	{
 		self::$driver->click($this->find("//a[@id='visible-link']"));
-		
+
 		$title = self::$driver->text($this->find("//h1"));
 		$this->assertEquals('Linked', $title);
 
@@ -247,7 +247,7 @@ class Driver_PhantomjsTest extends Spiderling_TestCase {
 
 		$driver = new Driver_Phantomjs();
 
-		$this->assertFalse($driver->is_page_active());		
+		$this->assertFalse($driver->is_page_active());
 	}
 
 	public function test_javascript_messages()

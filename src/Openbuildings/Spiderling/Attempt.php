@@ -16,7 +16,7 @@ class Attempt {
 	 * Execute $callable until $timeout is reached. By doing an attempt each $step milliseconds
 	 * @param  Callable  $callbale the method to be called, if the result is FALSE, try again until TRUE or timeout reached
 	 * @param  integer $timeout  timeout in milliseconds
-	 * @param  integer $step     
+	 * @param  integer $step
 	 * @return mixed            first not FALSE result
 	 */
 	public static function make($callbale, $timeout = 2000, $step = 50)

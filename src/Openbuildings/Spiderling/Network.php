@@ -24,7 +24,7 @@ class Network {
 		if (is_resource($connection))
 		{
 			fclose($connection);
-			return FALSE;	
+			return FALSE;
 		}
 		return TRUE;
 	}
@@ -32,7 +32,7 @@ class Network {
 	/**
 	 * Find an open port in a given range, trying several times.
 	 * Return FALSE if no open port is found after a timeout (1 second by default)
-	 * 
+	 *
 	 * @param  string  $host
 	 * @param  integer $range_start
 	 * @param  integer $range_end

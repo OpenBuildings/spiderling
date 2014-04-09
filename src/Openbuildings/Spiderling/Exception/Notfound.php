@@ -9,7 +9,7 @@ namespace Openbuildings\Spiderling;
  * @license    http://spdx.org/licenses/BSD-3-Clause
  */
 class Exception_Notfound extends Exception {
-	
+
 	public $driver;
 	public $locator;
 
@@ -19,9 +19,9 @@ class Exception_Notfound extends Exception {
 		$this->locator = $locator;
 
 		parent::__construct('Item (:type) ":selector", filters :filters, not found by driver ":driver"', array(
-			':type' => $locator->type(), 
+			':type' => $locator->type(),
 			':selector' => $locator->selector(),
-			':driver' => $driver->name, 
+			':driver' => $driver->name,
 			':filters' => json_encode($locator->filters()),
 		));
 	}

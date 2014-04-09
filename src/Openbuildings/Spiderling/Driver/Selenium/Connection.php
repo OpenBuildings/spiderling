@@ -5,7 +5,7 @@ namespace Openbuildings\Spiderling;
 /**
  * Connect to selenium service.
  * Send requests to selenium
- * 
+ *
  * @package    Openbuildings\Spiderling
  * @author     Ivan Kerin
  * @copyright  (c) 2013 OpenBuildings Ltd.
@@ -24,7 +24,7 @@ class Driver_Selenium_Connection
 	 * @var string
 	 */
 	protected $_server = 'http://localhost:4444/wd/hub/';
-	
+
 	public function server($server = NULL)
 	{
 		if ($server !== NULL)
@@ -37,7 +37,7 @@ class Driver_Selenium_Connection
 
 	public function __construct($server = NULL)
 	{
-		if ($server) 
+		if ($server)
 		{
 			$this->server($server);
 		}
@@ -46,8 +46,8 @@ class Driver_Selenium_Connection
 	/**
 	 * Start a new selenium session, based on passed desired capabilities.
 	 * Reuses the session if possible
-	 * 
-	 * @param  array $desiredCapabilities 
+	 *
+	 * @param  array $desiredCapabilities
 	 */
 	public function start(array $desiredCapabilities = NULL)
 	{
@@ -70,12 +70,12 @@ class Driver_Selenium_Connection
 
 	/**
 	 * Try to reuse an existing selenium session, return the reused id
-	 * @return string 
+	 * @return string
 	 */
 	public function reuse_session()
 	{
 		$sessions = $this->get('sessions');
-		foreach ($sessions as $session) 
+		foreach ($sessions as $session)
 		{
 			$id = $session['id'];
 			try
@@ -87,7 +87,7 @@ class Driver_Selenium_Connection
 			// This cannot be tested because of selenium bug (can't close main window)
 			catch (Exception_Selenium $exception)
 			{
-				$this->delete("session/$id"); 
+				$this->delete("session/$id");
 			}
 			// @codeCoverageIgnoreEnd
 		}
@@ -95,12 +95,12 @@ class Driver_Selenium_Connection
 
 	/**
 	 * Initiate a new session, based on the desired capabilities
-	 * @param  array $desiredCapabilities 
-	 * @return new session                      
+	 * @param  array $desiredCapabilities
+	 * @return new session
 	 */
 	public function new_session(array $desiredCapabilities = NULL)
 	{
-		if ( ! $desiredCapabilities) 
+		if ( ! $desiredCapabilities)
 		{
 			$desiredCapabilities = array('browserName' => 'firefox');
 		}
@@ -111,8 +111,8 @@ class Driver_Selenium_Connection
 
 	/**
 	 * Perform a get request to the selenium server
-	 * @param  string $command 
-	 * @return mixed          
+	 * @param  string $command
+	 * @return mixed
 	 */
 	public function get($command)
 	{
@@ -121,9 +121,9 @@ class Driver_Selenium_Connection
 
 	/**
 	 * Perform a post request to the selenium server
-	 * @param  string $command 
-	 * @param  array  $params  
-	 * @return mixed          
+	 * @param  string $command
+	 * @param  array  $params
+	 * @return mixed
 	 */
 	public function post($command, array $params)
 	{
@@ -131,27 +131,27 @@ class Driver_Selenium_Connection
 		$options[CURLOPT_POST] = TRUE;
 		$options[CURLOPT_POSTFIELDS] = json_encode($params);
 
-		return $this->call($command, $options);	
+		return $this->call($command, $options);
 	}
 
 	/**
 	 * Perform a delete request to the selenium server
-	 * @param  string $command 
-	 * @return mixed          
+	 * @param  string $command
+	 * @return mixed
 	 */
 	public function delete($command)
 	{
 		$options = array();
 		$options[CURLOPT_CUSTOMREQUEST] = 'DELETE';
-		
-		return $this->call($command, $options);	
+
+		return $this->call($command, $options);
 	}
 
 	/**
 	 * Perform a request to the selenium server, using curl
-	 * @param  string $command 
+	 * @param  string $command
 	 * @param  array  $options curl options
-	 * @return mixed          
+	 * @return mixed
 	 */
 	public function call($command, array $options = array())
 	{
@@ -165,7 +165,7 @@ class Driver_Selenium_Connection
 		);
 
 		curl_setopt_array($curl, $options);
-		
+
 		$raw = trim(curl_exec($curl));
 
 		$result = json_decode($raw, TRUE);
@@ -175,7 +175,7 @@ class Driver_Selenium_Connection
 
 		if ($result['status'] != 0)
 			throw new Exception_Selenium($result['status']);
-		
+
 		return $result['value'];
 	}
 }

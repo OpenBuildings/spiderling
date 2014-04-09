@@ -5,14 +5,14 @@ namespace Openbuildings\Spiderling;
 /**
  * Connect to phantomjs service, optionally start one if not present on a new port.
  * Send requests to phantomjs
- * 
+ *
  * @package    Openbuildings\Spiderling
  * @author     Ivan Kerin
  * @copyright  (c) 2013 OpenBuildings Ltd.
  * @license    http://spdx.org/licenses/BSD-3-Clause
  */
 class Driver_Phantomjs_Connection {
-	
+
 	/**
 	 * The file storing the pid of the current phantomjs server process
 	 * @var string
@@ -36,12 +36,12 @@ class Driver_Phantomjs_Connection {
 	 * @var string
 	 */
 	protected $_port;
-	
+
 	/**
-	 * Getter / Setter of the phantomjs server port. 
+	 * Getter / Setter of the phantomjs server port.
 	 * If none is set it tries to fine an unused port between 4445 and 5000
-	 * @param  string $port 
-	 * @return string|Driver_Phantomjs_Connection       
+	 * @param  string $port
+	 * @return string|Driver_Phantomjs_Connection
 	 */
 	public function port($port = NULL)
 	{
@@ -51,17 +51,17 @@ class Driver_Phantomjs_Connection {
 			return $this;
 		}
 
-		if ( ! $this->_port) 
+		if ( ! $this->_port)
 		{
 			$this->_port = Network::ephimeral_port($this->host(), 4445, 5000);
 		}
 
 		return $this->_port;
 	}
-	
+
 	/**
 	 * Getter / Setter of the current phantomjs server url
-	 * @param  string $server 
+	 * @param  string $server
 	 * @return string|Driver_Phantomjs_Connection
 	 */
 	public function server($server = NULL)
@@ -76,7 +76,7 @@ class Driver_Phantomjs_Connection {
 
 	/**
 	 * Get the host of the current phantomjs server (without the protocol part)
-	 * @return string 
+	 * @return string
 	 */
 	public function host()
 	{
@@ -85,7 +85,7 @@ class Driver_Phantomjs_Connection {
 
 	/**
 	 * Getter, get the current phantomjs server process pid
-	 * @return string 
+	 * @return string
 	 */
 	public function pid()
 	{
@@ -94,26 +94,26 @@ class Driver_Phantomjs_Connection {
 
 	public function __construct($server = NULL)
 	{
-		if ($server) 
+		if ($server)
 		{
 			$this->server($server);
 		}
 	}
-	
+
 	/**
 	 * Start a new phantomjs server, optionally provide pid_file and log file.
 	 * If you provide a pid_file, it will kill the process currently running on that pid, before starting the new one
 	 * If the start is unsuccessfull it will return FALSE
-	 * @param  string $pid_file 
-	 * @param  string $log_file 
-	 * @return boolean           
+	 * @param  string $pid_file
+	 * @param  string $log_file
+	 * @return boolean
 	 */
 	public function start($pid_file = NULL, $log_file = '/dev/null')
 	{
 		if ($pid_file)
 		{
 			$this->_pid_file = $pid_file;
-			if (is_file($this->_pid_file)) 
+			if (is_file($this->_pid_file))
 			{
 				Phantomjs::kill(file_get_contents($pid_file));
 				unlink($this->_pid_file);
@@ -136,7 +136,7 @@ class Driver_Phantomjs_Connection {
 
 	/**
 	 * Check if the phantomjs server has been started
-	 * @return boolean 
+	 * @return boolean
 	 */
 	public function is_started()
 	{
@@ -145,7 +145,7 @@ class Driver_Phantomjs_Connection {
 
 	/**
 	 * Check if the phantomjs server is actually running (the port is taken)
-	 * @return boolean 
+	 * @return boolean
 	 */
 	public function is_running()
 	{
@@ -154,17 +154,17 @@ class Driver_Phantomjs_Connection {
 
 	/**
 	 * Gracefully stop the phantomjs server. Return FALSE on failure. Clear the pid_file if set
-	 * @return boolean 
+	 * @return boolean
 	 */
 	public function stop()
 	{
-		if ($this->is_started()) 
+		if ($this->is_started())
 		{
 			$this->delete('session');
 			$this->_pid = NULL;
 		}
 
-		if ($this->_pid_file AND is_file($this->_pid_file)) 
+		if ($this->_pid_file AND is_file($this->_pid_file))
 		{
 			unlink($this->_pid_file);
 		}
@@ -177,7 +177,7 @@ class Driver_Phantomjs_Connection {
 
 	/**
 	 * Getter - get the current pid_file
-	 * @return string 
+	 * @return string
 	 */
 	public function pid_file()
 	{
@@ -186,8 +186,8 @@ class Driver_Phantomjs_Connection {
 
 	/**
 	 * Perform a get request on the phantomjs server
-	 * @param  string $command 
-	 * @return mixed          
+	 * @param  string $command
+	 * @return mixed
 	 */
 	public function get($command)
 	{
@@ -196,9 +196,9 @@ class Driver_Phantomjs_Connection {
 
 	/**
 	 * Perform a post request on the phantomjs server
-	 * @param  string $command 
-	 * @param  array  $params  
-	 * @return mixed          
+	 * @param  string $command
+	 * @param  array  $params
+	 * @return mixed
 	 */
 	public function post($command, array $params)
 	{
@@ -211,21 +211,21 @@ class Driver_Phantomjs_Connection {
 
 	/**
 	 * Perform a delete request on the phantomjs server
-	 * @param  string $command 
-	 * @return mixed          
+	 * @param  string $command
+	 * @return mixed
 	 */
 	public function delete($command)
 	{
 		$options = array();
 		$options[CURLOPT_CUSTOMREQUEST] = 'DELETE';
-		
-		return $this->call($command, $options);	
+
+		return $this->call($command, $options);
 	}
 
 	/**
 	 * Get the full url of a command (including server and port)
-	 * @param  string $command 
-	 * @return string          
+	 * @param  string $command
+	 * @return string
 	 */
 	public function command_url($command)
 	{
@@ -234,9 +234,9 @@ class Driver_Phantomjs_Connection {
 
 	/**
 	 * Perform a custom request on the phantomjs server, using curl
-	 * @param  string $command 
-	 * @param  array  $options 
-	 * @return mixed          
+	 * @param  string $command
+	 * @param  array  $options
+	 * @return mixed
 	 */
 	protected function call($command, array $options = array())
 	{

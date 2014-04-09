@@ -18,21 +18,21 @@ class Driver_Simple_Forms
 	 */
 	protected $_xpath;
 
-	function __construct($xpath) 
+	function __construct($xpath)
 	{
 		$this->xpath = $xpath;
 	}
 
 	/**
 	 * Get the value of a DOMElement with a given xpath
-	 * @param  string $xpath 
-	 * @return mixed        
+	 * @param  string $xpath
+	 * @return mixed
 	 */
 	public function get_value($xpath)
 	{
 		$node = $this->xpath->find($xpath);
 
-		switch ($node->tagName) 
+		switch ($node->tagName)
 		{
 			case 'textarea':
 				return $node->textContent;
@@ -53,8 +53,8 @@ class Driver_Simple_Forms
 
 	/**
 	 * Set the value of a DOMElement, identified by an xpath, calls one of the stter methods
-	 * @param string $xpath 
-	 * @param mixed $value 
+	 * @param string $xpath
+	 * @param mixed $value
 	 */
 	public function set_value($xpath, $value)
 	{
@@ -88,8 +88,8 @@ class Driver_Simple_Forms
 
 	/**
 	 * Set the value of a checkbos DOMNode
-	 * @param DOMNode $checkbox 
-	 * @param boolean   $value    
+	 * @param DOMNode $checkbox
+	 * @param boolean   $value
 	 */
 	public function set_value_checkbox(\DOMNode $checkbox, $value)
 	{
@@ -105,13 +105,13 @@ class Driver_Simple_Forms
 
 	/**
 	 * Set the value of a radio DOMNode, uncheck any other radio input in the same group
-	 * @param DOMNode $radio 
-	 * @param boolean   $value 
+	 * @param DOMNode $radio
+	 * @param boolean   $value
 	 */
 	public function set_value_radio(\DOMNode $radio, $value)
 	{
 		$name = $radio->getAttribute('name');
-		foreach ($this->xpath->query("//input[@type='radio' and @name='$name' and @checked]") as $other_radio) 
+		foreach ($this->xpath->query("//input[@type='radio' and @name='$name' and @checked]") as $other_radio)
 		{
 			$other_radio->removeAttribute('checked');
 		}
@@ -123,8 +123,8 @@ class Driver_Simple_Forms
 
 	/**
 	 * Set the value of a normal input
-	 * @param DOMNode $input 
-	 * @param string   $value 
+	 * @param DOMNode $input
+	 * @param string   $value
 	 */
 	public function set_value_input(\DOMNode $input, $value)
 	{
@@ -133,8 +133,8 @@ class Driver_Simple_Forms
 
 	/**
 	 * Set the value of a normal textarea
-	 * @param DOMNode $textarea 
-	 * @param string   $value    
+	 * @param DOMNode $textarea
+	 * @param string   $value
 	 */
 	public function set_value_textarea(\DOMNode $textarea, $value)
 	{
@@ -143,8 +143,8 @@ class Driver_Simple_Forms
 
 	/**
 	 * Set the value of an option DOMNode, unselect other options in this select, if it is not multiple
-	 * @param DOMNode $option 
-	 * @param boolean   $value 
+	 * @param DOMNode $option
+	 * @param boolean   $value
 	 */
 	public function set_value_option(\DOMNode $option, $value)
 	{
@@ -154,7 +154,7 @@ class Driver_Simple_Forms
 
 			if ( ! $select->hasAttribute('multiple'))
 			{
-				foreach ($this->xpath->query(".//option[@selected]", $select) as $old_option) 
+				foreach ($this->xpath->query(".//option[@selected]", $select) as $old_option)
 				{
 					$old_option->removeAttribute('selected');
 				}
@@ -164,14 +164,14 @@ class Driver_Simple_Forms
 		}
 		else
 		{
-			$option->removeAttribute('selected');	
+			$option->removeAttribute('selected');
 		}
 	}
 
 	/**
 	 * Return all the contents of file inputs in a form, identified by an xpath
-	 * @param  string $xpath 
-	 * @return string        
+	 * @param  string $xpath
+	 * @return string
 	 */
 	public function serialize_files($xpath)
 	{
@@ -179,7 +179,7 @@ class Driver_Simple_Forms
 
 		$fields = ".//*[not(@disabled) and (self::input and @type = 'file')]";
 		$data = array();
-		foreach ($this->xpath->query($fields, $form) as $field) 
+		foreach ($this->xpath->query($fields, $form) as $field)
 		{
 			$data[] = $field->getAttribute('name').'='.$field->getAttribute('value');
 		}
@@ -190,8 +190,8 @@ class Driver_Simple_Forms
 	/**
 	 * Return the contents of all the inputs from a form, identified by an xpath.
 	 * Don't include file inputs or disabled inputs
-	 * @param  string $xpath 
-	 * @return string        
+	 * @param  string $xpath
+	 * @return string
 	 */
 	public function serialize_form($xpath)
 	{
@@ -206,12 +206,12 @@ class Driver_Simple_Forms
 
 		$fields = ".//*[not(@disabled) and (".join(' or ', $types).")]";
 		$data = array();
-		foreach ($this->xpath->query($fields, $form) as $field) 
+		foreach ($this->xpath->query($fields, $form) as $field)
 		{
 			$value = $this->get_value($field);
 			if (is_array($value))
 			{
-				foreach ($value as $name => $value_item) 
+				foreach ($value as $name => $value_item)
 				{
 					$data[] = $field->getAttribute('name')."[$name]".'='.urlencode($value_item);
 				}

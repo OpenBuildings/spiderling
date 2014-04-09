@@ -8,7 +8,7 @@ class Controller_Test extends Controller {
 	public function action_index()
 	{
 		$this->response->body('Index View');
-	}	
+	}
 
 	public function action_redirected()
 	{
@@ -23,7 +23,7 @@ class Controller_Test extends Controller {
 	public function action_too_many_redirects()
 	{
 		$this->redirect('/test/redirect1');
-	}	
+	}
 
 	public function action_redirect1()
 	{

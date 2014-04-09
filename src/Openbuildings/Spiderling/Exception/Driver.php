@@ -9,5 +9,5 @@ namespace Openbuildings\Spiderling;
  * @license    http://spdx.org/licenses/BSD-3-Clause
  */
 class Exception_Driver extends Exception {
-	
+
 }

@@ -14,9 +14,9 @@ class Driver_Simple_Xpath extends \DOMXpath
 {
 	/**
 	 * Find a DOMElement wit ha given xpath expression, optionally provide parent DOMNode to use as context.
-	 * @param  string $expression  
-	 * @param  DOMNode $contextnode 
-	 * @return DOMNode              
+	 * @param  string $expression
+	 * @param  DOMNode $contextnode
+	 * @return DOMNode
 	 * @throws Exception_Xpath If no elements were found
 	 */
 	public function find($expression, $contextnode = NULL)

@@ -25,7 +25,7 @@ class Driver_Simple_RequestFactory_HTTPTest extends Spiderling_TestCase {
 		$this->assertEquals('/remote-form.html', $this->factory->current_path());
 
 		$this->setExpectedException('Openbuildings\Spiderling\Exception_Curl');
-		
+
 		$this->factory->execute('GET', 'http://6ca1671dbfe9477b14ce-fabb5009fe9cc97c5f42aa7fac8fcd02.r26.cf3.rackcdn.com/not-existst.html');
 
 

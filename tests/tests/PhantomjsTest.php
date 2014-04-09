@@ -22,14 +22,14 @@ class PhantomjsTest extends PHPUnit_Framework_TestCase {
 		}), 'Should be running after some attempts');
 
 
-		try 
+		try
 		{
 			Phantomjs::start('echo.js', 4440);
 			$this->fail('Should rise an exception');
-		} 
+		}
 		catch (Exception $e)
 		{
-			// Pass	
+			// Pass
 		}
 
 		Phantomjs::kill($pid);

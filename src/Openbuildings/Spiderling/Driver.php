@@ -29,8 +29,8 @@ abstract class Driver {
 
 	/**
 	 * Return an array of HTML fragments that match a given XPath query
-	 * @param  string $id 
-	 * @return array        
+	 * @param  string $id
+	 * @return array
 	 */
 	public function all($id)
 	{
@@ -40,8 +40,8 @@ abstract class Driver {
 	/**
 	 * Return an the id of the html elemenet
 	 * @throws Exception_Notfound If element not found
-	 * @param  string $id 
-	 * @return array        
+	 * @param  string $id
+	 * @return array
 	 */
 	public function find($id)
 	{
@@ -50,8 +50,8 @@ abstract class Driver {
 
 	/**
 	 * Return the HTML content of the current page or set it manually
-	 * @param  string $content 
-	 * @return string          
+	 * @param  string $content
+	 * @return string
 	 */
 	public function content($content = NULL)
 	{
@@ -59,10 +59,10 @@ abstract class Driver {
 	}
 
 	/**
-	 * Return the tag name of a HTML fragemnt, specified by id 
+	 * Return the tag name of a HTML fragemnt, specified by id
 	 * If multiple tags match - return the first one.
-	 * @param  string $id 
-	 * @return string        
+	 * @param  string $id
+	 * @return string
 	 */
 	public function tag_name($id)
 	{
@@ -70,10 +70,10 @@ abstract class Driver {
 	}
 
 	/**
-	 * Return the tag attribute of an HTML fragment, spesified by id 
+	 * Return the tag attribute of an HTML fragment, spesified by id
 	 * If multiple tags match - return the first one.
-	 * @param  string $id 
-	 * @param  string $name 
+	 * @param  string $id
+	 * @param  string $name
 	 * @return string
 	 */
 	public function attribute($id, $name)
@@ -82,10 +82,10 @@ abstract class Driver {
 	}
 
 	/**
-	 * Return the HTML fragment, spesified by id 
+	 * Return the HTML fragment, spesified by id
 	 * If multiple tags match - return the first one.
-	 * @param  string $id 
-	 * @return string        
+	 * @param  string $id
+	 * @return string
 	 */
 	public function html($id)
 	{
@@ -93,7 +93,7 @@ abstract class Driver {
 	}
 
 	/**
-	 * Return the plain text of an HTML fragment, spesified by id 
+	 * Return the plain text of an HTML fragment, spesified by id
 	 * If multiple tags match - return the first one.
 	 * @param  string $id
 	 * @return string
@@ -104,17 +104,17 @@ abstract class Driver {
 	}
 
 	/**
-	 * Retrun the value of an HTML fragment of a form input, spesified by id 
-	 * If multiple tags match - return the first one. 
-	 * The value is specific for diferrent for each input type. 
+	 * Retrun the value of an HTML fragment of a form input, spesified by id
+	 * If multiple tags match - return the first one.
+	 * The value is specific for diferrent for each input type.
 	 * - input -> value
 	 * - textarea -> content
 	 * - checkbox -> checked
 	 * - radios -> checked
 	 * - select -> selected option
-	 * 
-	 * @param  string $id 
-	 * @return string        
+	 *
+	 * @param  string $id
+	 * @return string
 	 */
 	public function value($id)
 	{
@@ -122,11 +122,11 @@ abstract class Driver {
 	}
 
 	/**
-	 * Return the visibility of an HTML fragment, spesified by id 
+	 * Return the visibility of an HTML fragment, spesified by id
 	 * If multiple tags match - return the first one.
-	 * 
-	 * @param  string $id 
-	 * @return string        
+	 *
+	 * @param  string $id
+	 * @return string
 	 */
 	public function is_visible($id)
 	{
@@ -134,11 +134,11 @@ abstract class Driver {
 	}
 
 	/**
-	 * Return if the option is selected or not, spesified by id 
+	 * Return if the option is selected or not, spesified by id
 	 * If multiple tags match - return the first one.
-	 * 
-	 * @param  string $id 
-	 * @return string        
+	 *
+	 * @param  string $id
+	 * @return string
 	 */
 	public function is_selected($id)
 	{
@@ -146,11 +146,11 @@ abstract class Driver {
 	}
 
 	/**
-	 * Return if the input (checkbox/radio) is checked or not, spesified by id 
+	 * Return if the input (checkbox/radio) is checked or not, spesified by id
 	 * If multiple tags match - return the first one.
-	 * 
-	 * @param  string $id 
-	 * @return string        
+	 *
+	 * @param  string $id
+	 * @return string
 	 */
 	public function is_checked($id)
 	{
@@ -159,8 +159,8 @@ abstract class Driver {
 	/**
 	 * Set the value for a form input tag.
 	 * If multiple tags match - use the first one.
-	 * 
-	 * @param string $id 
+	 *
+	 * @param string $id
 	 * @param mixed $value value
 	 */
 	public function set($id, $value)
@@ -171,8 +171,8 @@ abstract class Driver {
 	/**
 	 * Set an HTML option tag as selected or remove selection for a given XPath query.
 	 * If multiple tags match - use the first one.
-	 * 
-	 * @param  string $id 
+	 *
+	 * @param  string $id
 	 * @param  boolean $value
 	 * @return $this
 	 */
@@ -185,7 +185,7 @@ abstract class Driver {
 	 * Initiate a click on a given element.
 	 * If multiple tags match - use the first one.
 	 * You can click on anchor and submit buttons.
-	 * 
+	 *
 	 * @param  string $id
 	 * @return $this
 	 */
@@ -196,9 +196,9 @@ abstract class Driver {
 
 	/**
 	 * Go to a specified url
-	 * @param  string $uri   
-	 * @param  array $query 
-	 * @return $this        
+	 * @param  string $uri
+	 * @param  array $query
+	 * @return $this
 	 */
 	public function visit($uri, array $query = NULL)
 	{
@@ -225,7 +225,7 @@ abstract class Driver {
 
 	/**
 	 * Confirm or cancel for the next confirmation dialog
-	 * @param  bool $confirm 
+	 * @param  bool $confirm
 	 */
 	public function confirm($confirm)
 	{
@@ -234,7 +234,7 @@ abstract class Driver {
 
 	/**
 	 * Get the text of the currently displayed alert / confirm /prompt dialog
-	 * @param  bool $confirm 
+	 * @param  bool $confirm
 	 */
 	public function alert_text()
 	{
@@ -243,7 +243,7 @@ abstract class Driver {
 
 	/**
 	 * Return The root node
-	 * @return Node 
+	 * @return Node
 	 */
 	public function is_page_active()
 	{
@@ -260,7 +260,7 @@ abstract class Driver {
 
 	/**
 	 * Take a screenshot ant place it in the given file
-	 * @param  string $file 
+	 * @param  string $file
 	 */
 	public function screenshot($file)
 	{
@@ -285,10 +285,10 @@ abstract class Driver {
 
 	/**
 	 * Manually set a cookie
-	 * 
-	 * @param  string $name    
-	 * @param  string $value   
-	 * @param  integer $expires 
+	 *
+	 * @param  string $name
+	 * @param  string $value
+	 * @param  integer $expires
 	 */
 	public function cookie($name, $value, array $parameters = array())
 	{
@@ -297,7 +297,7 @@ abstract class Driver {
 
 	/**
 	 * Return all the javascript errors on the page
-	 * @return Node 
+	 * @return Node
 	 */
 	public function javascript_errors()
 	{
@@ -306,7 +306,7 @@ abstract class Driver {
 
 	/**
 	 * Return all the javascript console messages on the page
-	 * @return Node 
+	 * @return Node
 	 */
 	public function javascript_messages()
 	{
@@ -315,7 +315,7 @@ abstract class Driver {
 
 	/**
 	 * Return The root node
-	 * @return Node 
+	 * @return Node
 	 */
 	public function page()
 	{

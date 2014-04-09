@@ -16,7 +16,7 @@ class Page extends Node {
 	{
 		$this->_driver = $driver ?: new Driver_Simple;
 
-		if ($extension) 
+		if ($extension)
 		{
 			$this->_extension = $extension;
 		}
@@ -24,20 +24,20 @@ class Page extends Node {
 
 	/**
 	 * Initiate a visit with the currently selected driver
-	 * @param  string $uri   
-	 * @param  array  $query 
+	 * @param  string $uri
+	 * @param  array  $query
 	 * @return $this
 	 */
 	public function visit($uri, array $query = array())
 	{
 		$this->driver()->visit($uri, $query);
-		
+
 		return $this;
 	}
 
 	/**
 	 * Return the content of the last request from the currently selected driver
-	 * @return string 
+	 * @return string
 	 */
 	public function content()
 	{
@@ -46,7 +46,7 @@ class Page extends Node {
 
 	/**
 	 * Return the current browser url without the domain
-	 * @return string 
+	 * @return string
 	 */
 	public function current_path()
 	{

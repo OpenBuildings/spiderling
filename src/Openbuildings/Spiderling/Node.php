@@ -43,14 +43,14 @@ class Node {
 	 * @var object
 	 */
 	protected $_extension;
-	
+
 	function __construct(Driver $driver = NULL, Node $parent = NULL, $id = NULL)
 	{
 		$this->_driver = $driver;
 		$this->_parent = $parent;
 		$this->_id = $id;
 
-		if ($parent AND $parent->_extension) 
+		if ($parent AND $parent->_extension)
 		{
 			$this->_extension = $parent->_extension;
 		}
@@ -58,7 +58,7 @@ class Node {
 
 	/**
 	 * Getter, get the current driver object
-	 * @return Driver 
+	 * @return Driver
 	 */
 	public function driver()
 	{
@@ -67,8 +67,8 @@ class Node {
 
 	/**
 	 * Getter / Setter for the extension object
-	 * @param  mixed $extension 
-	 * @return mixed|$this            
+	 * @param  mixed $extension
+	 * @return mixed|$this
 	 */
 	public function extension($extension = NULL)
 	{
@@ -82,7 +82,7 @@ class Node {
 
 	/**
 	 * Getter - get the parent node
-	 * @return Node 
+	 * @return Node
 	 */
 	public function parent()
 	{
@@ -91,7 +91,7 @@ class Node {
 
 	/**
 	 * Setter this method is used to populate a node with a new id
-	 * @param  string $id 
+	 * @param  string $id
 	 * @return Node     $this
 	 */
 	public function load_new_id($id)
@@ -117,19 +117,19 @@ class Node {
 		{
 			$this->_next_wait_time = $this->_driver->default_wait_time;
 		}
-		
+
 		return $this->_next_wait_time;
 	}
 
 	/**
 	 * Wait milliseconds
-	 * @param  integer $milliseconds 
+	 * @param  integer $milliseconds
 	 * @return Node                $this
 	 */
 	public function wait($milliseconds = 1000)
 	{
 		usleep($milliseconds * 1000);
-		
+
 		return $this;
 	}
 
@@ -146,10 +146,10 @@ class Node {
 	 * GETTERS
 	 * ===========================================
 	 */
-	
+
 	/**
 	 * is this the main html page?
-	 * @return boolean 
+	 * @return boolean
 	 */
 	public function is_root()
 	{
@@ -195,7 +195,7 @@ class Node {
 	/**
 	 * Attribute of the current tag
 	 * @param  string $name the name of the attribute
-	 * @return string       
+	 * @return string
 	 */
 	public function attribute($name)
 	{
@@ -204,7 +204,7 @@ class Node {
 
 	/**
 	 * The text content of the current tag (similar to javascript's innerText)
-	 * @return string 
+	 * @return string
 	 */
 	public function text()
 	{
@@ -217,12 +217,12 @@ class Node {
 	 */
 	public function is_visible()
 	{
-		return $this->driver()->is_visible($this->id());	
+		return $this->driver()->is_visible($this->id());
 	}
 
 	/**
 	 * Is this option element selected?
-	 * @return boolean 
+	 * @return boolean
 	 */
 	public function is_selected()
 	{
@@ -240,7 +240,7 @@ class Node {
 
 	/**
 	 * Get the value of the current form field
-	 * @return string 
+	 * @return string
 	 */
 	public function value()
 	{
@@ -252,10 +252,10 @@ class Node {
 	 * SETTERS
 	 * ===========================================
 	 */
-	
+
 	/**
 	 * Set the value for the current form field
-	 * @param mixed $value 
+	 * @param mixed $value
 	 * @return Node $this
 	 */
 	public function set($value)
@@ -263,10 +263,10 @@ class Node {
 		$this->driver()->set($this->id(), $value);
 		return $this;
 	}
-	
+
 	/**
 	 * Append to the current value - useful for textarea / input fields
-	 * @param  string $value 
+	 * @param  string $value
 	 * @return Node $this
 	 */
 	public function append($value)
@@ -274,7 +274,7 @@ class Node {
 		$current_value = $this->driver()->value($this->id());
 
 		$this->driver()->set($this->id(), $current_value.$value);
-		
+
 		return $this;
 	}
 
@@ -339,8 +339,8 @@ class Node {
 
 	/**
 	 * Click on a specifc tag child of the current tag
-	 * @param  string|array $selector 
-	 * @param  array         $filters 
+	 * @param  string|array $selector
+	 * @param  array         $filters
 	 * @return Node $this
 	 */
 	public function click_on($selector, array $filters = array())
@@ -351,8 +351,8 @@ class Node {
 
 	/**
 	 * Click on a specifc link child of the current tag
-	 * @param  string|array  $selector 
-	 * @param  array         $filters 
+	 * @param  string|array  $selector
+	 * @param  array         $filters
 	 * @return Node $this
 	 */
 	public function click_link($selector, array $filters = array())
@@ -363,8 +363,8 @@ class Node {
 
 	/**
 	 * Click on a specifc button child of the current tag
-	 * @param  string|array  $selector 
-	 * @param  array         $filters 
+	 * @param  string|array  $selector
+	 * @param  array         $filters
 	 * @return Node $this
 	 */
 	public function click_button($selector, array $filters = array())
@@ -375,9 +375,9 @@ class Node {
 
 	/**
 	 * Set the value of the specific form field inside the current tag
-	 * @param  string|array  $selector 
+	 * @param  string|array  $selector
 	 * @param  mixed         $with     the value to be set
-	 * @param  array         $filters  
+	 * @param  array         $filters
 	 * @return Node this
 	 */
 	public function fill_in($selector, $with, array $filters = array())
@@ -388,14 +388,14 @@ class Node {
 			throw new Exception('Element of type ":type" cannot be filled in! Only input and textarea elements can.');
 
 		$field->set($with);
-		
+
 		return $this;
 	}
 
 	/**
 	 * Choose a spesific radio tag inside the current tag
-	 * @param  string|array   $selector 
-	 * @param  array          $filters  
+	 * @param  string|array   $selector
+	 * @param  array          $filters
 	 * @return Node  $this
 	 */
 	public function choose($selector, array $filters = array())
@@ -406,8 +406,8 @@ class Node {
 
 	/**
 	 * Check a spesific checkbox input tag inside the current tag
-	 * @param  string|array   $selector 
-	 * @param  array          $filters  
+	 * @param  string|array   $selector
+	 * @param  array          $filters
 	 * @return Node  $this
 	 */
 	public function check($selector, array $filters = array())
@@ -418,8 +418,8 @@ class Node {
 
 	/**
 	 * Uncheck a spesific checkbox input tag inside the current tag
-	 * @param  string|array   $selector 
-	 * @param  array          $filters  
+	 * @param  string|array   $selector
+	 * @param  array          $filters
 	 * @return Node  $this
 	 */
 	public function uncheck($selector, array $filters = array())
@@ -430,9 +430,9 @@ class Node {
 
 	/**
 	 * Attach a file to a spesific file input tag inside the current tag
-	 * @param  string|array   $selector 
+	 * @param  string|array   $selector
 	 * @param  string         $file      the filename for the file
-	 * @param  array          $filters  
+	 * @param  array          $filters
 	 * @return Node  $this
 	 */
 	public function attach_file($selector, $file, array $filters = array())
@@ -443,13 +443,13 @@ class Node {
 
 	/**
 	 * Select an option of a spesific select tag inside the current tag
-	 * 
+	 *
 	 * To select the option the second parameter can be either a string of the option text
 	 * or a filter to be applied on the options e.g. array('value' => 10)
-	 * 
-	 * @param  string|array   $selector 
-	 * @param  array          $filters  
-	 * @param  array|string   $option_filters  
+	 *
+	 * @param  string|array   $selector
+	 * @param  array          $filters
+	 * @param  array|string   $option_filters
 	 * @return Node  $this
 	 */
 	public function select($selector, $option_filters, array $filters = array())
@@ -469,13 +469,13 @@ class Node {
 
 	/**
 	 * Unselect an option of a spesific select tag inside the current tag
-	 * 
+	 *
 	 * To select the option the second parameter can be either a string of the option text
 	 * or a filter to be applied on the options e.g. array('value' => 10)
-	 * 
-	 * @param  string|array   $selector 
-	 * @param  array          $filters  
-	 * @param  array|string   $option_filters  
+	 *
+	 * @param  string|array   $selector
+	 * @param  array          $filters
+	 * @param  array|string   $option_filters
 	 * @return Node  $this
 	 */
 	public function unselect($selector, $option_filters, array $filters = array())
@@ -494,7 +494,7 @@ class Node {
 
 	/**
 	 * Confirm a javascript alert/confirm dialog box
-	 * 
+	 *
 	 * @param  boolean|string $confirm alert/confirm - use boolean for inputs use string
 	 * @return Node  $this
 	 */
@@ -506,9 +506,9 @@ class Node {
 
 	/**
 	 * Execute arbitrary javascript on the page and get the result
-	 * 
-	 * @param  string $script 
-	 * @return mixed         
+	 *
+	 * @param  string $script
+	 * @return mixed
 	 */
 	public function execute($script, $callback = NULL)
 	{
@@ -526,7 +526,7 @@ class Node {
 
 	/**
 	 * Perform a screenshot of the current into the given file
-	 * @param  string $file 
+	 * @param  string $file
 	 * @return Node       $this
 	 */
 	public function screenshot($file)
@@ -537,7 +537,7 @@ class Node {
 
 	/**
 	 * Hover the mouse over a specific tag child of the current tag
-	 * @param  string|array  $selector 
+	 * @param  string|array  $selector
 	 * @param  array         $filters
 	 * @return Node $this
 	 */
@@ -549,8 +549,8 @@ class Node {
 
 	/**
 	 * Hover the mouse over a specific link child of the current tag
-	 * @param  string|array  $selector 
-	 * @param  array         $filters 
+	 * @param  string|array  $selector
+	 * @param  array         $filters
 	 * @return Node $this
 	 */
 	public function hover_link($selector, array $filters = array())
@@ -561,8 +561,8 @@ class Node {
 
 	/**
 	 * Hover the mouse over a specific field child of the current tag
-	 * @param  string|array  $selector 
-	 * @param  array         $filters 
+	 * @param  string|array  $selector
+	 * @param  array         $filters
 	 * @return Node $this
 	 */
 	public function hover_field($selector, array $filters = array())
@@ -573,8 +573,8 @@ class Node {
 
 	/**
 	 * Hover the mouse over a specific button child of the current tag
-	 * @param  string|array  $selector 
-	 * @param  array         $filters 
+	 * @param  string|array  $selector
+	 * @param  array         $filters
 	 * @return Node $this
 	 */
 	public function hover_button($selector, array $filters = array())
@@ -587,11 +587,11 @@ class Node {
 	 * FINDERS
 	 * =====================================================
 	 */
-	
+
 	/**
 	 * Find an html form field child of the current tag
-	 * @param  string|array   $selector 
-	 * @param  array          $filters  
+	 * @param  string|array   $selector
+	 * @param  array          $filters
 	 * @return Node  $this
 	 */
 	public function find_field($selector, array $filters = array())
@@ -601,8 +601,8 @@ class Node {
 
 	/**
 	 * Find an html form field child of the current tag
-	 * @param  string|array   $selector 
-	 * @param  array          $filters  
+	 * @param  string|array   $selector
+	 * @param  array          $filters
 	 * @return Node  $this
 	 */
 	public function find_link($selector, array $filters = array())
@@ -612,8 +612,8 @@ class Node {
 
 	/**
 	 * Find an html button tag child of the current tag
-	 * @param  string|array   $selector 
-	 * @param  array          $filters  
+	 * @param  string|array   $selector
+	 * @param  array          $filters
 	 * @return Node  $this
 	 */
 	public function find_button($selector, array $filters = array())
@@ -623,12 +623,12 @@ class Node {
 
 	/**
 	 * Find an html tag child of the current tag
-	 * This is the basic find method that is used by all the other finders. 
+	 * This is the basic find method that is used by all the other finders.
 	 * To work with ajax requests it waits a bit (defualt 2 seconds) for the content to appear on the page
 	 * before throwing an Functest_Exception_Notfound exception
-	 * 
-	 * @param  string|array   $selector 
-	 * @param  array          $filters  
+	 *
+	 * @param  string|array   $selector
+	 * @param  array          $filters
 	 * @throws Functest_Exception_Notfound If element not found
 	 * @return Node  $this
 	 */
@@ -640,7 +640,7 @@ class Node {
 		$node = Attempt::make(function() use ($self, $locator){
 			return $self->all($locator)->first();
 		}, $this->next_wait_time());
-		
+
 		$this->_next_wait_time = NULL;
 
 		if ($node == NULL)
@@ -651,9 +651,9 @@ class Node {
 
 	/**
 	 * Oposite to the find method()
-	 * 
-	 * @param  string|array  $selector 
-	 * @param  array         $filters  
+	 *
+	 * @param  string|array  $selector
+	 * @param  array         $filters
 	 * @throws Functest_Exception_Found If element is found on the page
 	 * @return Node $this
 	 */
@@ -676,7 +676,7 @@ class Node {
 
 	/**
 	 * Returns the parent element
-	 * 
+	 *
 	 * @return Node parent
 	 */
 	public function end()
@@ -686,9 +686,9 @@ class Node {
 
 	/**
 	 * Find a list of elements represented by the selector / filter
-	 * 
-	 * @param  string|array $selector 
-	 * @param  array        $filters  
+	 *
+	 * @param  string|array $selector
+	 * @param  array        $filters
 	 * @return Nodelist
 	 */
 	public function all($selector, array $filters = array())
@@ -700,9 +700,9 @@ class Node {
 
 	/**
 	 * Shortcuts for creating locators (from arrays or nested arrays)
-	 * @param  string|Locator|array $selector 
-	 * @param  array  $filters  
-	 * @return Locator           
+	 * @param  string|Locator|array $selector
+	 * @param  array  $filters
+	 * @return Locator
 	 */
 	public static function get_locator($selector, array $filters = array())
 	{
@@ -711,10 +711,10 @@ class Node {
 
 		$type = NULL;
 
-		if (is_array($selector)) 
+		if (is_array($selector))
 		{
 			// Manage nested selectors
-			if (is_array($selector[1])) 
+			if (is_array($selector[1]))
 			{
 				$selector = $selector[1];
 			}
@@ -729,9 +729,9 @@ class Node {
 
 	/**
 	 * Pass all other methods to the extension if it is set. That way you can add additional methods
-	 * @param  string $method    
-	 * @param  array $arguments 
-	 * @return Node $this            
+	 * @param  string $method
+	 * @param  array $arguments
+	 * @return Node $this
 	 */
 	public function __call($method, $arguments)
 	{
@@ -739,7 +739,7 @@ class Node {
 			throw new Exception_Methodmissing('Method :method does not exist on this node or node extension', array(':method' => $method));
 
 		array_unshift($arguments, $this);
-		
+
 		call_user_func_array(array($this->extension(), $method), $arguments);
 
 		return $this;

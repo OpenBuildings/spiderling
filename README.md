@@ -1,6 +1,6 @@
-# Spiderling 
+# Spiderling
 
-[![Build Status](https://travis-ci.org/OpenBuildings/spiderling.png?branch=master)](https://travis-ci.org/OpenBuildings/spiderling) 
+[![Build Status](https://travis-ci.org/OpenBuildings/spiderling.png?branch=master)](https://travis-ci.org/OpenBuildings/spiderling)
 [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/OpenBuildings/spiderling/badges/quality-score.png?s=1ceec2d9ed5edf22e8187bf4df41d8758aecdd54)](https://scrutinizer-ci.com/g/OpenBuildings/spiderling/)
 [![Code Coverage](https://scrutinizer-ci.com/g/OpenBuildings/spiderling/badges/coverage.png?s=f056fa81f6a4f1fde71505682083b8f75b42d9c0)](https://scrutinizer-ci.com/g/OpenBuildings/spiderling/)
 [![Latest Stable Version](https://poser.pugx.org/openbuildings/spiderling/v/stable.png)](https://packagist.org/packages/openbuildings/spiderling)
@@ -28,7 +28,7 @@ $page
 
 This will output the text content of the html node ``li.test`` fill in some inputs and submit the form.
 
-## The DSL 
+## The DSL
 
 The Page object has a rich DSL for accessing content and filling in forms:
 
@@ -78,16 +78,16 @@ $page->visit('http://example.com/the-page');
 $li = $page->find('ul > li.first');
 
 // Will output "LI"
-echo $li->tag_name(); 
+echo $li->tag_name();
 
 // Will output "first"
-echo $li->attribute('class'); 
+echo $li->attribute('class');
 
 // Will output "LABEL This is the first link"
 echo $li->text();
 
 // Will output "<li class="first"><span>LABEL</span> This is the first link</li>"
-echo $li->html(); 
+echo $li->html();
 ```
 
 ### Setters
@@ -146,7 +146,7 @@ $page
     ->click();
 
 // This will return the submited action of the form, e.g. http://example.com/submit
-echo $page->current_url(); 
+echo $page->current_url();
 ```
 
 ### Locators
@@ -205,12 +205,12 @@ $page
     ->click();
 
 // This will return the submited action of the form, e.g. http://example.com/submit
-echo $page->current_url(); 
+echo $page->current_url();
 ```
 
 ### Filters
 
-If using only locators is not enough, you can easily narrow down the search with "filters". They iterate over the found candidates, filtering out ones that don't match. Be careful with them because they load the nodes and check them one-by-one which might be performance intensive, but it is OK in most cases. 
+If using only locators is not enough, you can easily narrow down the search with "filters". They iterate over the found candidates, filtering out ones that don't match. Be careful with them because they load the nodes and check them one-by-one which might be performance intensive, but it is OK in most cases.
 
 Here are the available filters:
 
@@ -267,7 +267,7 @@ Most locator types have a custom method for finding an element with that particu
 - ``not_present($selector, array $filters = array())`` - the opposite of "find" makes sure an element is not present on the page
 - ``all($selector, array $filters = array())`` - returns a Nodelist - an iteratable and countable array-like object that you can 'foreach' and 'count' easily. Have in mind that it features lazy loading, so only when you access a node it gets loaded by the driver. ``count()`` does not load any nodes at all.
 
-The previous form example can be rewritten like this: 
+The previous form example can be rewritten like this:
 
 ```php
 use Openbuildings\Spiderling\Page;
@@ -289,7 +289,7 @@ $page
     ->click();
 
 // This will return the submited action of the form, e.g. http://example.com/submit
-echo $page->current_url(); 
+echo $page->current_url();
 ```
 
 ### Actions
@@ -329,10 +329,10 @@ $page
   ->click_button('Submit');
 
 // This will return the submited action of the form, e.g. http://example.com/submit
-echo $page->current_url(); 
+echo $page->current_url();
 ```
 
-A more complicated example is in order. We will be using the following html: 
+A more complicated example is in order. We will be using the following html:
 
 ```html
 <html>
@@ -410,14 +410,14 @@ $page
   ->fill_in('Description', 'some description')
   ->click_button('Submit');
 
-// This will return the submited action of the form, 
+// This will return the submited action of the form,
 // e.g. http://example.com/submit
-echo $page->current_url(); 
+echo $page->current_url();
 ```
 
 ### Nesting
 
-When there are multiple elements on the page you might want to be more specific, Spiderling allows you to do this by nesting the nodes - you can call all the actions and finders from "within" a node - so that finders will search only in the children on the node. 
+When there are multiple elements on the page you might want to be more specific, Spiderling allows you to do this by nesting the nodes - you can call all the actions and finders from "within" a node - so that finders will search only in the children on the node.
 
 For example:
 
@@ -467,7 +467,7 @@ There are some more additional methods as part of the DSL:
 
 Spiderling follows the same philosophy as capybara in that it does not explicitly support or wait for ajax calls to finish, however each finder does not immidiately conclude failure if the element is not loaded, but waits a bit (default 2 seconds) before throwing an exception. To take advantage of that when writing your crawlers when you have an ajax request you need to search for the change the ajax is about to do:
 
-For example: 
+For example:
 
 ```php
 use Openbuildings\Spiderling\Page;
@@ -484,8 +484,8 @@ $page
     ->fill_in('Name', 'New Name');
     ->click_button('Save')
   ->end();
-  // We wait a bit to make sure the form is closed, 
-  // also as it might take longer than normal, 
+  // We wait a bit to make sure the form is closed,
+  // also as it might take longer than normal,
   // we extend the wait time from 2 to 4 seconds.
 $page
   ->next_wait_time(4000)
@@ -524,11 +524,11 @@ Now for each driver in detail:
 
 ### Driver_Simple
 
-Loads the html page with curl and then parses it using php's native DOM and XPath. All finders are quite fast so its your best bet to use this if you do not rely on javascript or other browser specific features. It's also very easy to extend in order to make a "native" version for a specific web framework - the only thing you need to implement is the loading part, an example of which you can see with the "Driver_Kohana" class. 
+Loads the html page with curl and then parses it using php's native DOM and XPath. All finders are quite fast so its your best bet to use this if you do not rely on javascript or other browser specific features. It's also very easy to extend in order to make a "native" version for a specific web framework - the only thing you need to implement is the loading part, an example of which you can see with the "Driver_Kohana" class.
 
 Before each request $_GET, $_POST and $_FILES are saved, filled in with appropriate values and later restored, mimicking a real php request.
 
-Appart from loading the html through curl, you could set the content directly, if you've loaded it by other means. 
+Appart from loading the html through curl, you could set the content directly, if you've loaded it by other means.
 
 Here's how that looks:
 
@@ -562,7 +562,7 @@ $page->driver()->post('http://example.com/api/endpoint', array(), array('name' =
 
 ### Driver_Kohana
 
-Uses Kohana framework's native Internal Request (slightly modifying it to trick the framework into thinking its an initial request). It extends __Driver_Simple__. 
+Uses Kohana framework's native Internal Request (slightly modifying it to trick the framework into thinking its an initial request). It extends __Driver_Simple__.
 
 Also it handles redirects capping them to maximum 8 (configurable) and uses Request::$user_agent as its User Agent.
 
@@ -575,11 +575,11 @@ $page = new Page(new Driver_Kohana);
 
 ### Driver_Phantomjs
 
-Using this driver you can perform all the finds and actions with phantomjs, using a real webkit engine with javascript, without the need for any graphical environment (headless). You need to have it installed in your PATH, accessaible by invoking "phantomjs". 
+Using this driver you can perform all the finds and actions with phantomjs, using a real webkit engine with javascript, without the need for any graphical environment (headless). You need to have it installed in your PATH, accessaible by invoking "phantomjs".
 
 You can download it from here: http://phantomjs.org/download.html
 
-By default it spawns a new server on a random port from 4445 and 5000. 
+By default it spawns a new server on a random port from 4445 and 5000.
 
 This should work if you have phantomjs installed.
 
@@ -608,11 +608,11 @@ Setting the "pid file" argument on start, allows the driver to save the pid of t
 
 ### Driver_Selenium
 
-Using this driver all the finds and actions are performed through a real browser, driven by selenium. 
+Using this driver all the finds and actions are performed through a real browser, driven by selenium.
 
 You can use the standalone server for example, which can be downloaded from here: https://code.google.com/p/selenium/downloads/list.
 
-You'll also have to start the selenium server yourself, and direct the driver what url to use to access that server, by default its "http://localhost:4444" (the default for selenium server standalone). 
+You'll also have to start the selenium server yourself, and direct the driver what url to use to access that server, by default its "http://localhost:4444" (the default for selenium server standalone).
 
 If you're using the standalone selenium, you can start it like this:
 
@@ -643,4 +643,3 @@ $page = new Page(new Driver_Selenium($connection));
 Copyright (c) 2012-2013, OpenBuildings Ltd. Developed by Ivan Kerin as part of [clippings.com](http://clippings.com)
 
 Under BSD-3-Clause license, read LICENSE file.
-

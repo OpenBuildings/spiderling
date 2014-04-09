@@ -3,7 +3,7 @@
 namespace Openbuildings\Spiderling;
 
 /**
- * Base class for Simple driver request handling. 
+ * Base class for Simple driver request handling.
  * You can easily add your own driver by implementing this interface and extending Simple Driver.
  * Checkout Kohana Driver for an example.
  *

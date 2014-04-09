@@ -30,7 +30,7 @@ abstract class Spiderling_TestCase extends PHPUnit_Framework_TestCase {
 
 		$this->assertInstanceOf('DOMNode', $tag, 'Should be of appropriate html tag type');
 
-		foreach ((array) $options as $name => $value) 
+		foreach ((array) $options as $name => $value)
 		{
 			switch($name)
 			{
@@ -38,7 +38,7 @@ abstract class Spiderling_TestCase extends PHPUnit_Framework_TestCase {
 					$this->assertEquals($value, $tag->nodeName, "The tag should be with type {$value} but was {$tag->nodeName}");
 				break;
 				case '1':
-					$this->assertEquals($value, $tag->textContent, "The tag should have text {$value} but had {$tag->textContent}");	
+					$this->assertEquals($value, $tag->textContent, "The tag should have text {$value} but had {$tag->textContent}");
 				break;
 				default:
 					$this->assertTrue($tag->hasAttribute($name), "Tag should have attribute {$name}");

@@ -8,5 +8,5 @@ namespace Openbuildings\Spiderling;
  * @license    http://www.opensource.org/licenses/isc-license.txt
  */
 class Exception_Xpath extends Exception {
-	
+
 }

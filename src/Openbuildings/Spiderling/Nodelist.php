@@ -3,7 +3,7 @@
 namespace Openbuildings\Spiderling;
 
 /**
- * NodeList represents a list of dom nodes. Has lazy loading 
+ * NodeList represents a list of dom nodes. Has lazy loading
  *
  * @package    Openbuildings\Spiderling
  * @author     Ivan Kerin
@@ -37,7 +37,7 @@ class Nodelist implements \Iterator, \Countable, \SeekableIterator, \ArrayAccess
 	protected $_node;
 
 	/**
-	 * Implementing Iterator 
+	 * Implementing Iterator
 	 * @var integer
 	 */
 	protected $_current = 0;
@@ -204,7 +204,7 @@ class Nodelist implements \Iterator, \Countable, \SeekableIterator, \ArrayAccess
 
 			if ($this->_locator->filters())
 			{
-				foreach ($this->_list_ids as $offset => $id) 
+				foreach ($this->_list_ids as $offset => $id)
 				{
 					if ( ! $this->_locator->is_filtered($this->_load($id), $offset))
 					{
@@ -250,7 +250,7 @@ class Nodelist implements \Iterator, \Countable, \SeekableIterator, \ArrayAccess
 	public function as_array()
 	{
 		$nodes = array();
-		foreach ($this->list_ids() as $i => $id) 
+		foreach ($this->list_ids() as $i => $id)
 		{
 			$nodes[] = new Node($this->_driver, $this->_parent, $id);
 		}

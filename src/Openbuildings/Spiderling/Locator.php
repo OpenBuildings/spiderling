@@ -41,9 +41,9 @@ class Locator {
 	protected $_filters;
 
 	/**
-	 * @param string $type 
-	 * @param string $selector 
-	 * @param array $filters  
+	 * @param string $type
+	 * @param string $selector
+	 * @param array $filters
 	 */
 	function __construct($type, $selector, array $filters = array())
 	{
@@ -54,15 +54,15 @@ class Locator {
 
 	/**
 	 * Check if a Node item matches the current filters
-	 * @param  Node    $item  
-	 * @param  integer  $index 
-	 * @return boolean        
+	 * @param  Node    $item
+	 * @param  integer  $index
+	 * @return boolean
 	 */
 	public function is_filtered(Node $item, $index)
 	{
-		foreach ($this->filters() as $filter => $value) 
+		foreach ($this->filters() as $filter => $value)
 		{
-			switch ($filter) 
+			switch ($filter)
 			{
 				case 'at':
 					$matches_filter = $this->filter_by_at($item, $index, $value);
@@ -81,14 +81,14 @@ class Locator {
 				break;
 
 				case 'attributes':
-					$matches_filter = $this->filter_by_attributes($item, $index, $value);			
+					$matches_filter = $this->filter_by_attributes($item, $index, $value);
 				break;
 
 				default:
 					throw new Exception('Filter :filter does not exist', array(':filter' => $filter));
 			}
 
-			if ( ! $matches_filter) 
+			if ( ! $matches_filter)
 				return FALSE;
 		}
 
@@ -97,11 +97,11 @@ class Locator {
 
 	/**
 	 * Try matching "at" filter
-	 * 
-	 * @param  Node   $item  
-	 * @param  integer $index 
-	 * @param  string $value 
-	 * @return boolean        
+	 *
+	 * @param  Node   $item
+	 * @param  integer $index
+	 * @param  string $value
+	 * @return boolean
 	 */
 	public function filter_by_at(Node $item, $index, $value)
 	{
@@ -110,11 +110,11 @@ class Locator {
 
 	/**
 	 * Try matching "value" filter
-	 * 
-	 * @param  Node   $item  
-	 * @param  integer $index 
-	 * @param  string $value 
-	 * @return boolean        
+	 *
+	 * @param  Node   $item
+	 * @param  integer $index
+	 * @param  string $value
+	 * @return boolean
 	 */
 	public function filter_by_value(Node $item, $index, $value)
 	{
@@ -123,26 +123,26 @@ class Locator {
 
 	/**
 	 * Try matching "text" filter
-	 * 
-	 * @param  Node   $item  
-	 * @param  integer $index 
-	 * @param  string $value 
-	 * @return boolean        
+	 *
+	 * @param  Node   $item
+	 * @param  integer $index
+	 * @param  string $value
+	 * @return boolean
 	 */
 	public function filter_by_text(Node $item, $index, $value)
 	{
 		$text = $item->text();
-		
+
 		return ($text AND $value AND mb_stripos($text, $value) !== FALSE);
 	}
 
 	/**
 	 * Try matching "visible" filter
-	 * 
-	 * @param  Node   $item  
-	 * @param  integer $index 
-	 * @param  boolean $value 
-	 * @return boolean        
+	 *
+	 * @param  Node   $item
+	 * @param  integer $index
+	 * @param  boolean $value
+	 * @return boolean
 	 */
 	public function filter_by_visible(Node $item, $index, $value)
 	{
@@ -151,32 +151,32 @@ class Locator {
 
 	/**
 	 * Try matching "attributes" filter
-	 * 
-	 * @param  Node   $item  
-	 * @param  integer $index 
-	 * @param  array $value 
-	 * @return boolean        
+	 *
+	 * @param  Node   $item
+	 * @param  integer $index
+	 * @param  array $value
+	 * @return boolean
 	 */
 	public function filter_by_attributes(Node $item, $index, array $value)
 	{
-		foreach ($value as $attribute_name => $attribute_val) 
+		foreach ($value as $attribute_name => $attribute_val)
 		{
 			if ($item->attribute($attribute_name) != $attribute_val)
 				return FALSE;
 		}
-		
+
 		return TRUE;
 	}
 
 	/**
 	 * Return the xpath representaiton of the selector, using the appropriate method
-	 * @return string 
+	 * @return string
 	 */
 	public function xpath()
 	{
 		if ( ! $this->_xpath)
 		{
-			switch ($this->type()) 
+			switch ($this->type())
 			{
 				case 'css':
 					$this->_xpath = '//'.CssSelector::toXPath($this->selector());
@@ -197,7 +197,7 @@ class Locator {
 				case 'link':
 					$this->_xpath = $this->link_to_xpath($this->selector());
 				break;
-				
+
 				case 'button':
 					$this->_xpath = $this->button_to_xpath($this->selector());
 				break;
@@ -212,7 +212,7 @@ class Locator {
 
 	/**
 	 * Getter. Current type, one of css, field, xpath, label, link or button
-	 * @return string 
+	 * @return string
 	 */
 	public function type()
 	{
@@ -221,7 +221,7 @@ class Locator {
 
 	/**
 	 * Getter. Current selector
-	 * @return string 
+	 * @return string
 	 */
 	public function selector()
 	{
@@ -230,7 +230,7 @@ class Locator {
 
 	/**
 	 * Getter. Current filters
-	 * @return array 
+	 * @return array
 	 */
 	public function filters()
 	{
@@ -239,14 +239,14 @@ class Locator {
 
 	/**
 	 * Convert field selector into xpath
-	 * 
-	 * @param  string $selector 
+	 *
+	 * @param  string $selector
 	 * @return string
 	 */
 	public function field_to_xpath($selector)
 	{
 		$type = "(self::input and (not(@type) or @type != 'submit')) or self::textarea or self::select";
-			
+
 		$matchers['by name']        = "@name = '$selector'";
 		$matchers['by id']          = "@id = '$selector'";
 		$matchers['by placeholder'] = "@placeholder = '$selector'";
@@ -258,13 +258,13 @@ class Locator {
 
 	/**
 	 * Convert label selector to xpath
-	 * @param  string $selector 
-	 * @return string           
+	 * @param  string $selector
+	 * @return string
 	 */
 	public function label_to_xpath($selector)
 	{
 		$type = "self::label";
-			
+
 		$matchers['by id']           = "@id = '$selector'";
 		$matchers['by title']        = "contains(@title, '$selector')";
 		$matchers['by content text'] = "contains(normalize-space(), '$selector')";
@@ -275,8 +275,8 @@ class Locator {
 
 	/**
 	 * Convert link selector to xpath
-	 * @param  string $selector 
-	 * @return string           
+	 * @param  string $selector
+	 * @return string
 	 */
 	public function link_to_xpath($selector)
 	{
@@ -285,13 +285,13 @@ class Locator {
 		$matchers['by content text'] = "contains(normalize-space(), '$selector')";
 		$matchers['by img alt']      = "descendant::img[contains(@alt, '$selector')]";
 
-		return "//a[".join(' or ', $matchers)."]";	
+		return "//a[".join(' or ', $matchers)."]";
 	}
 
 	/**
 	 * Convert button selector to xpath
-	 * @param  string $selector 
-	 * @return string           
+	 * @param  string $selector
+	 * @return string
 	 */
 	public function button_to_xpath($selector)
 	{
@@ -309,7 +309,7 @@ class Locator {
 
 	/**
 	 * Return a pretty printed representation of the locator
-	 * @return string 
+	 * @return string
 	 */
 	public function __toString()
 	{

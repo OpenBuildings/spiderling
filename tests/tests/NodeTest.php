@@ -77,9 +77,9 @@ class NodeTest extends Spiderling_TestCase {
 		$this->assertEquals("(//descendant-or-self::form)[1]", $form->id());
 
 		$this->assertEquals('<input id="name" name="name" value="Tomas"/>', $input->html());
-		
+
 		$this->assertEquals('<input id="name" name="name" value="Tomas"/>', $input->__toString());
-		
+
 		$this->assertEquals('input', $input->tag_name());
 		$this->assertEquals('Tomas', $input->attribute('value'));
 		$this->assertContains('Lorem ipsum dolor sit amet', $textarea->text());
@@ -160,10 +160,10 @@ class NodeTest extends Spiderling_TestCase {
 			->expects($this->at(1))
 			->method('execute')
 			->with($this->equalTo("(//descendant-or-self::*[@id = 'navlink-1'])[1]"), $this->equalTo('test script 2'))
-			->will($this->returnValue('result 2'));			
+			->will($this->returnValue('result 2'));
 
 		$executed = FALSE;
-			
+
 		$this->node->find('#navlink-1')->execute('test script', function($result) use ( & $executed) {
 			$executed = TRUE;
 			PHPUnit_Framework_Assert::assertEquals('result', $result);
@@ -190,10 +190,10 @@ class NodeTest extends Spiderling_TestCase {
 		$this->assertNode(array('textarea', 'New Text', 'id' => 'message'), $this->node->find('#message'));
 
 		$this->node->choose('Gender Male');
-		$this->assertNode(array('input', 'id' => 'gender-1', 'checked' => 'checked'), $this->node->find('#gender-1'));		
+		$this->assertNode(array('input', 'id' => 'gender-1', 'checked' => 'checked'), $this->node->find('#gender-1'));
 
 		$this->node->check('Enter Notify Me');
-		$this->assertNode(array('input', 'id' => 'notifyme', 'checked' => 'checked'), $this->node->find('#notifyme'));		
+		$this->assertNode(array('input', 'id' => 'notifyme', 'checked' => 'checked'), $this->node->find('#notifyme'));
 
 		$this->node->uncheck('Enter Notify Me');
 		$this->assertNull($this->node->find('#notifyme')->attribute('checked'));
@@ -221,7 +221,7 @@ class NodeTest extends Spiderling_TestCase {
 	public function test_next_wait_time()
 	{
 		$this->assertEquals($this->driver->default_wait_time, $this->node->next_wait_time());
-		
+
 		$this->node->next_wait_time(1000);
 
 		$this->assertEquals(1000, $this->node->next_wait_time());
@@ -345,7 +345,7 @@ class NodeTest extends Spiderling_TestCase {
 		{
 			$locator = Node::get_locator($selector, $filters);
 
-			$this->assertEquals($expected_type, $locator->type(), 'Should load appropriate type');	
+			$this->assertEquals($expected_type, $locator->type(), 'Should load appropriate type');
 		}
 		else
 		{

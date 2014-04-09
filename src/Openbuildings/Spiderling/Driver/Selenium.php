@@ -4,7 +4,7 @@ namespace Openbuildings\Spiderling;
 
 /**
  * Use Selenium to load pages.
- * Has Javascript 
+ * Has Javascript
  *
  * @package    Openbuildings\Spiderling
  * @author     Ivan Kerin
@@ -22,7 +22,7 @@ class Driver_Selenium extends Driver {
 	/**
 	 * Array containing parameters to be added on the next request
 	 * @var array
-	 */	
+	 */
 	protected $_next_query = array();
 
 	/**
@@ -42,10 +42,10 @@ class Driver_Selenium extends Driver {
 	 * @var integer
 	 */
 	public $default_wait_time = 4000;
-	
+
 	/**
 	 * Getter / Setter of the base_url, that will be prefixed on each request
-	 * @param  string $base_url 
+	 * @param  string $base_url
 	 * @return string|Driver_PHantomjs
 	 */
 	public function base_url($base_url = NULL)
@@ -68,8 +68,8 @@ class Driver_Selenium extends Driver {
 
 	/**
 	 * Getter of the raw content html, this driver does not allow "setting"
-	 * 
-	 * @param  string $content 
+	 *
+	 * @param  string $content
 	 * @return string
 	 */
 	public function content($content = NULL)
@@ -78,21 +78,21 @@ class Driver_Selenium extends Driver {
 	}
 
 	/**
-	 * Getter / Setter of the Driver_Selenium_Connection object. 
+	 * Getter / Setter of the Driver_Selenium_Connection object.
 	 * Use this to customize the connection, otherwise a default one on a random port will be used
-	 * 
-	 * @param  Driver_Selenium_Connection $connection 
-	 * @return Driver_Selenium_Connection|Driver_Selenium             
+	 *
+	 * @param  Driver_Selenium_Connection $connection
+	 * @return Driver_Selenium_Connection|Driver_Selenium
 	 */
 	public function connection(Driver_Selenium_Connection $connection = NULL)
 	{
-		if ($connection !== NULL) 
+		if ($connection !== NULL)
 		{
 			$this->_connection = $connection;
 			return $this;
 		}
 
-		if ( ! $this->_connection) 
+		if ( ! $this->_connection)
 		{
 			$this->_connection = new Driver_Selenium_Connection();
 			$this->_connection->start(array('browserName' => 'firefox', 'acceptSslCerts' => FALSE));
@@ -100,37 +100,37 @@ class Driver_Selenium extends Driver {
 
 		return $this->_connection;
 	}
-	
+
 	/**
 	 * NODE GETTERS
 	 * =====================================
 	 */
-	
+
 	/**
 	 * Get the tag name of a Node with id. e.g. DIV, SPAN ...
-	 * @param  string $id 
-	 * @return string     
-	 */	
+	 * @param  string $id
+	 * @return string
+	 */
 	public function tag_name($id)
 	{
-		return $this->connection()->get("element/$id/name");	
+		return $this->connection()->get("element/$id/name");
 	}
 
 	/**
 	 * Get the attribute of a Node with id. If the attribute does not exist, returns NULL
-	 * @param  string $id   
-	 * @param  string $name 
-	 * @return string       
+	 * @param  string $id
+	 * @param  string $name
+	 * @return string
 	 */
 	public function attribute($id, $name)
 	{
-		return $this->connection()->get("element/$id/attribute/$name");	
+		return $this->connection()->get("element/$id/attribute/$name");
 	}
 
 	/**
 	 * Return the raw html of a Node with id, along with all of its children.
-	 * @param  string $id 
-	 * @return string     
+	 * @param  string $id
+	 * @return string
 	 */
 	public function html($id)
 	{
@@ -142,8 +142,8 @@ class Driver_Selenium extends Driver {
 
 	/**
 	 * Return the text of a Node with id, with all the spaces collapsed, similar to browser rendering.
-	 * @param  string $id 
-	 * @return string     
+	 * @param  string $id
+	 * @return string
 	 */
 	public function text($id)
 	{
@@ -154,18 +154,18 @@ class Driver_Selenium extends Driver {
 
 	/**
 	 * Return the value of a Node of a form element, e.g. INPUT, TEXTAREA or SELECT
-	 * @param  string $id 
-	 * @return string     
+	 * @param  string $id
+	 * @return string
 	 */
 	public function value($id)
 	{
-		if ($this->tag_name($id) == 'select' AND $this->attribute($id, 'multiple')) 
+		if ($this->tag_name($id) == 'select' AND $this->attribute($id, 'multiple'))
 		{
 			$self = $this;
 			$values = array();
-			foreach ($this->all('//option', $id) as $option_id) 
+			foreach ($this->all('//option', $id) as $option_id)
 			{
-				if ($this->is_selected($option_id)) 
+				if ($this->is_selected($option_id))
 				{
 					$values []= $this->value($option_id);
 				}
@@ -174,55 +174,55 @@ class Driver_Selenium extends Driver {
 		}
 		else
 		{
-			return $this->connection()->get("element/$id/value");	
+			return $this->connection()->get("element/$id/value");
 		}
 	}
 
 	/**
-	 * Check if a Node with id is visible. 
-	 * @param  string  $id 
-	 * @return boolean    
+	 * Check if a Node with id is visible.
+	 * @param  string  $id
+	 * @return boolean
 	 */
 	public function is_visible($id)
 	{
-		return $this->connection()->get("element/$id/displayed");	
+		return $this->connection()->get("element/$id/displayed");
 	}
 
 	/**
 	 * Check if a Node with id of an option element is selected
-	 * @param  string  $id 
-	 * @return boolean     
+	 * @param  string  $id
+	 * @return boolean
 	 */
 	public function is_selected($id)
 	{
-		return $this->connection()->get("element/$id/selected");	
+		return $this->connection()->get("element/$id/selected");
 	}
 
 	/**
 	 * Check if a Node with id of an input element (radio or checkbox) is checked
-	 * @param  string  $id 
-	 * @return boolean     
+	 * @param  string  $id
+	 * @return boolean
 	 */
 	public function is_checked($id)
 	{
-		return $this->connection()->get("element/$id/selected");	
+		return $this->connection()->get("element/$id/selected");
 	}
 
 	/**
 	 * Set the value of a Node with id of a form element
-	 * @param string $id    
-	 * @param string $value 
+	 * @param string $id
+	 * @param string $value
 	 */
 	public function set($id, $value)
 	{
 		$tag_name = $this->tag_name($id);
-		
+
 		if ($tag_name == 'textarea')
 		{
-			$this->connection()->post("element/$id/clear", array());	
-			$this->connection()->post("element/$id/value", array('value' => str_split($value)));	
+			$this->connection()->post("element/$id/clear", array());
+			$this->connection()->post("element/$id/value", array('value' => str_split($value)));
 		}
-		elseif ($tag_name == 'input') 
+		elseif ($tag_name == 'input')
 		{
 			$type = $this->attribute($id, 'type');
 			if ($type == 'checkbox' OR $type == 'radio')
@@ -233,9 +233,9 @@ class Driver_Selenium extends Driver {
 			{
 				if ($type !== 'file')
 				{
-					$this->connection()->post("element/$id/clear", array());	
+					$this->connection()->post("element/$id/clear", array());
 				}
-				$this->connection()->post("element/$id/value", array('value' => str_split($value)));	
+				$this->connection()->post("element/$id/value", array('value' => str_split($value)));
 			}
 		}
 		elseif ($tag_name == 'option')
@@ -246,8 +246,8 @@ class Driver_Selenium extends Driver {
 
 	/**
 	 * Set the option value that is selected of a Node of a select element
-	 * @param  string $id    
-	 * @param  string $value 
+	 * @param  string $id
+	 * @param  string $value
 	 */
 	public function select_option($id, $value)
 	{
@@ -256,7 +256,7 @@ class Driver_Selenium extends Driver {
 
 	/**
 	 * Confirm or cancel for the next confirmation dialog
-	 * @param  bool $confirm 
+	 * @param  bool $confirm
 	 */
 	public function confirm($confirm)
 	{
@@ -266,13 +266,13 @@ class Driver_Selenium extends Driver {
 		}
 		else
 		{
-			$this->connection()->post('dismiss_alert', array());	
+			$this->connection()->post('dismiss_alert', array());
 		}
 	}
 
 	/**
 	 * Get the text of the currently displayed alert / confirm /prompt dialog
-	 * @param  bool $confirm 
+	 * @param  bool $confirm
 	 */
 	public function alert_text()
 	{
@@ -281,7 +281,7 @@ class Driver_Selenium extends Driver {
 
 	/**
 	 * Click on a Node with id, triggering a link or form submit
-	 * @param  string $id 
+	 * @param  string $id
 	 */
 	public function click($id)
 	{
@@ -290,8 +290,8 @@ class Driver_Selenium extends Driver {
 
 	/**
 	 * Go to a given url address, use next_query along with the provided query array
-	 * @param  string $uri   
-	 * @param  array  $query 
+	 * @param  string $uri
+	 * @param  array  $query
 	 */
 	public function visit($uri, array $query = NULL)
 	{
@@ -316,7 +316,7 @@ class Driver_Selenium extends Driver {
 
 	/**
 	 * Get the current url
-	 * @return string 
+	 * @return string
 	 */
 	public function current_url()
 	{
@@ -325,9 +325,9 @@ class Driver_Selenium extends Driver {
 
 	/**
 	 * Find all ids of a given XPath
-	 * @param  string $xpath  
+	 * @param  string $xpath
 	 * @param  string $parent id of the parent node
-	 * @return array         
+	 * @return array
 	 */
 	public function all($xpath, $parent = NULL)
 	{
@@ -337,8 +337,8 @@ class Driver_Selenium extends Driver {
 	}
 
 	/**
-	 * Setter for the next_query variable, to be added to the next visit's query 
-	 * @param  array  $query 
+	 * Setter for the next_query variable, to be added to the next visit's query
+	 * @param  array  $query
 	 */
 	public function next_query(array $query)
 	{
@@ -348,9 +348,9 @@ class Driver_Selenium extends Driver {
 
 	/**
 	 * Execute raw javascript. it will be executed in the context of a given node ('this' will point to the node) and the return of the script will be the return of this method
-	 * @param  string $id     
-	 * @param  string $script 
-	 * @return mixed         
+	 * @param  string $id
+	 * @param  string $script
+	 * @return mixed
 	 */
 	public function execute($id, $script)
 	{
@@ -362,7 +362,7 @@ class Driver_Selenium extends Driver {
 
 	/**
 	 * Check if a connection is active
-	 * @return boolean 
+	 * @return boolean
 	 */
 	public function is_page_active()
 	{
@@ -371,9 +371,9 @@ class Driver_Selenium extends Driver {
 
 	/**
 	 * Move the mouse to a given element, or coordinates, or coordinates relative to a given element
-	 * @param  string $id 
-	 * @param  integer $x  
-	 * @param  integer $y  
+	 * @param  string $id
+	 * @param  integer $x
+	 * @param  integer $y
 	 */
 	public function move_to($id = NULL, $x = NULL, $y = NULL)
 	{
@@ -389,7 +389,7 @@ class Driver_Selenium extends Driver {
 
 	/**
 	 * Do a screenshot of the current page into a file
-	 * @param  string $file 
+	 * @param  string $file
 	 */
 	public function screenshot($file)
 	{
@@ -400,18 +400,18 @@ class Driver_Selenium extends Driver {
 
 	/**
 	 * Return all the current cookies
-	 * @return array 
+	 * @return array
 	 */
 	public function cookies()
 	{
-		return $this->connection()->get('cookie');		
+		return $this->connection()->get('cookie');
 	}
 
 	/**
 	 * Set a cookie. Use parameters to set "expiry", "path", "domain" and "secure"
-	 * @param  string $name       
-	 * @param  mixed $value      
-	 * @param  array  $parameters 
+	 * @param  string $name
+	 * @param  mixed $value
+	 * @param  array  $parameters
 	 */
 	public function cookie($name, $value, array $parameters = array())
 	{

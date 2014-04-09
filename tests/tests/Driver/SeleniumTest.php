@@ -28,7 +28,7 @@ class Driver_SeleniumTest extends Spiderling_TestCase {
 		$ids = Attempt::make(function() use ($xpath) {
 			return Driver_SeleniumTest::$driver->all($xpath);
 		});
-		
+
 		return isset($ids[0]) ? $ids[0] : NULL;
 	}
 
@@ -89,12 +89,12 @@ class Driver_SeleniumTest extends Spiderling_TestCase {
 
 		$this->assertEquals('Test Confirm?', self::$driver->alert_text());
 		self::$driver->confirm(FALSE);
-		try 
+		try
 		{
 			self::$driver->alert_text();
 			$this->fail('Should not have a dialog open');
-		} 
-		catch (Exception_Selenium $exception) 
+		}
+		catch (Exception_Selenium $exception)
 		{
 			// Normal flow
 		}
@@ -104,12 +104,12 @@ class Driver_SeleniumTest extends Spiderling_TestCase {
 		$this->assertEquals('Test Alert', self::$driver->alert_text());
 		self::$driver->confirm(TRUE);
 
-		try 
+		try
 		{
 			self::$driver->alert_text();
 			$this->fail('Should not have a dialog open');
-		} 
-		catch (Exception_Selenium $exception) 
+		}
+		catch (Exception_Selenium $exception)
 		{
 			// Normal flow
 		}
@@ -178,7 +178,7 @@ class Driver_SeleniumTest extends Spiderling_TestCase {
 		$driver = new Driver_Selenium();
 
 		$driver->connection($connection);
-		
+
 		$this->assertSame($connection, $driver->connection());
 
 		$driver = new Driver_Selenium();
@@ -239,21 +239,21 @@ class Driver_SeleniumTest extends Spiderling_TestCase {
 		$this->assertEquals(array('banner', 'text', 'affiliate'), $value);
 
 		self::$driver->set($this->find("//select[@id='post_ads']//option[text()='Text']"), FALSE);
-		
+
 		$value = self::$driver->value($this->find("//select[@id='post_ads']"));
 		$this->assertEquals(array('banner', 'affiliate'), $value);
 
 		self::$driver->set($this->find("//input[@type='file']"), TESTVIEWS.'form.html');
 
 		$value = self::$driver->value($this->find("//input[@type='file']"));
-		
+
 		$this->assertEquals(TESTVIEWS.'form.html', $value);
 	}
 
 	public function test_clicks()
 	{
 		self::$driver->click($this->find("//a[@id='visible-link']"));
-		
+
 		$title = self::$driver->text($this->find("//h1"));
 		$this->assertEquals('Linked', $title);
 
@@ -282,7 +282,7 @@ class Driver_SeleniumTest extends Spiderling_TestCase {
 
 		$driver = new Driver_Selenium();
 
-		$this->assertFalse($driver->is_page_active());		
+		$this->assertFalse($driver->is_page_active());
 	}
 }
 
