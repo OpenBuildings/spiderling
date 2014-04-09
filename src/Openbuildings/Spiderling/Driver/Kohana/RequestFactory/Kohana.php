@@ -71,7 +71,7 @@ class Driver_Kohana_RequestFactory_Kohana implements Driver_Simple_RequestFactor
 		{
 			$redirects_count++;
 
-			if ($redirects_count > $this->max_redirects())
+			if ($redirects_count >= $this->max_redirects())
 				throw new Exception_Toomanyredirects('Maximum Number of redirects (5) for url :url', array(':url' => $url));
 
 			$url_parts = parse_url($this->_response->headers('location'));
