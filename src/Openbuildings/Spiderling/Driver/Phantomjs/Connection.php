@@ -247,17 +247,25 @@ class Driver_Phantomjs_Connection {
 
 		curl_setopt_array($curl, $options);
 
-		$raw = trim(curl_exec($curl));
+		$raw = '';
 
+		Attempt::make(function() use ($curl, & $raw) {
+			$raw = trim(curl_exec($curl));
+			return curl_getinfo($curl, CURLINFO_HTTP_CODE) == 200;
+		});
+
+		$error = curl_error($curl);
 		$code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
-		$result = json_decode($raw, TRUE);
+		curl_close($curl);
 
-		if ($error = curl_error($curl))
+		if ($error)
 			throw new Exception_Driver('Curl ":command" throws exception :error', array(':command' => $command, ':error' => $error));
 
 		if ($code != 200)
 			throw new Exception_Driver('Unexpected response from the panthomjs for :command: :code', array(':command' => $command, ':code' => $code));
+
+		$result = json_decode($raw, TRUE);
 
 		return $result;
 	}

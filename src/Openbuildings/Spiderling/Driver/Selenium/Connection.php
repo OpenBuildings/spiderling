@@ -170,7 +170,11 @@ class Driver_Selenium_Connection
 
 		$result = json_decode($raw, TRUE);
 
-		if ($error = curl_error($curl))
+		$error = curl_error($curl);
+
+		curl_close($curl);
+
+		if ($error)
 			throw new Exception_Driver('Curl ":command" throws exception :error', array(':command' => $command, ':error' => $error));
 
 		if ($result['status'] != 0)
