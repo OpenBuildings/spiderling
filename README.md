@@ -596,7 +596,7 @@ use Openbuildings\Spiderling\Page;
 
 $connection = new Driver_Phantomjs_Connection;
 $connection->port(5500);
-$connection->sart('pid_file', 'log_file');
+$connection->start('pid_file', 'log_file');
 
 $driver = new Driver_Phantomjs($connection);
 
