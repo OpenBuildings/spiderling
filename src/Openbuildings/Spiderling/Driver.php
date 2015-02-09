@@ -326,4 +326,23 @@ abstract class Driver {
 		return $this->page;
 	}
 
+	/**
+	 * Extract implicit query from URI
+	 *
+	 * @return array
+	 */
+	public static function extract_query_from_uri($uri)
+	{
+		$uri_query_str = parse_url($uri, PHP_URL_QUERY);
+
+		if ( ! $uri_query_str)
+		{
+			return array();
+		}
+
+		parse_str($uri_query_str, $uri_query);
+
+		return $uri_query;
+	}
+
 }
