@@ -268,6 +268,14 @@ class Driver_Phantomjs extends Driver {
 		$query = array_merge((array) $this->_next_query, (array) $query);
 
 		$this->_next_query = NULL;
+
+		// Check for implicit query string
+		if (strpos($uri, '?') !== FALSE)
+		{
+			$query = array_merge(self::extract_query_from_uri($uri), $query);
+			$uri = substr($uri, 0, strpos($uri, '?'));
+		}
+
 		$url = $this->base_url().$uri.($query ? '?'.http_build_query($query) : '');
 
 		$this->connection()->post('url', array('value' => $url));
