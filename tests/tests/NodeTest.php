@@ -332,7 +332,7 @@ class NodeTest extends Spiderling_TestCase {
 			array(array('button', 'Maraba'), array(), 'button'),
 			array(array('xpath', '//Maraba'), array(), 'xpath'),
 			array(array('field', 'Maraba'), array('value' => '1'), 'field'),
-			array('fieldren', 'Maraba', array(), NULL),
+			array(array('fieldren', 'Maraba'), array(), NULL),
 		);
 	}
 
@@ -350,7 +350,7 @@ class NodeTest extends Spiderling_TestCase {
 		else
 		{
 			$this->setExpectedException('Exception');
-			$locator = Node::get_locator($selector, $filters);
+			$locator = Node::get_locator($selector, $filters)->xpath();
 		}
 	}
 
