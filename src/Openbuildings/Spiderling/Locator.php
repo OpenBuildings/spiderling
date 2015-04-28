@@ -62,34 +62,39 @@ class Locator {
 	{
 		foreach ($this->filters() as $filter => $value)
 		{
-			switch ($filter)
-			{
-				case 'at':
-					$matches_filter = $this->filter_by_at($item, $index, $value);
-				break;
+			try {
+				switch ($filter)
+				{
+					case 'at':
+						$matches_filter = $this->filter_by_at($item, $index, $value);
+					break;
 
-				case 'value':
-					$matches_filter = $this->filter_by_value($item, $index, $value);
-				break;
+					case 'value':
+						$matches_filter = $this->filter_by_value($item, $index, $value);
+					break;
 
-				case 'text':
-					$matches_filter = $this->filter_by_text($item, $index, $value);
-				break;
+					case 'text':
+						$matches_filter = $this->filter_by_text($item, $index, $value);
+					break;
 
-				case 'visible':
-					$matches_filter = $this->filter_by_visible($item, $index, $value);
-				break;
+					case 'visible':
+						$matches_filter = $this->filter_by_visible($item, $index, $value);
+					break;
 
-				case 'attributes':
-					$matches_filter = $this->filter_by_attributes($item, $index, $value);
-				break;
+					case 'attributes':
+						$matches_filter = $this->filter_by_attributes($item, $index, $value);
+					break;
 
-				default:
-					throw new Exception('Filter :filter does not exist', array(':filter' => $filter));
-			}
+					default:
+						throw new Exception('Filter :filter does not exist', array(':filter' => $filter));
+				}
 
-			if ( ! $matches_filter)
+				if ( ! $matches_filter)
+					return FALSE;
+
+			} catch (Exception_Staleelement $e) {
 				return FALSE;
+			}
 		}
 
 		return TRUE;

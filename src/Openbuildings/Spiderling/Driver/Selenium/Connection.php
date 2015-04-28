@@ -180,6 +180,9 @@ class Driver_Selenium_Connection
 		if ($error)
 			throw new Exception_Driver('Curl ":command" throws exception :error', array(':command' => $command, ':error' => $error));
 
+		if ($result['status'] == 10)
+			throw new Exception_Staleelement();
+
 		if ($result['status'] != 0)
 			throw new Exception_Selenium($result['status']);
 
