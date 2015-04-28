@@ -69,6 +69,6 @@ class Phantomjs {
 			$additional = $dir.$additional;
 		}
 
-		return "phantomjs --ssl-protocol=any {$file} {$port} {$additional}";
+		return "phantomjs --ssl-protocol=any --ignore-ssl-errors=true {$file} {$port} {$additional}";
 	}
 }
