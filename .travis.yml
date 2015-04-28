@@ -15,8 +15,10 @@ install:
 before_script:
   - mkdir -p build/logs
   - "export DISPLAY=:99.0"
+  - "wget http://selenium-release.storage.googleapis.com/2.40/selenium-server-standalone-2.40.0.jar"
   - "sh -e /etc/init.d/xvfb start"
-  - "nohup java -jar vendor/claylo/selenium-server-standalone/selenium-server-standalone-2.*.jar > /dev/null 2> /dev/null &"
+  - "nohup java -jar selenium-server-standalone-2.40.0.jar > /dev/null 2> /dev/null &"
+  - sleep 3
 
 script:
   - phpunit --coverage-clover build/logs/clover.xml
