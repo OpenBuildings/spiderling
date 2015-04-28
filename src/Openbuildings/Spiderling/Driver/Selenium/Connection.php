@@ -129,7 +129,10 @@ class Driver_Selenium_Connection
 	{
 		$options = array();
 		$options[CURLOPT_POST] = TRUE;
-		$options[CURLOPT_POSTFIELDS] = json_encode($params);
+
+		if ($params) {
+			$options[CURLOPT_POSTFIELDS] = json_encode($params);
+		}
 
 		return $this->call($command, $options);
 	}
