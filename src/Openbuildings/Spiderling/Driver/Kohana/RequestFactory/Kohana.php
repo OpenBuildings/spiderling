@@ -12,11 +12,11 @@ namespace Openbuildings\Spiderling;
  */
 class Driver_Kohana_RequestFactory_Kohana implements Driver_Simple_RequestFactory {
 
-	protected static $_previous_url;
 
 	protected $_request;
 	protected $_response;
 	protected $_max_redirects = 5;
+	protected $_previous_url;
 
 	public function max_redirects($max_redirects = NULL)
 	{
@@ -36,6 +36,11 @@ class Driver_Kohana_RequestFactory_Kohana implements Driver_Simple_RequestFactor
 	public function current_url()
 	{
 		return \URL::site($this->current_path(), TRUE);
+	}
+
+	public function previous_url()
+	{
+		return $this->_previous_url;
 	}
 
 	public function current_path()
@@ -67,11 +72,11 @@ class Driver_Kohana_RequestFactory_Kohana implements Driver_Simple_RequestFactor
 			->post($post)
 			->body(http_build_query($post));
 
-		if (Driver_Kohana_RequestFactory_Kohana::$_previous_url) {
-			$this->_request->referrer(Driver_Kohana_RequestFactory_Kohana::$_previous_url);
+		if ($this->_previous_url) {
+			$this->_request->referrer($this->_previous_url);
 		}
 
-		Driver_Kohana_RequestFactory_Kohana::$_previous_url = $this->current_url();
+		$this->_previous_url = $this->current_url();
 
 		\Request::$initial = $this->_request;
 
