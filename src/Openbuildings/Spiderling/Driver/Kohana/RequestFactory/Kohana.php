@@ -76,7 +76,7 @@ class Driver_Kohana_RequestFactory_Kohana implements Driver_Simple_RequestFactor
 			$this->_request->referrer($this->_previous_url);
 		}
 
-		$this->_previous_url = $this->current_url();
+		$this->_previous_url = $this->current_url().\URL::query($this->_request->query(), FALSE);
 
 		\Request::$initial = $this->_request;
 

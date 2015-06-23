@@ -51,10 +51,10 @@ class Driver_KohanaTest extends Spiderling_TestCase {
 	public function test_referrer()
 	{
 		$driver = new Driver_Kohana();
-		$driver->get('/test/index');
+		$driver->get('/test/index?test=value');
 		$this->assertEquals('', $driver->request_factory()->request()->referrer());
 		$driver->get('/test/action_final');
-		$this->assertEquals('http://example.com/test/index', $driver->request_factory()->request()->referrer());
+		$this->assertEquals('http://example.com/test/index?test=value', $driver->request_factory()->request()->referrer());
 	}
 
 	public function test_too_many_redirects()
