@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c4934d6d60b8ef9075aa893b4f85a25d",
+    "hash": "11a8b5b9088eeddd26b324d4c9cea0e8",
     "packages": [
         {
             "name": "openbuildings/environment-backup",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenBuildings/environment-backup.git",
-                "reference": "0.1.1"
+                "reference": "382d388ec2a9d9c414965a20347671328ab0b1f2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OpenBuildings/environment-backup/zipball/0.1.1",
-                "reference": "0.1.1",
+                "url": "https://api.github.com/repos/OpenBuildings/environment-backup/zipball/382d388ec2a9d9c414965a20347671328ab0b1f2",
+                "reference": "382d388ec2a9d9c414965a20347671328ab0b1f2",
                 "shasum": ""
             },
             "require-dev": {
@@ -46,21 +46,20 @@
         },
         {
             "name": "symfony/css-selector",
-            "version": "v2.6.6",
-            "target-dir": "Symfony/Component/CssSelector",
+            "version": "v2.7.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/CssSelector.git",
-                "reference": "db2c48df9658423a8c168d89f7b971b73d3d74a4"
+                "reference": "0b5c07b516226b7dd32afbbc82fe547a469c5092"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/CssSelector/zipball/db2c48df9658423a8c168d89f7b971b73d3d74a4",
-                "reference": "db2c48df9658423a8c168d89f7b971b73d3d74a4",
+                "url": "https://api.github.com/repos/symfony/CssSelector/zipball/0b5c07b516226b7dd32afbbc82fe547a469c5092",
+                "reference": "0b5c07b516226b7dd32afbbc82fe547a469c5092",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.3"
+                "php": ">=5.3.9"
             },
             "require-dev": {
                 "symfony/phpunit-bridge": "~2.7"
@@ -68,11 +67,11 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.6-dev"
+                    "dev-master": "2.7-dev"
                 }
             },
             "autoload": {
-                "psr-0": {
+                "psr-4": {
                     "Symfony\\Component\\CssSelector\\": ""
                 }
             },
@@ -82,21 +81,21 @@
             ],
             "authors": [
                 {
-                    "name": "Symfony Community",
-                    "homepage": "http://symfony.com/contributors"
-                },
-                {
                     "name": "Jean-François Simon",
                     "email": "jeanfrancois.simon@sensiolabs.com"
                 },
                 {
                     "name": "Fabien Potencier",
                     "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
                 }
             ],
             "description": "Symfony CssSelector Component",
-            "homepage": "http://symfony.com",
-            "time": "2015-03-22 16:55:57"
+            "homepage": "https://symfony.com",
+            "time": "2015-05-15 13:33:16"
         }
     ],
     "packages-dev": [
@@ -134,6 +133,43 @@
             ],
             "description": "Kohana core classes repackaged with composer, used to test modules",
             "time": "2013-10-01 08:57:54"
+        },
+        {
+            "name": "se/selenium-server-standalone",
+            "version": "v2.40.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sveneisenschmidt/selenium-server-standalone.git",
+                "reference": "c3c3b175265c747e3eff7b2beb323f86bd3ee2bb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sveneisenschmidt/selenium-server-standalone/zipball/c3c3b175265c747e3eff7b2beb323f86bd3ee2bb",
+                "reference": "c3c3b175265c747e3eff7b2beb323f86bd3ee2bb",
+                "shasum": ""
+            },
+            "bin": [
+                "composer/bin/selenium-server-standalone"
+            ],
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache 2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Sven Eisenschmidt",
+                    "email": "sven.eisenschmidt@gmail.com",
+                    "homepage": "http://unsicherheitsagent.de/"
+                }
+            ],
+            "description": "Composer distribution of Selenium Server Standalone, the browser automation framework. Adds a executable to your composer bin directory.",
+            "homepage": "https://github.com/sveneisenschmidt/selenium-server-standalone",
+            "keywords": [
+                "selenium",
+                "testing"
+            ],
+            "time": "2014-03-13 13:17:49"
         }
     ],
     "aliases": [],
