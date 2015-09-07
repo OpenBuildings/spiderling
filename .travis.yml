@@ -1,23 +1,50 @@
 language: php
 
+sudo: false
+
 php:
+  - 5.3
   - 5.4
+  - 5.5
+  - 5.6
+  - 7
+  - hhvm
+
+env:
+  - DEPS=normal
+  - DEPS=highest
+  - DEPS=lowest
+
+matrix:
+  allow_failures:
+      - php: 7
+  fast_finish: true
+
+branches:
+  only:
+    - master
+
+cache:
+  directories:
+  - $HOME/.composer/cache
 
 notifications:
   email: false
   slack:
     secure: ixWu6kWtNIlzzdImpu4MdvGYpA6ZPp/dQpMAp6FDO2oHHB55J9ossBYtVtBXPCDs9OxqfQl2yqbE+TkhfIfkZqIbhvX2+CiIomvYSKZDvryUlCfbfV29behmSVIVYvg3b8Tba+nAyZeJA2guUyAy02WGr3n4I+PDgZC3Wa/mv94=
 
+before_install: composer selfupdate
+
 install:
-  - composer selfupdate
-  - composer install --no-interaction
+  - if [ "$DEPS" = "normal" ]; then composer install --no-interaction; fi;
+  - if [ "$DEPS" = "highest" ]; then composer update --no-interaction; fi;
+  - if [ "$DEPS" = "lowest" ]; then composer update --no-interaction --prefer-lowest --prefer-stable; fi;
 
 before_script:
   - mkdir -p build/logs
   - "export DISPLAY=:99.0"
-  - "wget http://selenium-release.storage.googleapis.com/2.40/selenium-server-standalone-2.40.0.jar"
   - "sh -e /etc/init.d/xvfb start"
-  - "nohup java -jar selenium-server-standalone-2.40.0.jar > /dev/null 2> /dev/null &"
+  - "nohup java -jar vendor/se/selenium-server-standalone/composer/bin/selenium-server-standalone.jar > /dev/null 2> /dev/null &"
   - sleep 3
 
 script:
