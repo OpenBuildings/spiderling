@@ -528,7 +528,7 @@ Loads the HTML page with curl and then parses it using PHP's native DOM and XPat
 
 Before each request $_GET, $_POST and $_FILES are saved, filled in with appropriate values and later restored, mimicking a real PHP request.
 
-Appart from loading the HTML through curl, you could set the content directly, if you've loaded it by other means.
+Apart from loading the HTML through curl, you could set the content directly, if you've loaded it by other means.
 
 Here's how that looks:
 
