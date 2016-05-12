@@ -10,7 +10,7 @@
 		}
 	],
 	"require": {
-		"symfony/css-selector": "*",
+		"symfony/css-selector": "~2.3|~3.0",
 		"openbuildings/environment-backup": "~0.1.1"
 	},
 	"require-dev": {
