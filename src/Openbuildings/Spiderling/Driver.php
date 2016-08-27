@@ -200,7 +200,7 @@ abstract class Driver {
 	 * @param  array $query
 	 * @return $this
 	 */
-	public function visit($uri, array $query = NULL)
+	public function visit($uri, array $query = array())
 	{
 		throw new Exception_Notimplemented(__FUNCTION__, $this);
 	}

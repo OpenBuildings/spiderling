@@ -14,7 +14,7 @@
 		"openbuildings/environment-backup": "~0.1.1"
 	},
 	"require-dev": {
-		"openbuildings/kohana-test-bootsrap": "~0.1.2",
+		"openbuildings/kohana-test-bootstrap": "^0.2",
 		"se/selenium-server-standalone": "2.40",
 		"phpunit/phpunit": "^4.0|^5.0"
 	},
