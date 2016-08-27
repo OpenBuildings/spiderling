@@ -19,10 +19,6 @@ matrix:
   fast_finish: true
   exclude:
     - php: 5.3
-      env: DEPS=normal
-    - php: 5.4
-      env: DEPS=normal
-    - php: 5.3
       env: DEPS=highest
     - php: 5.4
       env: DEPS=highest
