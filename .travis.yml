@@ -26,6 +26,8 @@ matrix:
       env: DEPS=highest
     - php: 5.4
       env: DEPS=highest
+    - php: hhvm
+      env: DEPS=lowest
 
 branches:
   only:
@@ -55,7 +57,7 @@ before_script:
   - sleep 3
 
 script:
-  - phpunit --coverage-clover build/logs/clover.xml
+  - vendor/bin/phpunit --stop-on-error --stop-on-failure --coverage-clover build/logs/clover.xml
 
 after_script:
   - wget https://scrutinizer-ci.com/ocular.phar
