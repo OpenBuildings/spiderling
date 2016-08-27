@@ -17,7 +17,18 @@ class NodeTest extends Spiderling_TestCase {
 	{
 		parent::setUp();
 
-		$this->driver = $this->getMock('Openbuildings\Spiderling\Driver_Simple', array('get', 'post', 'confirm', 'execute', 'screenshot', 'move_to', 'drop_files'));
+		$this->driver = $this
+			->getMockBuilder('Openbuildings\Spiderling\Driver_Simple')
+			->setMethods(array(
+				'get',
+				'post',
+				'confirm',
+				'execute',
+				'screenshot',
+				'move_to',
+				'drop_files',
+			))
+			->getMock();
 
 		$this->driver->default_wait_time = 1;
 
@@ -278,7 +289,10 @@ class NodeTest extends Spiderling_TestCase {
 
 	public function test_extension()
 	{
-		$extension = $this->getMock('Node_Test_Extension', array('test_mock', 'test_mock2'));
+		$extension = $this
+			->getMockBuilder('Node_Test_Extension')
+			->setMethods(array('test_mock', 'test_mock2'))
+			->getMock();
 
 		$extension->expects($this->once())
 			->method('test_mock')
