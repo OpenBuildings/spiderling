@@ -66,7 +66,7 @@ class Driver_Simple_RequestFactory_HTTP implements Driver_Simple_RequestFactory
 	 * @param  array $post
 	 * @return string
 	 */
-	public function execute($method, $url, array $post = NULL)
+	public function execute($method, $url, array $post = array())
 	{
 		$curl = curl_init($url);
 

@@ -20,5 +20,5 @@ interface Driver_Simple_RequestFactory
 
 	public function user_agent();
 
-	public function execute($method, $url, array $post = NULL);
+	public function execute($method, $url, array $post = array());
 }

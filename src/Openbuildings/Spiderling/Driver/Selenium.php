@@ -293,7 +293,7 @@ class Driver_Selenium extends Driver {
 	 * @param  string $uri
 	 * @param  array  $query
 	 */
-	public function visit($uri, array $query = NULL)
+	public function visit($uri, array $query = array())
 	{
 		$query = array_merge((array) $this->_next_query, (array) $query);
 
