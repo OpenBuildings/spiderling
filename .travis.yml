@@ -18,6 +18,11 @@ env:
 
 matrix:
   fast_finish: true
+  allow_failures:
+      - php: 7.1
+        env: DEPS=normal
+      - php: 7.1
+        env: DEPS=highest
   exclude:
     - php: 5.3
       env: DEPS=highest
