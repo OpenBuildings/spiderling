@@ -16,7 +16,10 @@ class NodelistTest extends Spiderling_TestCase {
 	{
 		parent::setUp();
 
-		$driver = $this->getMock('Openbuildings\Spiderling\Driver_Simple', array('get', 'post'));
+		$driver = $this
+			->getMockBuilder('Openbuildings\Spiderling\Driver_Simple')
+			->setMethods(array('get', 'post'))
+			->getMock();
 
 		$html_content = file_get_contents(TESTVIEWS.'index.html');
 

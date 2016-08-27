@@ -37,7 +37,9 @@ class Driver_SimpleTest extends Spiderling_TestCase {
 	{
 		parent::setUp();
 		$this->driver = new Driver_Simple();
-		$request_factory = $this->getMock('Openbuildings\Spiderling\Driver_Simple_RequestFactory_HTTP');
+		$request_factory = $this
+			->getMockBuilder('Openbuildings\Spiderling\Driver_Simple_RequestFactory_HTTP')
+			->getMock();
 		$this->driver->request_factory($request_factory);
 
 		$html_content = file_get_contents(TESTVIEWS.'form.html');

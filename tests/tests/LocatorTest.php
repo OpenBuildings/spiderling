@@ -90,16 +90,19 @@ class LocatorTest extends Spiderling_TestCase {
 	{
 		$node = new Node(new Driver_Simple());
 
-		$locator = $this->getMock(
-			'Openbuildings\Spiderling\Locator',
-			array('filter_by_at', 'filter_by_value', 'filter_by_visible', 'filter_by_attributes'),
-			array('css', 'div', array(
-				'at' => 'test_at',
-				'value' => 'test_value',
-				'visible' => TRUE,
-				'attributes' => array('name' => 'test'),
+		$locator = $this->getMockBuilder('Openbuildings\Spiderling\Locator')
+			->setMethods(array('filter_by_at', 'filter_by_value', 'filter_by_visible', 'filter_by_attributes'))
+			->setConstructorArgs(array(
+				'css',
+				'div',
+				array(
+					'at' => 'test_at',
+					'value' => 'test_value',
+					'visible' => TRUE,
+					'attributes' => array('name' => 'test'),
+				)
 			))
-		);
+			->getMock();
 
 		$locator
 			->expects($this->once())
@@ -128,11 +131,14 @@ class LocatorTest extends Spiderling_TestCase {
 
 		$this->assertTrue($locator->is_filtered($node, 1));
 
-		$locator = $this->getMock(
-			'Openbuildings\Spiderling\Locator',
-			array('filter_by_at', 'filter_by_value'),
-			array('css', 'div', array('at' => 'test_at', 'value' => 'test_value'))
-		);
+		$locator = $this->getMockBuilder('Openbuildings\Spiderling\Locator')
+			->setMethods(array('filter_by_at', 'filter_by_value'))
+			->setConstructorArgs(array(
+				'css',
+				'div',
+				array('at' => 'test_at', 'value' => 'test_value')
+			))
+			->getMock();
 
 		$locator
 			->expects($this->once())
@@ -165,11 +171,10 @@ class LocatorTest extends Spiderling_TestCase {
 	{
 		$locator = new Locator('css', '.body');
 
-		$node = $this->getMock(
-			'Openbuildings\Spiderling\Node',
-			array('value'),
-			array(new Driver_Simple())
-		);
+		$node = $this->getMockBuilder('Openbuildings\Spiderling\Node')
+			->setMethods(array('value'))
+			->setConstructorArgs(array(new Driver_Simple()))
+			->getMock();
 
 		$node
 			->expects($this->exactly(2))
@@ -184,11 +189,10 @@ class LocatorTest extends Spiderling_TestCase {
 	{
 		$locator = new Locator('css', '.body');
 
-		$node = $this->getMock(
-			'Openbuildings\Spiderling\Node',
-			array('text'),
-			array(new Driver_Simple())
-		);
+		$node = $this->getMockBuilder('Openbuildings\Spiderling\Node')
+			->setMethods(array('text'))
+			->setConstructorArgs(array(new Driver_Simple()))
+			->getMock();
 
 		$node
 			->expects($this->exactly(2))
@@ -203,11 +207,10 @@ class LocatorTest extends Spiderling_TestCase {
 	{
 		$locator = new Locator('css', '.body');
 
-		$node = $this->getMock(
-			'Openbuildings\Spiderling\Node',
-			array('is_visible'),
-			array(new Driver_Simple())
-		);
+		$node = $this->getMockBuilder('Openbuildings\Spiderling\Node')
+			->setMethods(array('is_visible'))
+			->setConstructorArgs(array(new Driver_Simple()))
+			->getMock();
 
 		$node
 			->expects($this->exactly(2))
@@ -222,11 +225,10 @@ class LocatorTest extends Spiderling_TestCase {
 	{
 		$locator = new Locator('css', '.body');
 
-		$node = $this->getMock(
-			'Openbuildings\Spiderling\Node',
-			array('attribute'),
-			array(new Driver_Simple())
-		);
+		$node = $this->getMockBuilder('Openbuildings\Spiderling\Node')
+			->setMethods(array('attribute'))
+			->setConstructorArgs(array(new Driver_Simple()))
+			->getMock();
 
 		$node
 			->expects($this->exactly(2))

@@ -2,7 +2,7 @@
 
 namespace Openbuildings\Spiderling;
 
-use Symfony\Component\CssSelector\CssSelector;
+use Symfony\Component\CssSelector;
 
 /**
  * Locator - converts varios locator formats into xpath
@@ -184,7 +184,7 @@ class Locator {
 			switch ($this->type())
 			{
 				case 'css':
-					$this->_xpath = '//'.CssSelector::toXPath($this->selector());
+					$this->_xpath = '//'.$this->convert_css_selector_to_xpath($this->selector());
 				break;
 
 				case 'xpath':
@@ -329,4 +329,22 @@ class Locator {
 
 		return "Locator: ({$this->type()}) {$this->selector()}".$filters;
 	}
+
+    /**
+     * Convert a CSS selector to XPath.
+     * Uses Symfony CSS Selector 2.8 and above API if possible.
+     * Otherwise fallback to pre-2.8 static interface.
+     *
+     * @param  string $css_selector CSS selector
+     * @return string XPath selector
+     */
+    private function convert_css_selector_to_xpath($css_selector)
+    {
+        if (class_exists('Symfony\Component\CssSelector\CssSelectorConverter')) {
+            $converter = new CssSelector\CssSelectorConverter();
+            return $converter->toXPath($this->selector());
+        }
+
+        return CssSelector\CssSelector::toXPath($this->selector());
+    }
 }
