@@ -81,7 +81,7 @@ server.listen(server_port, function (request, response)
 	 * Execute a callback if the method and url match
 	 * @param  {string}   method   http method
 	 * @param  {string}   url      url request
-	 * @param  {callback} callback the callback to be executed, recieves matched url paramters from the regex
+	 * @param  {callback} callback the callback to be executed, receives matched url paramters from the regex
 	 * @return {response}            this
 	 */
 	request.connect = function (method, url, callback) {
@@ -93,7 +93,7 @@ server.listen(server_port, function (request, response)
 		return this;
 	};
 
-	console.log('Recieved command ', request.method, request.url, request.post ? request.post.value : '');
+	console.log('Received command ', request.method, request.url, request.post ? request.post.value : '');
 
 	response.statusCode = 200;
 
