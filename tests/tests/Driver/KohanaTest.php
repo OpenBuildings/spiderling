@@ -48,6 +48,15 @@ class Driver_KohanaTest extends Spiderling_TestCase {
 		$this->assertSame(Request::$initial, $driver->request_factory()->request());
 	}
 
+	public function test_referrer()
+	{
+		$driver = new Driver_Kohana();
+		$driver->get('/test/index?test=value');
+		$this->assertEquals('', $driver->request_factory()->request()->referrer());
+		$driver->get('/test/action_final');
+		$this->assertEquals('http://example.com/test/index?test=value', $driver->request_factory()->request()->referrer());
+	}
+
 	public function test_too_many_redirects()
 	{
 		$this->setExpectedException('Openbuildings\Spiderling\Exception_Toomanyredirects');

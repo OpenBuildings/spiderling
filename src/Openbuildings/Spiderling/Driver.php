@@ -200,7 +200,7 @@ abstract class Driver {
 	 * @param  array $query
 	 * @return $this
 	 */
-	public function visit($uri, array $query = NULL)
+	public function visit($uri, array $query = array())
 	{
 		throw new Exception_Notimplemented(__FUNCTION__, $this);
 	}
@@ -324,6 +324,25 @@ abstract class Driver {
 			$this->page = new Page($this);
 		}
 		return $this->page;
+	}
+
+	/**
+	 * Extract implicit query from URI
+	 *
+	 * @return array
+	 */
+	public static function extract_query_from_uri($uri)
+	{
+		$uri_query_str = parse_url($uri, PHP_URL_QUERY);
+
+		if ( ! $uri_query_str)
+		{
+			return array();
+		}
+
+		parse_str($uri_query_str, $uri_query);
+
+		return $uri_query;
 	}
 
 }

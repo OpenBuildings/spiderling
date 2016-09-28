@@ -247,7 +247,7 @@ class Driver_SeleniumTest extends Spiderling_TestCase {
 
 		$value = self::$driver->value($this->find("//input[@type='file']"));
 
-		$this->assertEquals(TESTVIEWS.'form.html', $value);
+		$this->assertEquals('form.html', $value);
 	}
 
 	public function test_clicks()

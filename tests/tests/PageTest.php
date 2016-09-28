@@ -16,7 +16,9 @@ class PageTest extends Spiderling_TestCase {
 
 		$this->assertNull($page->extension());
 
-		$extension = $this->getMock('Page_Test_Extension', array('test_mock'));
+		$extension = $this
+			->getMockBuilder('Page_Test_Extension')
+			->getMock();
 
 		$page = new Page(NULL, $extension);
 
@@ -25,7 +27,10 @@ class PageTest extends Spiderling_TestCase {
 
 	public function test_methods()
 	{
-		$driver = $this->getMock('Openbuildings\Spiderling\Driver_Simple');
+		$driver = $this
+			->getMockBuilder('Openbuildings\Spiderling\Driver_Simple')
+			->getMock();
+
 		$driver->expects($this->once())
 			->method('visit')
 			->with($this->equalTo('http://example.com'), $this->equalTo(array('test' => 'value')));

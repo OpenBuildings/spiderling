@@ -1,26 +1,66 @@
 language: php
 
+sudo: false
+
 php:
+  - 5.3
   - 5.4
+  - 5.5
+  - 5.6
+  - 7.0
+  - 7.1
+  - hhvm
+
+env:
+  - DEPS=normal
+  - DEPS=highest
+  - DEPS=lowest
+
+matrix:
+  fast_finish: true
+  allow_failures:
+      - php: 7.1
+        env: DEPS=normal
+      - php: 7.1
+        env: DEPS=highest
+  exclude:
+    - php: 5.3
+      env: DEPS=highest
+    - php: 5.4
+      env: DEPS=highest
+    - php: hhvm
+      env: DEPS=lowest
+
+branches:
+  only:
+    - master
+
+cache:
+  directories:
+  - $HOME/.composer/cache
 
 notifications:
   email: false
   slack:
     secure: ixWu6kWtNIlzzdImpu4MdvGYpA6ZPp/dQpMAp6FDO2oHHB55J9ossBYtVtBXPCDs9OxqfQl2yqbE+TkhfIfkZqIbhvX2+CiIomvYSKZDvryUlCfbfV29behmSVIVYvg3b8Tba+nAyZeJA2guUyAy02WGr3n4I+PDgZC3Wa/mv94=
 
+before_install: travis_retry composer selfupdate
+
 install:
-  - composer selfupdate
-  - composer install --no-interaction
+  - if [ "$DEPS" = "normal" ]; then travis_retry composer install --no-interaction; fi;
+  - if [ "$DEPS" = "highest" ]; then travis_retry composer update --no-interaction; fi;
+  - if [ "$DEPS" = "lowest" ]; then travis_retry composer update --no-interaction --prefer-lowest --prefer-stable; fi;
 
 before_script:
   - mkdir -p build/logs
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
-  - "nohup java -jar vendor/claylo/selenium-server-standalone/selenium-server-standalone-2.*.jar > /dev/null 2> /dev/null &"
+  - "nohup java -jar vendor/se/selenium-server-standalone/composer/bin/selenium-server-standalone.jar > /dev/null 2> /dev/null &"
+  - sleep 3
 
 script:
-  - phpunit --coverage-clover build/logs/clover.xml
+  - vendor/bin/phpunit --stop-on-error --stop-on-failure --coverage-clover build/logs/clover.xml
 
 after_script:
-  - wget https://scrutinizer-ci.com/ocular.phar
-  - php ocular.phar code-coverage:upload --format=php-clover build/logs/clover.xml
+  - travis_retry wget https://scrutinizer-ci.com/ocular.phar
+  - travis_retry php ocular.phar code-coverage:upload --format=php-clover build/logs/clover.xml

@@ -17,7 +17,18 @@ class NodeTest extends Spiderling_TestCase {
 	{
 		parent::setUp();
 
-		$this->driver = $this->getMock('Openbuildings\Spiderling\Driver_Simple', array('get', 'post', 'confirm', 'execute', 'screenshot', 'move_to', 'drop_files'));
+		$this->driver = $this
+			->getMockBuilder('Openbuildings\Spiderling\Driver_Simple')
+			->setMethods(array(
+				'get',
+				'post',
+				'confirm',
+				'execute',
+				'screenshot',
+				'move_to',
+				'drop_files',
+			))
+			->getMock();
 
 		$this->driver->default_wait_time = 1;
 
@@ -278,7 +289,10 @@ class NodeTest extends Spiderling_TestCase {
 
 	public function test_extension()
 	{
-		$extension = $this->getMock('Node_Test_Extension', array('test_mock', 'test_mock2'));
+		$extension = $this
+			->getMockBuilder('Node_Test_Extension')
+			->setMethods(array('test_mock', 'test_mock2'))
+			->getMock();
 
 		$extension->expects($this->once())
 			->method('test_mock')
@@ -332,7 +346,7 @@ class NodeTest extends Spiderling_TestCase {
 			array(array('button', 'Maraba'), array(), 'button'),
 			array(array('xpath', '//Maraba'), array(), 'xpath'),
 			array(array('field', 'Maraba'), array('value' => '1'), 'field'),
-			array('fieldren', 'Maraba', array(), NULL),
+			array(array('fieldren', 'Maraba'), array(), NULL),
 		);
 	}
 
@@ -350,7 +364,7 @@ class NodeTest extends Spiderling_TestCase {
 		else
 		{
 			$this->setExpectedException('Exception');
-			$locator = Node::get_locator($selector, $filters);
+			$locator = Node::get_locator($selector, $filters)->xpath();
 		}
 	}
 

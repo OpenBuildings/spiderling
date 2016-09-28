@@ -129,7 +129,10 @@ class Driver_Selenium_Connection
 	{
 		$options = array();
 		$options[CURLOPT_POST] = TRUE;
-		$options[CURLOPT_POSTFIELDS] = json_encode($params);
+
+		if ($params) {
+			$options[CURLOPT_POSTFIELDS] = json_encode($params);
+		}
 
 		return $this->call($command, $options);
 	}
@@ -176,6 +179,9 @@ class Driver_Selenium_Connection
 
 		if ($error)
 			throw new Exception_Driver('Curl ":command" throws exception :error', array(':command' => $command, ':error' => $error));
+
+		if ($result['status'] == 10)
+			throw new Exception_Staleelement();
 
 		if ($result['status'] != 0)
 			throw new Exception_Selenium($result['status']);
