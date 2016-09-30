@@ -602,6 +602,12 @@ $driver = new Driver_Phantomjs($connection);
 
 $page = new Page();
 ```
+By default Phanatomjs have to be in your PATH, if you want you can set custom path.
+If file not found, will throw Exception.
+```php
+$connection = new Driver_Phantomjs_Connection;
+$connection->set_phantomjs_binary('_PRJ_/vendor/bin/');
+```
 
 Setting the "pid file" argument on start, allows the driver to save the pid of the phantomjs server process to that file, and then try to clean up the server when started again, thus making sure you don't have running PhantomJS process all over the place.
 

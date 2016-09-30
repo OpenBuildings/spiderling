@@ -38,6 +38,12 @@ class Driver_Phantomjs_Connection {
 	protected $_port;
 
 	/**
+	 * Phantomjs binary
+	 * @var string
+	 */
+	protected $_phantomjs_binary = 'phantomjs';
+
+	/**
 	 * Getter / Setter of the phantomjs server port.
 	 * If none is set it tries to fine an unused port between 4445 and 5000
 	 * @param  string $port
@@ -115,12 +121,12 @@ class Driver_Phantomjs_Connection {
 			$this->_pid_file = $pid_file;
 			if (is_file($this->_pid_file))
 			{
-				Phantomjs::kill(file_get_contents($pid_file));
+				$this->_kill(file_get_contents($pid_file));
 				unlink($this->_pid_file);
 			}
 		}
 
-		$this->_pid = Phantomjs::start('phantom.js', $this->port(), 'phantomjs-connection.js', $log_file);
+		$this->_pid = $this->_start('phantom.js', $this->port(), 'phantomjs-connection.js', $log_file);
 
 		if ($this->_pid_file)
 		{
@@ -233,6 +239,18 @@ class Driver_Phantomjs_Connection {
 	}
 
 	/**
+	 * Set phantomjs binary location
+	 * @param string $binary
+	 * @throws Exception
+	 */
+	public function set_phantomjs_binary($binary) {
+			if ( ! is_file($binary)){
+				throw new Exception('Cannot set phantomjs binary: file :binary is not found', array(':binary' => $binary));
+			}
+		$this->_phantomjs_binary = $binary;
+	}
+
+	/**
 	 * Perform a custom request on the phantomjs server, using curl
 	 * @param  string $command
 	 * @param  array  $options
@@ -268,5 +286,67 @@ class Driver_Phantomjs_Connection {
 		$result = json_decode($raw, TRUE);
 
 		return $result;
+	}
+
+	/**
+	 * Start a phantomjs server in the background. Set port, server js file, additional files and log file.
+	 *
+	 * @param  string  $file       the server js file
+	 * @param  integer $port       the port to start the server on
+	 * @param  string  $additional additional file, passed to the js server
+	 * @param  string  $log_file
+	 * @return string the pid of the newly started process
+	 * @throws Exception
+	 */
+	protected function _start($file, $port, $additional = NULL, $log_file = '/dev/null')
+	{
+		if ( ! Network::is_port_open('localhost', $port))
+			throw new Exception('Port :port is already taken', array(':port' => $port));
+
+		if ($log_file !== '/dev/null' AND ! is_file($log_file))
+			throw new Exception('Log file (:log_file) must be a file or /dev/null', array(':log_file' => $log_file));
+
+		return shell_exec(strtr('nohup :command > :log 2> :log & echo $!', array(
+			':command' => $this->_command($file, $port, $additional),
+			':log' => $log_file,
+		)));
+	}
+
+	/**
+	 * kill a server on a given pid
+	 * @param  string $pid
+	 */
+	protected function _kill($pid)
+	{
+		shell_exec('kill '.$pid);
+	}
+
+	/**
+	 * Return the command to start the phantomjs server
+	 *
+	 * @param  string  $file       the server js file
+	 * @param  integer $port
+	 * @param  string  $additional additional js file
+	 * @return string
+	 * @throws Exception
+	 */
+	protected function _command($file, $port, $additional = NULL)
+	{
+		$dir = realpath(__DIR__.'/../../../assets').'/';
+
+		$file = $dir.$file;
+
+		if ( ! is_file($file))
+			throw new Exception('Cannot start phantomjs: file :file is not found', array(':file' => $file));
+
+		if ($additional)
+		{
+			if ( ! is_file($file))
+				throw new Exception('Cannot start phantomjs: file :additional is not found', array(':additional' => $additional));
+
+			$additional = $dir.$additional;
+		}
+
+		return $this->_phantomjs_binary." --ssl-protocol=any --ignore-ssl-errors=true {$file} {$port} {$additional}";
 	}
 }
