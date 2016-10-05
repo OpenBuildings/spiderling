@@ -243,10 +243,8 @@ class Driver_Phantomjs_Connection {
 	 * @param string $binary
 	 * @throws Exception
 	 */
-	public function set_phantomjs_binary($binary) {
-			if ( ! is_file($binary)){
-				throw new Exception('Cannot set phantomjs binary: file :binary is not found', array(':binary' => $binary));
-			}
+	public function set_phantomjs_binary($binary)
+	{
 		$this->_phantomjs_binary = $binary;
 	}
 
@@ -300,11 +298,13 @@ class Driver_Phantomjs_Connection {
 	 */
 	protected function _start($file, $port, $additional = NULL, $log_file = '/dev/null')
 	{
-		if ( ! Network::is_port_open('localhost', $port))
-			throw new Exception('Port :port is already taken', array(':port' => $port));
+		if ( ! Network::is_port_open('localhost', $port)) {
+			throw new Exception('Port :port is already taken', [':port' => $port]);
+		}
 
-		if ($log_file !== '/dev/null' AND ! is_file($log_file))
-			throw new Exception('Log file (:log_file) must be a file or /dev/null', array(':log_file' => $log_file));
+		if ($log_file !== '/dev/null' AND ! is_file($log_file)) {
+			throw new Exception('Log file (:log_file) must be a file or /dev/null', [':log_file' => $log_file]);
+		}
 
 		return shell_exec(strtr('nohup :command > :log 2> :log & echo $!', array(
 			':command' => $this->_command($file, $port, $additional),
@@ -332,18 +332,21 @@ class Driver_Phantomjs_Connection {
 	 */
 	protected function _command($file, $port, $additional = NULL)
 	{
-		$dir = realpath(__DIR__.'/../../../assets').'/';
+		$dir = realpath(__DIR__.'/../../../../../assets').'/';
 
 		$file = $dir.$file;
 
-		if ( ! is_file($file))
-			throw new Exception('Cannot start phantomjs: file :file is not found', array(':file' => $file));
-
+		if ( ! is_file($file)) {
+			throw new Exception('Cannot start phantomjs: file :file is not found', [':file' => $file]);
+		}
 		if ($additional)
 		{
-			if ( ! is_file($file))
-				throw new Exception('Cannot start phantomjs: file :additional is not found', array(':additional' => $additional));
-
+			if ( ! is_file($file)) {
+				throw new Exception(
+					'Cannot start phantomjs: file :additional is not found',
+					[':additional' => $additional]
+				);
+			}
 			$additional = $dir.$additional;
 		}
 
