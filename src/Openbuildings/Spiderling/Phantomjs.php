@@ -9,6 +9,7 @@ namespace Openbuildings\Spiderling;
  * @author     Ivan Kerin
  * @copyright  (c) 2013 OpenBuildings Ltd.
  * @license    http://spdx.org/licenses/BSD-3-Clause
+ * @deprecated No longer used by internal code and not recommended.
  */
 class Phantomjs {
 
@@ -23,6 +24,7 @@ class Phantomjs {
 	 */
 	public static function start($file, $port, $additional = NULL, $log_file = '/dev/null')
 	{
+		trigger_error('Deprecated function called.', E_USER_DEPRECATED);
 		if ( ! Network::is_port_open('localhost', $port))
 			throw new Exception('Port :port is already taken', array(':port' => $port));
 
@@ -41,6 +43,7 @@ class Phantomjs {
 	 */
 	public static function kill($pid)
 	{
+		trigger_error('Deprecated function called.', E_USER_DEPRECATED);
 		shell_exec('kill '.$pid);
 	}
 
@@ -54,6 +57,7 @@ class Phantomjs {
 	 */
 	public static function command($file, $port, $additional = NULL)
 	{
+		trigger_error('Deprecated function called.', E_USER_DEPRECATED);
 		$dir = realpath(__DIR__.'/../../../assets').'/';
 
 		$file = $dir.$file;
