@@ -344,7 +344,7 @@ class Driver_Phantomjs_Connection {
 			if ( ! is_file($file)) {
 				throw new Exception(
 					'Cannot start phantomjs: file :additional is not found',
-					[':additional' => $additional]
+					array(':additional' => $additional)
 				);
 			}
 			$additional = $dir.$additional;
