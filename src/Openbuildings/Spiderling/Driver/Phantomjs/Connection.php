@@ -299,11 +299,11 @@ class Driver_Phantomjs_Connection {
 	protected function _start($file, $port, $additional = NULL, $log_file = '/dev/null')
 	{
 		if ( ! Network::is_port_open('localhost', $port)) {
-			throw new Exception('Port :port is already taken', [':port' => $port]);
+			throw new Exception('Port :port is already taken', array(':port' => $port));
 		}
 
 		if ($log_file !== '/dev/null' AND ! is_file($log_file)) {
-			throw new Exception('Log file (:log_file) must be a file or /dev/null', [':log_file' => $log_file]);
+			throw new Exception('Log file (:log_file) must be a file or /dev/null', array(':log_file' => $log_file));
 		}
 
 		return shell_exec(strtr('nohup :command > :log 2> :log & echo $!', array(
@@ -337,7 +337,7 @@ class Driver_Phantomjs_Connection {
 		$file = $dir.$file;
 
 		if ( ! is_file($file)) {
-			throw new Exception('Cannot start phantomjs: file :file is not found', [':file' => $file]);
+			throw new Exception('Cannot start phantomjs: file :file is not found', array(':file' => $file));
 		}
 		if ($additional)
 		{
