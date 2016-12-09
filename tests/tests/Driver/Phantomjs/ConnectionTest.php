@@ -35,8 +35,9 @@ class Driver_Phantomjs_ConnectionTest extends Spiderling_TestCase {
 	public function test_start_and_stop()
 	{
 		$this->assertFalse($this->connection->is_running());
+		$this->connection->port(4441);
 
-		file_put_contents(TESTVIEWS.'test.pid', Phantomjs::start('echo.js', 4441));
+		file_put_contents(TESTVIEWS.'test.pid', $this->connection->start('echo.js'));
 
 		Attempt::make(function() {
 			return ! Network::is_port_open('localhost', 4441);

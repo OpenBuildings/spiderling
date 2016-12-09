@@ -1,6 +1,6 @@
 <?php
 
-
+use Openbuildings\Spiderling\Driver_Phantomjs_Connection;
 use Openbuildings\Spiderling\Network;
 use Openbuildings\Spiderling\Attempt;
 use Openbuildings\Spiderling\Phantomjs;
@@ -11,11 +11,16 @@ use Openbuildings\Spiderling\Phantomjs;
  */
 class PhantomjsTest extends PHPUnit_Framework_TestCase {
 
+	public function setUp()
+	{
+		$this->connection = new Driver_Phantomjs_Connection('http://localhost');
+	}
+
 	public function test_methods()
 	{
 		$this->assertTrue(Network::is_port_open('localhost', 4440));
-
-		$pid = Phantomjs::start('echo.js', 4440);
+		$this->connection->port(4440);
+		$pid = $this->connection->start('echo.js');
 
 		$this->assertTrue(Attempt::make(function() {
 			return ! Network::is_port_open('localhost', 4440);
@@ -24,7 +29,8 @@ class PhantomjsTest extends PHPUnit_Framework_TestCase {
 
 		try
 		{
-			Phantomjs::start('echo.js', 4440);
+			$this->connection->port(4440);
+			$this->connection->start('echo.js');
 			$this->fail('Should rise an exception');
 		}
 		catch (Exception $e)
@@ -32,7 +38,7 @@ class PhantomjsTest extends PHPUnit_Framework_TestCase {
 			// Pass
 		}
 
-		Phantomjs::kill($pid);
+		$this->connection->kill($pid);
 
 		$this->assertTrue(Attempt::make(function() {
 			return Network::is_port_open('localhost', 4440);
