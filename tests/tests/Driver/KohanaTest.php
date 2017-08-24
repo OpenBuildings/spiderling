@@ -12,7 +12,6 @@ class Driver_KohanaTest extends Spiderling_TestCase {
 	public function setUp()
 	{
 		$_SERVER['SERVER_NAME'] = 'example.com';
-		$_SERVER['HTTP_USER_AGENT'] = 'Test User Agent';
 	}
 
 	public function test_request()
@@ -27,7 +26,7 @@ class Driver_KohanaTest extends Spiderling_TestCase {
 
 		$this->assertEquals('http://example.com/test/index', $driver->current_url());
 		$this->assertEquals('/test/index', $driver->current_path());
-		$this->assertEquals('Test User Agent', $driver->user_agent());
+		$this->assertEquals('Spiderling Kohana Driver', $driver->user_agent());
 
 		$this->assertSame(Request::$initial, $driver->request_factory()->request());
 	}

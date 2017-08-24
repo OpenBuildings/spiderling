@@ -12,11 +12,15 @@ namespace Openbuildings\Spiderling;
  */
 class Driver_Kohana_RequestFactory_Kohana implements Driver_Simple_RequestFactory {
 
-
 	protected $_request;
 	protected $_response;
 	protected $_max_redirects = 5;
 	protected $_previous_url;
+
+	public function __construct()
+	{
+		$this->user_agent('Spiderling Kohana Driver');
+	}
 
 	public function max_redirects($max_redirects = NULL)
 	{
@@ -28,8 +32,18 @@ class Driver_Kohana_RequestFactory_Kohana implements Driver_Simple_RequestFactor
 		return $this->_max_redirects;
 	}
 
-	public function user_agent()
+	/**
+	 * Getter / Setter for the user agent, used when performing the requests
+	 * @param  string $user_agent
+	 * @return string|Driver_Simple_RequestFactory_HTTP
+	 */
+	public function user_agent($user_agent = NULL)
 	{
+		if ($user_agent !== NULL)
+		{
+			\Request::$user_agent = $user_agent;
+			return $this;
+		}
 		return \Request::$user_agent;
 	}
 
