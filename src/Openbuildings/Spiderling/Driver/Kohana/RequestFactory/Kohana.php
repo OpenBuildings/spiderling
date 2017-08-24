@@ -65,7 +65,8 @@ class Driver_Kohana_RequestFactory_Kohana implements Driver_Simple_RequestFactor
 	{
 		$redirects_count = 1;
 
-		$this->_request = (new \Request($url))
+		$this->_request = new \Request($url);
+		$this->_request
 			->method($method)
 			->post($post)
 			->body(http_build_query($post));
