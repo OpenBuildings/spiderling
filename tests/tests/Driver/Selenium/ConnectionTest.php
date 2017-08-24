@@ -4,8 +4,9 @@ use Openbuildings\Spiderling\Driver_Selenium_Connection;
 
 /**
  * @package spiderling
- * @group   selenium
- * @group   selenium.connection
+ * @group   driver
+ * @group   driver.selenium
+ * @group   driver.selenium.connection
  */
 class Driver_Selenium_ConnectionTest extends Spiderling_TestCase {
 
