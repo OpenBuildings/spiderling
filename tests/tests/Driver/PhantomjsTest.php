@@ -264,7 +264,7 @@ class Driver_PhantomjsTest extends Spiderling_TestCase {
 		$expected_errors = array(
 			array(
 				'errorMessage' => "ReferenceError: Can't find variable: nonexistant_function",
-				'sourceName' => '',
+				'sourceName' => 'undefined',
 				'lineNumber' => 1,
 			)
 		);
