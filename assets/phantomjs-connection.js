@@ -102,6 +102,8 @@ var PhantomjsConnection = (function (document, undefined) {
 			elem.focus();
 			elem.value = value;
 			elem.blur();
+
+			this.fireEvent(elem, 'change');
 		},
 
 		/**
