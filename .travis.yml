@@ -3,9 +3,6 @@ language: php
 sudo: false
 
 php:
-  - 5.3
-  - 5.4
-  - 5.5
   - 5.6
   - 7.0
   - 7.1
@@ -14,14 +11,6 @@ env:
   - DEPS=normal
   - DEPS=highest
   - DEPS=lowest
-
-matrix:
-  fast_finish: true
-  exclude:
-    - php: 5.3
-      env: DEPS=highest
-    - php: 5.4
-      env: DEPS=highest
 
 branches:
   only:
