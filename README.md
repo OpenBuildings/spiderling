@@ -5,7 +5,7 @@
 [![Code Coverage](https://scrutinizer-ci.com/g/OpenBuildings/spiderling/badges/coverage.png?s=f056fa81f6a4f1fde71505682083b8f75b42d9c0)](https://scrutinizer-ci.com/g/OpenBuildings/spiderling/)
 [![Latest Stable Version](https://poser.pugx.org/openbuildings/spiderling/v/stable.png)](https://packagist.org/packages/openbuildings/spiderling)
 
-This is a library for crawling web pages with curl, PhantomJS and Selenium. Heavily inspired by [Capybara](https://github.com/jnicklas/capybara). It's a major component in [phpunit-spiderling](https://github.com/OpenBuildings/phpunit-spiderling) for integration level testing. It can handle AJAX requests easily and allows switching from fast PHP-only drivers to JavaScript-enabled ones like PhantomJS and Selenium easily, without modifying the code.
+This is a library for crawling web pages with curl and PhantomJS. Heavily inspired by [Capybara](https://github.com/jnicklas/capybara). It's a major component in [phpunit-spiderling](https://github.com/OpenBuildings/phpunit-spiderling) for integration level testing. It can handle AJAX requests easily and allows switching from fast PHP-only drivers to JavaScript-enabled like PhantomJS easily, without modifying the code.
 
 ## A quick example
 
@@ -48,7 +48,7 @@ Each node represents a HTML tag on the page, and you can use extensive getter me
 - ``tag_name()``: Get the tag name of the dom element. e.g. DIV, SPAN, FORM, SELECT
 - ``attribute($name)``: Get an attribute of the current tag. If the tag is empty e.g. ``<div disabled />`` then it will return an empty string. If there is no attribute however, NULL will be returned
 - ``text()``: Get the text content of an html tag - this is similar to how browsers render HTML tags, all whitespace will be merged to single spaces.
-- ``is_visible()``: Check if a node is visible. PhantomJS and Selenium drivers will return correct value if the item is hidden via JS, CSS or inline styles.
+- ``is_visible()``: Check if a node is visible. PhantomJS driver will return correct value if the item is hidden via JS, CSS or inline styles.
 - ``is_selected()``: Check if an option tag is "selected"
 - ``is_checked()``: Check if an input tag is "checked"
 - ``value()``: Get the value of an input form tag
@@ -494,7 +494,7 @@ $page
 
 ## Drivers
 
-A great strength of Spiderling is the ability to use different drivers for your code. This allows switching from PHP-only curl parsing of the page to a PhantomJS or even Selenium without modification of the code. For example if we wanted to use a PhantomJS driver instead of the default "Simple" one then we'd need to do this:
+A great strength of Spiderling is the ability to use different drivers for your code. This allows switching from PHP-only curl parsing of the page to a PhantomJS without modification of the code. For example if we wanted to use a PhantomJS driver instead of the default "Simple" one then we'd need to do this:
 
 ```php
 use Openbuildings\Spiderling\Page;
@@ -516,7 +516,6 @@ There are 4 drivers at present:
 - __Driver_Simple__: Uses PHP curl to load pages. Does not support JavaScript or browser alert dialogs
 - __Driver_Kohana__: Uses Kohana framework's native Internal Request class, without opening internet connections at all - very performant if your code already uses Kohana framework.
 - __Driver_Phantomjs__: Start a PhantomJS server. You would need to have PhantomJS installed and accessible in your PATH. Picks a new port at random so its possible to have multiple PhantomJS browsers open simultaneously.
-- __Driver_Selenium__: Uses Selenium server. Reuses a session if possible, you have to start the server independantly.
 
 You can easily write your own Drivers by extending the Driver class and implementing methods yourself. Some drivers do not support all the features, so it's OK to not implement every method.
 
@@ -604,39 +603,6 @@ $page = new Page();
 ```
 
 Setting the "pid file" argument on start, allows the driver to save the pid of the phantomjs server process to that file, and then try to clean up the server when started again, thus making sure you don't have running PhantomJS process all over the place.
-
-
-### Driver_Selenium
-
-Using this driver all the finds and actions are performed through a real browser, driven by Selenium.
-
-You can use the standalone server for example, which can be downloaded from here: https://code.google.com/p/selenium/downloads/list.
-
-You'll also have to start the Selenium server yourself, and direct the driver what URL to use to access that server, by default its "http://localhost:4444" (the default for Selenium server standalone).
-
-If you're using the standalone Selenium, you can start it like this:
-
-```
-cd /{where the Selenium server standalone jar is}
-java -jar selenium-server-standalone-2.*.jar
-```
-
-After it's started you can access it like this
-
-```php
-use Openbuildings\Spiderling\Page;
-
-$page = new Page(new Driver_Selenium);
-```
-
-or if you have it running somewhere else (a cluster or on a different host altogether)
-
-```php
-use Openbuildings\Spiderling\Page;
-
-$connection = new Driver_Selenium_Connection('http://server.example.com:4444/wc/hub');
-$page = new Page(new Driver_Selenium($connection));
-```
 
 ## License
 
