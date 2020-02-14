@@ -1,6 +1,7 @@
 <?php
 
 use Openbuildings\Spiderling\Node;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Used for testing Spiderling
@@ -10,7 +11,7 @@ use Openbuildings\Spiderling\Node;
  * @copyright  (c) 2013 OpenBuildings Ltd.
  * @license    http://spdx.org/licenses/BSD-3-Clause
  */
-abstract class Spiderling_TestCase extends PHPUnit_Framework_TestCase {
+abstract class Spiderling_TestCase extends TestCase {
 
 	public function assertValueSet($node, $value, $expected_value, $driver, $message = 'Should set value of field properly')
 	{

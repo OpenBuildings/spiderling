@@ -84,7 +84,7 @@ class Driver_SimpleTest extends Spiderling_TestCase {
 
 		$this->assertNode(array('select', 'id' => 'post_category'), $node);
 
-		$this->setExpectedException('Exception');
+		$this->expectException('Exception');
 		$this->driver->dom("//select[@id='not-present-node']");
 	}
 
@@ -202,7 +202,7 @@ class Driver_SimpleTest extends Spiderling_TestCase {
 		$this->driver->click("//button[@id='search-btn']");
 
 
-		$this->setExpectedException('Openbuildings\Spiderling\Exception_Driver');
+		$this->expectException('Openbuildings\Spiderling\Exception_Driver');
 		$this->driver->click("//div[@id='hidden']");
 	}
 
