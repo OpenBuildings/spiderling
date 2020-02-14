@@ -18,15 +18,15 @@ class Driver_Simple_RequestFactory_HTTPTest extends Spiderling_TestCase {
 
 	public function test_request()
 	{
-		$content = $this->factory->execute('GET', 'http://6ca1671dbfe9477b14ce-fabb5009fe9cc97c5f42aa7fac8fcd02.r26.cf3.rackcdn.com/remote-form.html', array('test' => 'value'));
+		$content = $this->factory->execute('GET', 'http://clippings-spiderling.s3-website-eu-west-1.amazonaws.com/remote-form.html', array('test' => 'value'));
 
 		$this->assertContains('<legend>Author</legend>', $content);
-		$this->assertEquals('http://6ca1671dbfe9477b14ce-fabb5009fe9cc97c5f42aa7fac8fcd02.r26.cf3.rackcdn.com/remote-form.html', $this->factory->current_url());
+		$this->assertEquals('http://clippings-spiderling.s3-website-eu-west-1.amazonaws.com/remote-form.html', $this->factory->current_url());
 		$this->assertEquals('/remote-form.html', $this->factory->current_path());
 
 		$this->setExpectedException('Openbuildings\Spiderling\Exception_Curl');
 
-		$this->factory->execute('GET', 'http://6ca1671dbfe9477b14ce-fabb5009fe9cc97c5f42aa7fac8fcd02.r26.cf3.rackcdn.com/not-existst.html');
+		$this->factory->execute('GET', 'http://clippings-spiderling.s3-website-eu-west-1.amazonaws.com/not-existst.html');
 
 
 	}

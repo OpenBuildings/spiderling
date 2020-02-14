@@ -18,8 +18,7 @@ class Driver_PhantomjsTest extends Spiderling_TestCase {
 		parent::setUpBeforeClass();
 
 		self::$driver = new Driver_Phantomjs();
-		self::$driver->base_url('https://85b5d31b11244c8d6302-fabb5009fe9cc97c5f42aa7fac8fcd02.ssl.cf3.rackcdn.com');
-
+		self::$driver->base_url('http://clippings-spiderling.s3-website-eu-west-1.amazonaws.com');
 		self::$driver->visit('/remote-form.html');
 	}
 
