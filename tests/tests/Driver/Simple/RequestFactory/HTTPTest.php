@@ -24,11 +24,9 @@ class Driver_Simple_RequestFactory_HTTPTest extends Spiderling_TestCase {
 		$this->assertEquals('http://clippings-spiderling.s3-website-eu-west-1.amazonaws.com/remote-form.html', $this->factory->current_url());
 		$this->assertEquals('/remote-form.html', $this->factory->current_path());
 
-		$this->setExpectedException('Openbuildings\Spiderling\Exception_Curl');
+		$this->expectException('Openbuildings\Spiderling\Exception_Curl');
 
 		$this->factory->execute('GET', 'http://clippings-spiderling.s3-website-eu-west-1.amazonaws.com/not-existst.html');
-
-
 	}
 
 	public function test_user_agent()

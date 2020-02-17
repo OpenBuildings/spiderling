@@ -64,7 +64,7 @@ class NodeTest extends Spiderling_TestCase {
 		$nodes = $this->node->all('.content ul.subnav li > a');
 		$this->assertInstanceOf('Openbuildings\Spiderling\Nodelist', $nodes);
 
-		$this->setExpectedException('Openbuildings\Spiderling\Exception_Notfound');
+		$this->expectException('Openbuildings\Spiderling\Exception_Notfound');
 		$node = $this->node->find('form.contact-not-present');
 	}
 
@@ -73,7 +73,7 @@ class NodeTest extends Spiderling_TestCase {
 		$present = $this->node->not_present('form.contact-not-present');
 		$this->assertTrue($present);
 
-		$this->setExpectedException('Openbuildings\Spiderling\Exception_Found');
+		$this->expectException('Openbuildings\Spiderling\Exception_Found');
 		$node = $this->node->not_present('form.contact');
 	}
 
@@ -177,7 +177,7 @@ class NodeTest extends Spiderling_TestCase {
 
 		$this->node->find('#navlink-1')->execute('test script', function($result) use ( & $executed) {
 			$executed = TRUE;
-			PHPUnit_Framework_Assert::assertEquals('result', $result);
+			$this->assertEquals('result', $result);
 		});
 
 		$this->assertTrue($executed);
@@ -250,7 +250,7 @@ class NodeTest extends Spiderling_TestCase {
 		$this->node->hover_on('.content ul.subnav li > a');
 		$this->node->find('#navlink-1')->hover();
 
-		$this->setExpectedException('Openbuildings\Spiderling\Exception_Notfound');
+		$this->expectException('Openbuildings\Spiderling\Exception_Notfound');
 		$node = $this->node->hover_on('form.contact-not-present');
 	}
 
@@ -363,7 +363,7 @@ class NodeTest extends Spiderling_TestCase {
 		}
 		else
 		{
-			$this->setExpectedException('Exception');
+			$this->expectException('Exception');
 			$locator = Node::get_locator($selector, $filters)->xpath();
 		}
 	}

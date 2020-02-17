@@ -154,7 +154,7 @@ class LocatorTest extends Spiderling_TestCase {
 
 		$locator = new Locator('css', '.body', array('non-existant-filter' => TRUE));
 
-		$this->setExpectedException('Openbuildings\Spiderling\Exception');
+		$this->expectException('Openbuildings\Spiderling\Exception');
 		$locator->is_filtered($node, 3);
 	}
 

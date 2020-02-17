@@ -4,12 +4,13 @@
 use Openbuildings\Spiderling\Network;
 use Openbuildings\Spiderling\Attempt;
 use Openbuildings\Spiderling\Phantomjs;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @package spiderling
  * @group   phantomjs
  */
-class PhantomjsTest extends PHPUnit_Framework_TestCase {
+class PhantomjsTest extends TestCase {
 
 	public function test_methods()
 	{

@@ -10,19 +10,20 @@
 		}
 	],
 	"require": {
+		"php": "^7.1",
 		"symfony/css-selector": "^2.3|^3.0",
 		"openbuildings/environment-backup": "~0.1.1"
 	},
 	"require-dev": {
 		"openbuildings/kohana-test-bootstrap": "^0.2",
-		"phpunit/phpunit": "^4.0|^5.0"
+		"phpunit/phpunit": "^7"
 	},
 	"autoload": {
 		"psr-0": {"Openbuildings\\Spiderling\\": "src/"}
 	},
 	"config": {
 		"platform": {
-			"php": "5.4"
+			"php": "7.1.8"
 		}
 	}
 }
